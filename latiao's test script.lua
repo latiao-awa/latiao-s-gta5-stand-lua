@@ -48,7 +48,7 @@ end)
 
 menu.toggle_loop(menu.my_root(), "killaura all", {"latiaokillaura"},("killaura"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if NTITY.IS_ENTITY_DEAD(ped) then goto out end
+        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
         local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         AddPos:add(v3.new(0, 0, 1))
@@ -56,16 +56,22 @@ menu.toggle_loop(menu.my_root(), "killaura all", {"latiaokillaura"},("killaura")
         ::out::
     end
 end)
+menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", {"latiaokillaura"},("killaura"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
+    end
+end)
+
 
 menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", {"latiaokillaura"},("killaura"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+        if ENTITY.IS_ENTITY_DEAD(ped) or PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
 
 
         local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         AddPos:add(v3.new(0, 0, 1))
-        if PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 1000, false, 0xC472FE2, players.user_ped(), false, true, 1000)
         ::out::
     end
@@ -80,6 +86,20 @@ menu.toggle_loop(menu.my_root(), "killaura all ped", {"latiaokillaura ped"},("ki
         AddPos:add(v3.new(0, 0, 1))
 
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200, true, 0xA914799, players.user_ped(), false, true, 1000)
+        ::out::
+    end
+end)
+
+menu.toggle_loop(menu.my_root(), "killaura all ped exclude VEHICLE", {"latiaokillaura"},("killaura"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        if IS_PLAYER_PED(ped) or ENTITY.IS_ENTITY_DEAD(ped) or PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
+
+
+        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        AddPos:add(v3.new(0, 0, 1))
+        if PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 1000, false, 0xC472FE2, players.user_ped(), false, true, 1000)
         ::out::
     end
 end)
