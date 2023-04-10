@@ -54,7 +54,7 @@ menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("SHOOT A
         AddPos:add(v3.new(0, 0, 1))
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200, true,
             0xA914799, players.user_ped(), false, true, 1000)
-        ::out::
+        
     end
 end)
 menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", { "latiaokillauraEXPLOSION" }, ("use EXPLOSION kill all"), function()
@@ -70,7 +70,7 @@ menu.toggle_loop(menu.my_root(), "killaura PED by EXPLOSION", { "latiaokillauraE
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
     end
-    ::out::
+    
     -- end
 end)
 
@@ -84,7 +84,7 @@ menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", { "latiaokillau
         AddPos:add(v3.new(0, 0, 1))
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 1000, false,
             0xC472FE2, players.user_ped(), false, true, 1000)
-        ::out::
+        
     end
 end)
 
@@ -98,7 +98,7 @@ menu.toggle_loop(menu.my_root(), "killaura ped", { "latiaokillauraped" }, ("kill
 
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200, true,
             0xA914799, players.user_ped(), false, true, 1000)
-        ::out::
+        
     end
 end)
 
@@ -112,7 +112,7 @@ menu.toggle_loop(menu.my_root(), "killaura ped exclude VEHICLE", { "latiaokillau
         AddPos:add(v3.new(0, 0, 1))
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 1000, false,
             0xC472FE2, players.user_ped(), false, true, 1000)
-        ::out::
+        
     end
 end)
 
@@ -136,19 +136,19 @@ end)
 
 menu.toggle_loop(menu.my_root(), "auto  kick cheat you", { "latiaoautokickcheatyou" }, ("autokickcheatyou"), function()
     for pid = 0, 32 do
-        if pid == PLAYER.PLAYER_ID() then goto out end
+         if pid == PLAYER.PLAYER_ID() then break end
         if players.is_marked_as_attacker(pid) then
             local attack = PLAYER.GET_PLAYER_NAME(pid)
             print(attack .. "attack you")
             menu.trigger_commands("loveletterkick" .. attack)
         end
-        ::out::
+        
     end
 end)
 
 menu.toggle_loop(menu.my_root(), "auto crash cheat you", { "latiaoautocrashcheatyou" }, ("autocrashcheatyou"), function()
     for pid = 0, 32 do
-        if pid == PLAYER.PLAYER_ID() then goto out end
+         if pid == PLAYER.PLAYER_ID() then break end
         if players.is_marked_as_attacker(pid) then
             local attack = PLAYER.GET_PLAYER_NAME(pid)
             print(attack .. "attack you")
@@ -159,7 +159,7 @@ menu.toggle_loop(menu.my_root(), "auto crash cheat you", { "latiaoautocrashcheat
             menu.trigger_commands("footlettuce" .. attack)
             menu.trigger_commands("slaughter" .. attack)
         end
-        ::out::
+        
     end
 end)
 
@@ -173,13 +173,13 @@ menu.action(menu.my_root(), "loveletterkickallmoder", { "latiaoloveletterkickall
             menu.trigger_commands("loveletterkick" .. attack)
              
         end
-        ::out::
+        
     end
 end)
 
 menu.action(menu.my_root(), "super crash and kick all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
     for pid = 0, 32 do
-        if pid == PLAYER.PLAYER_ID() then goto out end
+         if pid == PLAYER.PLAYER_ID() then break end
         if players.is_marked_as_modder(pid) then
             
             local attack = PLAYER.GET_PLAYER_NAME(pid)
@@ -194,22 +194,22 @@ menu.action(menu.my_root(), "super crash and kick all moder", { "latiaocrashkick
             menu.trigger_commands("loveletterkick" .. attack)
            
         end
-        ::out::
+        
     end
 end)
 
 menu.action(menu.my_root(), "love letter kick all", { "latiaoloveletterkickall" }, "loveletter kick all.", function()
     for pid = 0, 32 do
-        if pid == PLAYER.PLAYER_ID() then goto out end
+         if pid == PLAYER.PLAYER_ID() then break end
         local player = PLAYER.GET_PLAYER_NAME(pid)
         print(player .. "love kick")
         menu.trigger_commands("loveletterkick" .. player)
-        ::out::
+        
     end
 end)
 menu.action(menu.my_root(), "super crash all", { "latiaosuperall" }, "crash all (没素质).", function()
     for pid = 0, 32 do
-        if pid == PLAYER.PLAYER_ID() then goto out end
+         if pid == PLAYER.PLAYER_ID() then break end
         local player = PLAYER.GET_PLAYER_NAME(pid)
         
         print(player .. "crash ing")
@@ -221,7 +221,7 @@ menu.action(menu.my_root(), "super crash all", { "latiaosuperall" }, "crash all 
         menu.trigger_commands("slaughter" .. player)
         menu.trigger_commands("steamroll" .. player)
         print("没素质")
-        ::out::
+        
     end
 end)
 
