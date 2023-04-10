@@ -40,13 +40,13 @@ end)
 
 
 
-menu.toggle_loop(menu.my_root(), "Ignore", { "latiaopedIgnore" }, ("all ped Ignore you."), function()
+menu.toggle_loop(menu.my_root(), "Ped Ignore", { "latiaopedIgnore" }, ("all ped Ignore you."), function()
     PLAYER.SET_EVERYONE_IGNORE_PLAYER(players.user(), true)
 end, function()
     PLAYER.SET_EVERYONE_IGNORE_PLAYER(players.user(), false)
 end)
 
-menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
         local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
@@ -57,14 +57,14 @@ menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("killaur
         ::out::
     end
 end)
-menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", { "latiaokillaura" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", { "latiaokillauraEXPLOSION" }, ("use EXPLOSION kill all"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "killaura PED by EXPLOSION", { "latiaokillaura" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura PED by EXPLOSION", { "latiaokillauraEXPLOSIONPed" }, ("use EXPLOSION kill all Ped"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if IS_PLAYER_PED(ped) or ENTITY.IS_ENTITY_DEAD(ped) then goto out end
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
@@ -74,7 +74,7 @@ menu.toggle_loop(menu.my_root(), "killaura PED by EXPLOSION", { "latiaokillaura"
     -- end
 end)
 
-menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", { "latiaokillaura" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", { "latiaokillauraexcludeVEHICLE" }, ("killaura all exclude VEHICLE"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if ENTITY.IS_ENTITY_DEAD(ped) or PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
 
@@ -88,7 +88,7 @@ menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", { "latiaokillau
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "killaura all ped", { "latiaokillaura ped" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura ped", { "latiaokillauraped" }, ("killauraped"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if IS_PLAYER_PED(ped) or ENTITY.IS_ENTITY_DEAD(ped) then goto out end
 
@@ -102,7 +102,7 @@ menu.toggle_loop(menu.my_root(), "killaura all ped", { "latiaokillaura ped" }, (
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "killaura all ped exclude VEHICLE", { "latiaokillaura" }, ("killaura"), function()
+menu.toggle_loop(menu.my_root(), "killaura ped exclude VEHICLE", { "latiaokillaurapedexcludeVEHICLE" }, ("killaurapedexcludeVEHICLE"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if IS_PLAYER_PED(ped) or ENTITY.IS_ENTITY_DEAD(ped) or PED.GET_VEHICLE_PED_IS_USING(ped) ~= 0 then goto out end
 
@@ -116,25 +116,25 @@ menu.toggle_loop(menu.my_root(), "killaura all ped exclude VEHICLE", { "latiaoki
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "tp Picked", { "tppick" }, ("tppick"), function()
+menu.toggle_loop(menu.my_root(), "tp Picked", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
     local pos = players.get_position(players.user())
     for _, pickup in entities.get_all_pickups_as_handles() do
         ENTITY.SET_ENTITY_COORDS(pickup, pos, false, false, false, false)
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "auto host", { "autohost" }, ("autohost"), function()
+menu.toggle_loop(menu.my_root(), "auto host", { "latiaoautohost" }, ("autohost"), function()
     if not (players.get_host() == PLAYER.PLAYER_ID()) then
         menu.trigger_commands("breakup" .. PLAYER.GET_PLAYER_NAME(players.get_host()))
     end
 end)
-menu.toggle_loop(menu.my_root(), "auto Script host", { "autoScripthost" }, ("autoScripthost"), function()
+menu.toggle_loop(menu.my_root(), "auto Script host", { "latiaoautoScripthost" }, ("autoScripthost"), function()
     if not (players.get_script_host() == PLAYER.PLAYER_ID()) then
         menu.trigger_commands("Scripthost")
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "auto  kick cheat you", { "autokickcheatyou" }, ("autokickcheatyou"), function()
+menu.toggle_loop(menu.my_root(), "auto  kick cheat you", { "latiaoautokickcheatyou" }, ("autokickcheatyou"), function()
     for pid = 0, 32 do
         if pid == PLAYER.PLAYER_ID() then goto out end
         if players.is_marked_as_attacker(pid) then
@@ -146,7 +146,7 @@ menu.toggle_loop(menu.my_root(), "auto  kick cheat you", { "autokickcheatyou" },
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "auto crash  cheat you", { "autokickcheatyou" }, ("autokickcheatyou"), function()
+menu.toggle_loop(menu.my_root(), "auto crash cheat you", { "latiaoautocrashcheatyou" }, ("autocrashcheatyou"), function()
     for pid = 0, 32 do
         if pid == PLAYER.PLAYER_ID() then goto out end
         if players.is_marked_as_attacker(pid) then
@@ -163,13 +163,13 @@ menu.toggle_loop(menu.my_root(), "auto crash  cheat you", { "autokickcheatyou" }
     end
 end)
 
-menu.action(menu.my_root(), "loveletterkickallmoder", { "loveletterkickallmoder" }, "loveletterkickallmoder.", function()
+menu.action(menu.my_root(), "loveletterkickallmoder", { "latiaoloveletterkickallmoder" }, "loveletterkickallmoder.", function()
     for pid = 0, 32 do
         
         if players.is_marked_as_modder(pid) then
             local attack = PLAYER.GET_PLAYER_NAME(pid)
             if attack == PLAYER.PLAYER_ID() then goto out end
-            print(attack .. "moder kick ing")
+            print(attack .. "kick ing")
             menu.trigger_commands("loveletterkick" .. attack)
              
         end
@@ -177,7 +177,7 @@ menu.action(menu.my_root(), "loveletterkickallmoder", { "loveletterkickallmoder"
     end
 end)
 
-menu.action(menu.my_root(), "super crash kick all moder", { "latiaocrashmod" }, "latiaocrashmod.", function()
+menu.action(menu.my_root(), "super crash and kick all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
     for pid = 0, 32 do
         if pid == PLAYER.PLAYER_ID() then goto out end
         if players.is_marked_as_modder(pid) then
@@ -198,7 +198,7 @@ menu.action(menu.my_root(), "super crash kick all moder", { "latiaocrashmod" }, 
     end
 end)
 
-menu.action(menu.my_root(), "latiaoloveletterkickall", { "latiaoloveletterkickall" }, "latiaoloveletterkickall.", function()
+menu.action(menu.my_root(), "love letter kick all", { "latiaoloveletterkickall" }, "loveletter kick all.", function()
     for pid = 0, 32 do
         if pid == PLAYER.PLAYER_ID() then goto out end
         local player = PLAYER.GET_PLAYER_NAME(pid)
@@ -207,7 +207,7 @@ menu.action(menu.my_root(), "latiaoloveletterkickall", { "latiaoloveletterkickal
         ::out::
     end
 end)
-menu.action(menu.my_root(), "super crash all", { "latiaosuperall" }, "latiaosuperall.", function()
+menu.action(menu.my_root(), "super crash all", { "latiaosuperall" }, "crash all (没素质).", function()
     for pid = 0, 32 do
         if pid == PLAYER.PLAYER_ID() then goto out end
         local player = PLAYER.GET_PLAYER_NAME(pid)
