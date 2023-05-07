@@ -5,6 +5,11 @@ util.keep_running()
 -- util.require_natives("1672190175-uno")
 util.require_natives("1681379138")
 
+function SET_INT_LOCAL(script, script_local, value)
+    if memory.script_local(script, script_local) ~= 0 then
+        memory.write_int(memory.script_local(script, script_local), value)
+    end
+end
 
 function IS_PLAYER_PED(ped)
     if PED.GET_PED_TYPE(ped) < 4 then
@@ -57,15 +62,15 @@ menu.toggle_loop(menu.my_root(), "tppedtome", { "latiaotppedtome" }, "latiaotppe
 end)
 
 menu.toggle_loop(menu.my_root(), "silencekillallped", { "latiaosilencekillallped" }, "latiaotsilencekillallped.",
-function()
-    local pos = players.get_position(players.user())
-    for _, ped in entities.get_all_peds_as_handles() do
-        if IS_PLAYER_PED(ped) then goto out end
-        ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
-        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 1000, false, true, 0.0)
-        ::out::
-    end
-end)
+    function()
+        local pos = players.get_position(players.user())
+        for _, ped in entities.get_all_peds_as_handles() do
+            if IS_PLAYER_PED(ped) then goto out end
+            ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
+            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 1000, false, true, 0.0)
+            ::out::
+        end
+    end)
 
 menu.toggle_loop(menu.my_root(), "tppedto 00", { "latiaotppedto00" }, "latiaotpped00.", function()
     for _, ped in entities.get_all_peds_as_handles() do
@@ -129,7 +134,8 @@ menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", { "latiaokillauraE
         end
     end)
 
-    menu.toggle_loop(menu.my_root(), "killaura all entities by EXPLOSION", { "latiaokillauraEXPLOSION" }, ("use EXPLOSION kill all"),
+menu.toggle_loop(menu.my_root(), "killaura all entities by EXPLOSION", { "latiaokillauraEXPLOSION" },
+    ("use EXPLOSION kill all"),
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
@@ -219,11 +225,6 @@ menu.toggle_loop(menu.my_root(), "auto crash cheat you", { "latiaoautocrashcheat
             local attack = PLAYER.GET_PLAYER_NAME(pid)
             util.toast(attack .. "attack you")
             menu.trigger_commands("crash" .. attack)
-            menu.trigger_commands("choke" .. attack)
-            menu.trigger_commands("flashcrash" .. attack)
-            menu.trigger_commands("ngcrash" .. attack)
-            menu.trigger_commands("footlettuce" .. attack)
-            menu.trigger_commands("slaughter" .. attack)
             util.yield(1000)
             menu.trigger_commands("loveletterkick" .. attack)
         end
@@ -241,11 +242,7 @@ menu.toggle_loop(menu.my_root(), "super crash and kick all moder", { "latiaocras
                 if pid == PLAYER.PLAYER_ID() then goto out end
                 util.toast(attack .. "moder kick ing")
                 menu.trigger_commands("crash" .. attack)
-                menu.trigger_commands("choke" .. attack)
-                menu.trigger_commands("flashcrash" .. attack)
-                menu.trigger_commands("ngcrash" .. attack)
-                menu.trigger_commands("footlettuce" .. attack)
-                menu.trigger_commands("slaughter" .. attack)
+                util.yield(1000)
                 menu.trigger_commands("ban" .. attack)
             end
             ::out::
@@ -307,12 +304,6 @@ menu.action(menu.my_root(), "super crash all", { "latiaosuperall" }, "crash all.
 
         util.toast(player .. "crash ing")
         menu.trigger_commands("crash" .. player)
-        menu.trigger_commands("choke" .. player)
-        menu.trigger_commands("flashcrash" .. player)
-        menu.trigger_commands("ngcrash" .. player)
-        menu.trigger_commands("footlettuce" .. player)
-        menu.trigger_commands("slaughter" .. player)
-        menu.trigger_commands("steamroll" .. player)
         ::out::
     end
 end)
@@ -359,6 +350,37 @@ menu.action(menu.my_root(), "kick me", { "latiaokickme" }, "latiaokickme.", func
     NETWORK.NETWORK_SESSION_KICK_PLAYER(PLAYER.PLAYER_ID())
 end)
 
-menu.toggle_loop(menu.my_root(), "test1", { "latiaotest" }, "latiaotest.", function()
-    util.trigger_script_event(30, { 54323524, 30, 2147483647, 0, 0, -864314358, -864314358, 0 })
+menu.action(menu.my_root(), "test1", { "latiaotest" }, "latiaotest.", function()
+    for pid = 0, 32 do
+        -- if pid ~= players.user() then
+        util.trigger_script_event(pid, { 330622597, 2, 0, 0, 4, 0, PLAYER.GET_PLAYER_INDEX(), pid })
+        -- end
+    end
 end)
+menu.action(menu.my_root(), "latiaofreezeallplayer", { "latiaofreezeallplayer" }, "latiaofreezeallplayer.", function()
+    for pid = 0, 32 do
+        -- local playerid = PLAYER.GET_PLAYER_INDEX()
+        -- print(PLAYER.GET_PLAYER_INDEX())
+        util.trigger_script_event(pid, { 330622597 })
+    end
+end)
+menu.toggle_loop(menu.my_root(), "test", { "latiaotest" }, "latiaotest.", function()
+    for pid = 0, 32 do
+        -- local playerid = PLAYER.GET_PLAYER_INDEX()
+        -- print(PLAYER.GET_PLAYER_INDEX())
+        util.trigger_script_event(pid, { 0 })
+    end
+end)
+menu.action(menu.my_root(), "latiaoinsfin Casino Aggressive / Classic", { "latiaoinsfinClassic" }, "latiaoinsfin",
+    function()
+        SET_INT_LOCAL("fm_mission_controller", 19707 + 1741, 233)
+        SET_INT_LOCAL("fm_mission_controller", 19707 + 2686, 233333333)
+        SET_INT_LOCAL("fm_mission_controller", 28329 + 1, 99999)
+        SET_INT_LOCAL("fm_mission_controller", 31585 + 69, 99999)
+    end)
+menu.action(menu.my_root(), "latiaoinsfin fm_mission_controller_2020", { "latiaoinsfm_mission_controller_2020" },
+    "fm_mission_controller_2020",
+    function()
+        SET_INT_LOCAL("fm_mission_controller_2020", 42279 + 1, 51338752)
+        SET_INT_LOCAL("fm_mission_controller_2020", 42279 + 1375 + 1, 50)
+    end)
