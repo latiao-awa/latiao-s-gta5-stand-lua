@@ -183,13 +183,13 @@ end
 
 menu.divider(menu.my_root(), "world")
 
-menu.toggle_loop(menu.my_root(), "delallobjects", { "latiaodelallobjects" }, "delallobjects.", function()
+menu.action(menu.my_root(), "delallobjects", { "latiaodelallobjects" }, "delallobjects.", function()
     for k, ent in pairs(entities.get_all_objects_as_handles()) do
         entities.delete_by_handle(ent)
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "delallpeds", { "latiaodelallpeds" }, "delallpeds.", function()
+menu.action(menu.my_root(), "delallpeds", { "latiaodelallpeds" }, "delallpeds.", function()
     for k, ent in pairs(entities.get_all_peds_as_handles()) do
         entities.delete_by_handle(ent)
     end
@@ -197,19 +197,19 @@ end)
 
 
 
-menu.toggle_loop(menu.my_root(), "delallvehicles", { "latiaodelallvehicles" }, "delallvehicles.", function()
+menu.action(menu.my_root(), "delallvehicles", { "latiaodelallvehicles" }, "delallvehicles.", function()
     for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
         entities.delete_by_handle(ent)
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "delallpickups", { "latiaodelallvehicles" }, "delallvehicles.", function()
+menu.action(menu.my_root(), "delallpickups", { "latiaodelallvehicles" }, "delallvehicles.", function()
     for k, ent in pairs(entities.get_all_pickups_as_handles()) do
         entities.delete_by_handle(ent)
     end
 end)
 
-menu.toggle_loop(menu.my_root(), "delall", { "latiaodelall" }, "delall.", function()
+menu.action(menu.my_root(), "delall", { "latiaodelall" }, "delall.", function()
     local targets = {}
 
     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
@@ -250,7 +250,7 @@ menu.toggle_loop(menu.my_root(), "silencekillallped", { "latiaosilencekillallped
         for _, ped in entities.get_all_peds_as_handles() do
             if IS_PLAYER_PED(ped) then goto out end
             ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
-            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 1000, false, true, 0.0)
+            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 2147483647, false, true, 0.0)
             ::out::
         end
     end)
@@ -360,40 +360,98 @@ end, function()
     PLAYER.SET_EVERYONE_IGNORE_PLAYER(players.user(), false)
 end)
 
+menu.toggle_loop(menu.my_root(), "killaura all no wall", { "latiaokillaura" }, ("SHOOT ALL"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        -- 如果目标已经死亡，就跳过
+        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+        if ped == players.user_ped() then goto out end
+        -- 获取目标的位置
+        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        -- 获取玩家的位置，并向上偏移一点，避免射击地面
+        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(players.user_ped()))
+        AddPos:add(v3.new(0, 0, 1))
+        -- 判断目标是否在玩家的视线中，如果不是，就跳过
+        if not ENTITY.HAS_ENTITY_CLEAR_LOS_TO_ENTITY(players.user_ped(), ped, 17) then goto out end
+        -- 在玩家和目标之间射出一颗子弹，造成伤害
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
+        ::out::
+    end
+end)
+
+
+
+menu.toggle_loop(menu.my_root(), "killaura ped no wall no vehicle", { "latiaokillaura" }, ("SHOOT ALL"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        if IS_PLAYER_PED(ped) then goto out end
+        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+        if ped == players.user_ped() then goto out end
+        if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then goto out end
+        if not ENTITY.HAS_ENTITY_CLEAR_LOS_TO_ENTITY(players.user_ped(), ped, 17) then goto out end
+
+        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+
+        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(players.user_ped()))
+
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
+        ::out::
+    end
+end)
+
 menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
         local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         AddPos:add(v3.new(0, 0, 1))
-        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200, true,
-            0xA914799, players.user_ped(), false, true, 1000)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
         ::out::
     end
 end)
+
+menu.toggle_loop(menu.my_root(), "killaura player", { "latiaokillaura" }, ("SHOOT ALL"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        AddPos:add(v3.new(0, 0, 1))
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
+        ::out::
+    end
+end)
+
+menu.toggle_loop(menu.my_root(), "nick EXPLOSION killaura all", { "latiaonickEXPLOSIONkillauraall" }, ("SHOOT ALL"),
+    function()
+        for _, ped in pairs(entities.get_all_peds_as_handles()) do
+            -- if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+            local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+            FIRE.ADD_EXPLOSION(PedPos.x, PedPos.y, PedPos.z, 0, 2147483647, false, true, 0.0)
+        end
+    end)
+
 menu.toggle_loop(menu.my_root(), "killaura all by EXPLOSION", { "latiaokillauraEXPLOSION" }, ("use EXPLOSION kill all"),
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
+            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
         end
     end)
 
-menu.toggle_loop(menu.my_root(), "killaura all entities by EXPLOSION", { "latiaokillauraEXPLOSION" },
-    ("use EXPLOSION kill all"),
-    function()
-        for _, entities in pairs(entities.get_all_peds_as_handles()) do
-            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(entities))
-            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
-        end
-    end)
+
 
 menu.toggle_loop(menu.my_root(), "killaura PED by EXPLOSION", { "latiaokillauraEXPLOSIONPed" },
     ("use EXPLOSION kill all Ped"), function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
             if IS_PLAYER_PED(ped) then goto out end
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 10000.0, false, true, 0.0)
+            FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
             ::out::
         end
     end)
@@ -407,9 +465,9 @@ menu.toggle_loop(menu.my_root(), "killaura all exclude VEHICLE", { "latiaokillau
             local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
             local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
             AddPos:add(v3.new(0, 0, 1))
-            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 1000,
-                false,
-                0xC472FE2, players.user_ped(), false, true, 1000)
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+                true,
+                0x6E7DDDEC, players.user_ped(), false, true, 1)
             ::out::
         end
     end)
@@ -431,8 +489,9 @@ menu.toggle_loop(menu.my_root(), "killaura ped", { "latiaokillauraped" }, ("kill
         local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
         AddPos:add(v3.new(0, 0, 1))
-        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200, true,
-            0xA914799, players.user_ped(), false, true, 1000)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
         ::out::
     end
 end)
@@ -446,9 +505,9 @@ menu.toggle_loop(menu.my_root(), "killaura ped exclude VEHICLE", { "latiaokillau
             local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
             local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
             AddPos:add(v3.new(0, 0, 1))
-            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 200,
-                false,
-                0xC472FE2, players.user_ped(), false, true, 1000)
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+                true,
+                0x6E7DDDEC, players.user_ped(), false, true, 1)
             ::out::
         end
     end)
@@ -635,7 +694,6 @@ menu.action(menu.my_root(), "latiaoinsfin Casino Aggressive / Classic", { "latia
         SET_INT_LOCAL("fm_mission_controller", 28329 + 1, 100000000)
 
         SET_INT_LOCAL("fm_mission_controller", 31585 + 69, 100000000)
-
     end)
 
 
@@ -654,19 +712,12 @@ menu.action(menu.my_root(), "latiao insfin Doomsday fm_mission_controller",
         -- SET_INT_LOCAL("fm_mission_controller", 31585 + 97, 80) -- Act 1 Kills? Seem not to work
     end)
 
-menu.toggle_loop(menu.my_root(), "latiao best Casino Aggressive", { "latiaobestCasinoAggressive" },
+menu.toggle_loop(menu.my_root(), "lock Casino Aggressive", { "latiaobestCasinoAggressive" },
     "latiaobestCasinoAggressive",
     function()
-        SET_INT_LOCAL("fm_mission_controller", 19707 + 1741, 233)
-        SET_INT_LOCAL("fm_mission_controller", 19707 + 2686, 3000000)
+        SET_INT_LOCAL("fm_mission_controller", 19707 + 2686, 100000000)
     end)
 
-menu.toggle_loop(menu.my_root(), "latiao best Doomsday fm_mission_controller_2020",
-    { "latiaobestDoomsdayfm_mission_controller_2020" },
-    "fm_mission_controller_2020",
-    function()
-        SET_INT_LOCAL("fm_mission_controller", 19707 + 1741, 233) -- Casino Aggressive Kills & Act 3
-    end)
 menu.action(menu.my_root(), "Bunker gb_gunrunning", { "gb_gunrunning" }, "latiaofreezeallplayer.", function()
     SET_INT_LOCAL("gb_gunrunning", 1205 + 774, 0)
 end)
@@ -782,13 +833,13 @@ menu.toggle_loop(menu.my_root(), "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_P
 menu.toggle_loop(menu.my_root(), "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" },
     "FREEZE_ENTITY_POSITION.", function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if IS_PLAYER_PED(ped) then goto out end 
+            if IS_PLAYER_PED(ped) then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, true)
             ::out::
         end
     end, function()
-        for _, ped in pairs(entities.get_all_peds_as_handles()) do 
+        for _, ped in pairs(entities.get_all_peds_as_handles()) do
             if IS_PLAYER_PED(ped) then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, false)
@@ -807,3 +858,101 @@ menu.action(menu.my_root(), "NETWORK_SESSION_END", { "latiaoNETWORK_SESSION_END"
     "NETWORK_SESSION_END.", function()
         NETWORK.NETWORK_SESSION_END(0, 0);
     end)
+
+
+menu.action(menu.my_root(), "IS_SCRIPTED_CONVERSATION_ONGOING", { "latiaoIS_SCRIPTED_CONVERSATION_ONGOING" },
+    "IS_SCRIPTED_CONVERSATION_ONGOING.", function()
+        AUDIO.STOP_SCRIPTED_CONVERSATION(false)
+    end)
+menu.toggle_loop(menu.my_root(), "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), function()
+    for _, ped in pairs(entities.get_all_peds_as_handles()) do
+        -- if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
+        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        AddPos:add(v3.new(0, 0, 1))
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+            true,
+            0x6E7DDDEC, players.user_ped(), false, true, 1)
+        ::out::
+    end
+end)
+
+
+
+
+
+
+
+-- player root
+local function testMenuSetup(pid)
+    menu.divider(menu.player_root(pid), "test")
+
+    local testMenu = menu.list(menu.player_root(pid), "test", {}, "")
+
+
+
+
+
+
+    local test = false
+    menu.toggle(testMenu, "test", {}, "", function(on)
+        test = on
+        while test and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and
+            not util.is_session_transition_active() do
+            print(pid)
+
+            util.yield(100)
+        end
+    end)
+
+
+    local SHOOT = false
+    menu.toggle(testMenu, "SHOOT", {}, "", function(on)
+        SHOOT = on
+        while SHOOT and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and
+            not util.is_session_transition_active() do
+            local playerPed = PLAYER.GET_PLAYER_PED(pid)
+            local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
+            local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
+            AddPos:add(v3.new(0, 0, 1))
+            MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
+                true,
+                0x6E7DDDEC, players.user_ped(), false, true, 1)
+            util.yield(100)
+            -- end
+        end
+    end)
+
+    local menukill = false
+
+    menu.toggle(testMenu, "menukill", { "latiaobanmoder" }, "ban moder.", function(on)
+        menukill = on
+        while menukill and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and
+            not util.is_session_transition_active() do
+            -- local playerPed = PLAYER.GET_PLAYER_PED(pid)
+            menu.trigger_commands("kill" .. PLAYER.GET_PLAYER_NAME(pid))
+            util.yield(100)
+        end
+    end)
+    local EXPLOSION = false
+    menu.toggle(testMenu, "EXPLOSION", { "latiaobanmoder" }, "ban moder.", function(on)
+        EXPLOSION = on
+        while menukill and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and
+            not util.is_session_transition_active() do
+                local playerPed = PLAYER.GET_PLAYER_PED(pid)
+        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
+        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
+        util.yield(100)
+            end
+    end)
+end
+
+
+
+
+for k, p in pairs(players.list(true, true, true)) do
+    testMenuSetup(p)
+end
+players.on_join(function(pid)
+    testMenuSetup(pid)
+end)
