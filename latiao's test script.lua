@@ -939,11 +939,11 @@ local function testMenuSetup(pid)
         EXPLOSION = on
         while menukill and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and
             not util.is_session_transition_active() do
-                local playerPed = PLAYER.GET_PLAYER_PED(pid)
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
-        util.yield(100)
-            end
+            local playerPed = PLAYER.GET_PLAYER_PED(pid)
+            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
+            FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
+            util.yield(100)
+        end
     end)
 end
 
