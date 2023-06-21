@@ -109,7 +109,33 @@ menu.toggle_loop(world, "remove DEAD(ped)", { "" }, (""), function()
     end
 end)
 
+menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" },
+    "REMOVE_ALL_PED_WEAPONS.", function()
+        for _, ped in pairs(entities.get_all_peds_as_handles()) do
+            if PED.GET_PED_TYPE(ped) < 4 then goto out end
 
+
+            WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
+
+            ::out::
+        end
+    end)
+menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" },
+    "FREEZE_ENTITY_POSITION.", function()
+        for _, ped in pairs(entities.get_all_peds_as_handles()) do
+            if PED.GET_PED_TYPE(ped) < 4 then goto out end
+
+            ENTITY.FREEZE_ENTITY_POSITION(ped, true)
+            ::out::
+        end
+    end, function()
+        for _, ped in pairs(entities.get_all_peds_as_handles()) do
+            if PED.GET_PED_TYPE(ped) < 4 then goto out end
+
+            ENTITY.FREEZE_ENTITY_POSITION(ped, false)
+            ::out::
+        end
+    end)
 
 menu.toggle_loop(world, "tppedtome", { "latiaotppedtome" }, "latiaotppedtome.", function()
     local pos = players.get_position(players.user())
@@ -469,33 +495,7 @@ menu.toggle_loop(test, "REQUES_ENTITY vehicles", { "latiaoREQUES_ENTITYvehicles"
 
 
 
-menu.toggle_loop(test, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" },
-    "REMOVE_ALL_PED_WEAPONS.", function()
-        for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) < 4 then goto out end
 
-
-            WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
-
-            ::out::
-        end
-    end)
-menu.toggle_loop(test, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" },
-    "FREEZE_ENTITY_POSITION.", function()
-        for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) < 4 then goto out end
-
-            ENTITY.FREEZE_ENTITY_POSITION(ped, true)
-            ::out::
-        end
-    end, function()
-        for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) < 4 then goto out end
-
-            ENTITY.FREEZE_ENTITY_POSITION(ped, false)
-            ::out::
-        end
-    end)
 
 menu.toggle_loop(test, "SET_NO_LOADING_SCREEN", { "latiaoSET_NO_LOADING_SCREEN" },
     "SET_NO_LOADING_SCREEN.", function()
