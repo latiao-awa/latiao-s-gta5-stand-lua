@@ -350,6 +350,7 @@ menu.toggle_loop(world, "killaura ped", { "latiaokillauraped" }, ("killauraped")
         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
             true,
             0x6E7DDDEC, players.user_ped(), false, true, 1)
+            
         ::out::
     end
 end)
@@ -366,6 +367,7 @@ menu.toggle_loop(world, "killaura ped exclude VEHICLE", { "latiaokillaurapedexcl
             MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100,
                 true,
                 0x6E7DDDEC, players.user_ped(), false, true, 1)
+                util.yield(100)
             ::out::
         end
     end)
@@ -414,6 +416,39 @@ menu.toggle_loop(server, "super crash and kick all moder", { "latiaocrashkickmod
             ::out::
         end
     end)
+
+    menu.action(server, "crash all", { "latiaocrashall" }, "latiaocrashall",
+    function()
+        for pid = 0, 32 do
+                local attack = PLAYER.GET_PLAYER_NAME(pid)
+                if pid == PLAYER.PLAYER_ID() then goto out end
+                util.toast(attack .. "crash ing")
+                menu.trigger_commands("crash" .. attack)
+                util.yield(1000)
+            end
+            ::out::
+    end)
+    
+
+
+    menu.toggle_loop(server, "kick chinese", { "latiaocrashall" }, "",
+    function()
+        for pid = 0, 32 do
+            local language = players.get_language(pid)
+            if language and language == 12 then
+                local attack = PLAYER.GET_PLAYER_NAME(pid)
+                if pid == PLAYER.PLAYER_ID() then goto out end
+                menu.trigger_commands("loveletterkick" .. attack)
+                util.yield(100)
+            end
+            ::out::
+        end
+        
+        
+        
+
+    end)
+
 
 menu.toggle_loop(server, "loveletterkickallmoder", { "latiaoloveletterkickallmoder" }, "loveletterkickallmoder.",
     function()
@@ -559,8 +594,8 @@ menu.action(test, "autoDRIVE", { "latiaoautoDRIVE" },
     "autoDRIVE.", function()
         local pos = v3.new(HUD.GET_BLIP_COORDS(HUD.GET_FIRST_BLIP_INFO_ID(8)))
         TASK.TASK_VEHICLE_DRIVE_TO_COORD(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()),
-            entities.get_user_vehicle_as_handle(), pos.x, pos.y, pos.z, 1000, 1000.0,
-            ENTITY.GET_ENTITY_MODEL(entities.get_user_vehicle_as_handle()), 0, 10.0, 1000.0)
+            entities.get_user_vehicle_as_handle(), pos.x, pos.y, pos.z, 1000.0, 1.0,
+            ENTITY.GET_ENTITY_MODEL(entities.get_user_vehicle_as_handle()), 524860, 1.0, 1)
     end)
 
 
@@ -584,7 +619,7 @@ menu.action(test, "Bad PARACHUTE_MODEL Crash All", { "latiaocrashall" },
 
 menu.action(test, "tp test", { "latiaotptest" },
     "latiaotptest.", function()
-        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()), 100000000, 100000000 , -100, 0,
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()), 10000, 10000 , -100, 0,
             0, 0)
     end)
 
@@ -593,7 +628,7 @@ menu.toggle_loop(test, "reportall", { "latiaoreportall" },
         menu.trigger_commands("reportgriefingall")
         menu.trigger_commands("reportexploitsall")
         menu.trigger_commands("reportbugabuseall")
-        util.yield(500)
+        util.yield(1000)
     end)
 
 
@@ -624,7 +659,7 @@ local function testMenuSetup(pid)
             AddPos:add(v3.new(0, 0, 1))
             MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100, true,
                 0x6E7DDDEC, players.user_ped(), false, true, 1)
-            util.yield(1)
+            util.yield(100)
         end
     end)
 
@@ -633,7 +668,7 @@ local function testMenuSetup(pid)
         menukill = on
         while menukill and NETWORK.NETWORK_IS_PLAYER_ACTIVE(pid) and not util.is_session_transition_active() do
             menu.trigger_commands("kill" .. PLAYER.GET_PLAYER_NAME(pid))
-            util.yield(1)
+            util.yield(100)
         end
     end)
 
@@ -644,7 +679,7 @@ local function testMenuSetup(pid)
             local playerPed = PLAYER.GET_PLAYER_PED(pid)
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
             FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
-            util.yield(1)
+            util.yield(100)
         end
     end)
 
@@ -655,7 +690,7 @@ local function testMenuSetup(pid)
             local playerPed = PLAYER.GET_PLAYER_PED(pid)
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
             FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, true, false, 0.0)
-            util.yield(1)
+            util.yield(100)
         end
     end)
 
@@ -666,7 +701,7 @@ local function testMenuSetup(pid)
             local playerPed = PLAYER.GET_PLAYER_PED(pid)
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
             FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 12, 2147483647, false, true, 0.0)
-            util.yield(1)
+            uutil.yield(100)
         end
     end)
     local MEFlameLoop = false
@@ -676,7 +711,7 @@ local function testMenuSetup(pid)
             local playerPed = PLAYER.GET_PLAYER_PED(pid)
             local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
             FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 12, 2147483647, true, false, 0.0)
-            util.yield(1)
+            util.yield(100)
         end
     end)
 
@@ -692,7 +727,7 @@ local function testMenuSetup(pid)
             -- pos.z = pos.z
             PED.CREATE_PED(0, 0x5E3DA4A4, pos.x, pos.y, pos.z, 0, true, true)
             -- print(pos.x, pos.y, pos.z)
-            util.yield(1)
+            util.yield(100)
         end
     end)
 end
