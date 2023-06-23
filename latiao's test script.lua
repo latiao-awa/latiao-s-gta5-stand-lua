@@ -45,11 +45,13 @@ local world = menu.list(menu.my_root(), "world", {}, "")
 menu.action(world, "delallobjects", { "latiaodelallobjects" }, "delallobjects.", function()
     for k, ent in pairs(entities.get_all_objects_as_handles()) do
         entities.delete_by_handle(ent)
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ent)
     end
 end)
 
 menu.action(world, "delallpeds", { "latiaodelallpeds" }, "delallpeds.", function()
     for k, ent in pairs(entities.get_all_peds_as_handles()) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ent)
         entities.delete_by_handle(ent)
     end
 end)
@@ -58,12 +60,14 @@ end)
 
 menu.action(world, "delallvehicles", { "latiaodelallvehicles" }, "delallvehicles.", function()
     for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ent)
         entities.delete_by_handle(ent)
     end
 end)
 
 menu.action(world, "delallpickups", { "latiaodelallvehicles" }, "delallvehicles.", function()
     for k, ent in pairs(entities.get_all_pickups_as_handles()) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(ent)
         entities.delete_by_handle(ent)
     end
 end)
@@ -88,10 +92,43 @@ menu.action(world, "delall", { "latiaodelall" }, "delall.", function()
     end
 
     for _, target in ipairs(targets) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(target)
         entities.delete_by_handle(target)
         menu.trigger_commands("deleteropes")
     end
 end)
+
+
+
+menu.toggle_loop(world, "TPALL 0 0 0", { "latiaodelallvehicles" }, "delallvehicles.", function()
+    local targets = {}
+
+    for _, ped in ipairs(entities.get_all_peds_as_handles()) do
+        if PED.GET_PED_TYPE(ped) < 4 then goto out end
+        table.insert(targets, ped)
+        ::out::
+    end
+
+    for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
+        table.insert(targets, vehicle)
+    end
+
+    for _, object in ipairs(entities.get_all_objects_as_handles()) do
+        table.insert(targets, object)
+    end
+
+    for _, pickups in ipairs(entities.get_all_pickups_as_handles()) do
+        table.insert(targets, pickups)
+    end
+
+    for _, target in ipairs(targets) do
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(target)
+        ENTITY.SET_ENTITY_COORDS(target, 0, 0, 2600, false)
+    end
+end)
+
+
+
 
 menu.toggle_loop(world, "kick ped vehicle", { "" }, (""), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
@@ -518,7 +555,46 @@ menu.action(test, "IS_SCRIPTED_CONVERSATION_ONGOING", { "latiaoIS_SCRIPTED_CONVE
 
 
 
+menu.action(test, "autoDRIVE", { "latiaoautoDRIVE" },
+    "autoDRIVE.", function()
+        local pos = v3.new(HUD.GET_BLIP_COORDS(HUD.GET_FIRST_BLIP_INFO_ID(8)))
+        TASK.TASK_VEHICLE_DRIVE_TO_COORD(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()),
+            entities.get_user_vehicle_as_handle(), pos.x, pos.y, pos.z, 1000, 1000.0,
+            ENTITY.GET_ENTITY_MODEL(entities.get_user_vehicle_as_handle()), 0, 10.0, 1000.0)
+    end)
 
+
+    menu.action(test, "stopautoDRIVE", { "latiaostopautoDRIVE" },
+    "stopautoDRIVE.", function()
+        TASK.CLEAR_PED_TASKS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()))
+    end)
+
+menu.action(test, "Bad PARACHUTE_MODEL Crash All", { "latiaocrashall" },
+    "crashall.", function()
+        PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(PLAYER.PLAYER_ID(), 2186304526)
+        util.yield(1000)
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()), 0, 0, 500, 0, 0, 0)
+        util.yield(1000)
+        PED.FORCE_PED_TO_OPEN_PARACHUTE(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()))
+        util.yield(5000)
+        menu.trigger_commands("tpmazehelipad")
+        PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(PLAYER.PLAYER_ID(), 0)
+    end)
+
+
+menu.action(test, "tp test", { "latiaotptest" },
+    "latiaotptest.", function()
+        ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(PLAYER.PLAYER_ID()), 100000000, 100000000 , -100, 0,
+            0, 0)
+    end)
+
+menu.toggle_loop(test, "reportall", { "latiaoreportall" },
+    "reportall.", function()
+        menu.trigger_commands("reportgriefingall")
+        menu.trigger_commands("reportexploitsall")
+        menu.trigger_commands("reportbugabuseall")
+        util.yield(500)
+    end)
 
 
 
