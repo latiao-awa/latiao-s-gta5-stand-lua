@@ -685,6 +685,13 @@ menu.action(server, "kick me", { "latiaokickme" }, "latiaokickme.", function()
     NETWORK.NETWORK_SESSION_KICK_PLAYER(PLAYER.PLAYER_ID())
 end)
 
+menu.toggle_loop(server, "reportall", { "latiaoreportall" },
+    "reportall.", function()
+        menu.trigger_commands("reportgriefingall")
+        menu.trigger_commands("reportexploitsall")
+        menu.trigger_commands("reportbugabuseall")
+        util.yield(1000)
+    end)
 
 
 local test = menu.list(menu.my_root(), "test", {}, "")
@@ -802,13 +809,6 @@ menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall",
         -- ::out::
     end)
 
-menu.toggle_loop(test, "reportall", { "latiaoreportall" },
-    "reportall.", function()
-        menu.trigger_commands("reportgriefingall")
-        menu.trigger_commands("reportexploitsall")
-        menu.trigger_commands("reportbugabuseall")
-        util.yield(1000)
-    end)
 
     menu.action(test, "casino all 100%", { "latiaocasinoall100" },
     "latiaocasinoall100.", function()
