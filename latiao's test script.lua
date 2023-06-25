@@ -810,7 +810,28 @@ menu.toggle_loop(test, "reportall", { "latiaoreportall" },
         util.yield(1000)
     end)
 
+    menu.action(test, "casino all 100%", { "latiaocasinoall100" },
+    "latiaocasinoall100.", function()
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1,100)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2,100)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3,100)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4,100)
+    end)
 
+    menu.action(test, "Doomsday all 100%", { "latiaoDoomsdayall100" },
+    "latiaoDoomsdayall100.", function()
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 1,100)
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 2,100)
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 3,100)
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 4,100)
+    end)
+    menu.action(test, "Perico all 100%", { "latiaoPericoall100" },
+    "latiaoPericoall100.", function()
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 1,100)
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 2,100)
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 3,100)
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 4,100)
+    end)
 -- player root
 local function testMenuSetup(pid)
     menu.divider(menu.player_root(pid), "test")
