@@ -685,12 +685,28 @@ menu.action(server, "kick me", { "latiaokickme" }, "latiaokickme.", function()
     NETWORK.NETWORK_SESSION_KICK_PLAYER(PLAYER.PLAYER_ID())
 end)
 
-menu.toggle_loop(server, "reportall", { "latiaoreportall" },
+menu.toggle_loop(server, "if you host reportall", { "latiaoreportall" },
     "reportall.", function()
-        menu.trigger_commands("reportgriefingall")
-        menu.trigger_commands("reportexploitsall")
-        menu.trigger_commands("reportbugabuseall")
         util.yield(1000)
+        if NETWORK.NETWORK_IS_HOST() then
+            menu.trigger_commands("reportgriefingall")
+            menu.trigger_commands("reportexploitsall")
+            menu.trigger_commands("reportbugabuseall")
+        else
+        end
+    end)
+
+
+
+    menu.toggle_loop(server, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall",
+    function()
+        -- for k, pid in pairs(players.list()) do
+
+        --     local pos = players.get_position(pid)
+
+            
+            AUDIO.PLAY_SOUND_FROM_COORD(-1, "MP_Flash", 0,100,0,  "WastedSounds", true, 100000000, true)
+        -- end
     end)
 
 
@@ -810,12 +826,12 @@ menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall",
     end)
 
 
-    menu.action(test, "casino all 100%", { "latiaocasinoall100" },
-    "latiaocasinoall100.", function()
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1,100)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2,100)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3,100)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4,100)
+    menu.action(test, "casino all 150%", { "latiaocasinoall150" },
+    "latiaocasinoall150.", function()
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1,150)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2,150)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3,150)
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4,150)
     end)
 
     menu.action(test, "Doomsday all 100%", { "latiaoDoomsdayall100" },
@@ -832,6 +848,10 @@ menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall",
         SET_INT_GLOBAL(1978495 + 825 + 56 + 3,100)
         SET_INT_GLOBAL(1978495 + 825 + 56 + 4,100)
     end)
+
+
+
+   
 -- player root
 local function testMenuSetup(pid)
     menu.divider(menu.player_root(pid), "test")
