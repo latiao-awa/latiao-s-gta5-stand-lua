@@ -718,6 +718,18 @@ menu.action(server, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobeds
         end
     end)
 
+menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall",
+    function()
+        for k, pid in pairs(players.list()) do
+            local attack = PLAYER.GET_PLAYER_NAME(pid)
+            print(attack)
+        end
+    end)
+
+
+
+
+
 
 local test = menu.list(menu.my_root(), "test", {}, "")
 
@@ -786,6 +798,17 @@ menu.toggle_loop(test, "REQUES_ENTITY vehicles no player", { "latiaoREQUES_ENTIT
 
 
 
+menu.action(test, "badobjectcrashall", { "latiaobadobjectcrashall" },
+    "latiaobadobjectcrashall.", function()
+        for k, pid in pairs(players.list()) do
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+            print(pos.x .. pos.y .. pos.z)
+            entities.create_object(2155335200, pos)
+        end
+    end)
+
+
 
 
 
@@ -847,49 +870,7 @@ menu.action(test, "tp test", { "latiaotptest" },
             0, 0)
     end)
 
-menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall",
-    function()
-        for k, pid in pairs(players.list()) do
-            local attack = PLAYER.GET_PLAYER_NAME(pid)
-            -- if pid == PLAYER.PLAYER_ID() then goto out end
-            print(attack)
-        end
-        -- ::out::
-    end)
 
-
-menu.action(test, "casino all 150%", { "latiaocasinoall150" },
-    "latiaocasinoall150.", function()
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1, 150)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2, 150)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3, 150)
-        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4, 150)
-    end)
-
-menu.action(test, "Doomsday all 100%", { "latiaoDoomsdayall100" },
-    "latiaoDoomsdayall100.", function()
-        SET_INT_GLOBAL(1967630 + 812 + 50 + 1, 100)
-        SET_INT_GLOBAL(1967630 + 812 + 50 + 2, 100)
-        SET_INT_GLOBAL(1967630 + 812 + 50 + 3, 100)
-        SET_INT_GLOBAL(1967630 + 812 + 50 + 4, 100)
-    end)
-menu.action(test, "Perico all 100%", { "latiaoPericoall100" },
-    "latiaoPericoall100.", function()
-        SET_INT_GLOBAL(1978495 + 825 + 56 + 1, 100)
-        SET_INT_GLOBAL(1978495 + 825 + 56 + 2, 100)
-        SET_INT_GLOBAL(1978495 + 825 + 56 + 3, 100)
-        SET_INT_GLOBAL(1978495 + 825 + 56 + 4, 100)
-    end)
-
-menu.action(test, "badobjectcrashall", { "latiaobadobjectcrashall" },
-    "latiaobadobjectcrashall.", function()
-        for k, pid in pairs(players.list()) do
-            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            print(pos.x .. pos.y .. pos.z)
-            entities.create_object(2155335200, pos)
-        end
-    end)
 
 menu.action(test, "getallplayerpedid", { "latiaogetallplayerpedid" },
     "latiaogetallplayerpedid.", function()
@@ -898,12 +879,79 @@ menu.action(test, "getallplayerpedid", { "latiaogetallplayerpedid" },
             print("Name " .. PLAYER.GET_PLAYER_NAME(pid) .. "PID " .. pid .. "PED " .. ped, true, true, true)
         end
     end)
-menu.toggle_loop(test, "spamm", { "latiaospamm" },
-    "latiaospamm.", function()
+menu.toggle_loop(test, "clean chat", { "latiaocleanchat" },
+    "latiaocleanchat.", function()
         local spamm =
         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
         chat.send_message(spamm, false, true, true)
         chat.send_message(spamm, true, true, true)
+    end)
+
+
+
+
+local dividends = menu.list(menu.my_root(), "dividends", {}, "")
+
+
+
+
+local casino = menu.slider(dividends, "casino", { "casino" }, "casino", -100000, 100000, 100, 5, function() end)
+
+
+menu.action(dividends, "casino all (you host)", { "latiaocasinoallhost" },
+    "latiaocasinoallhost.", function()
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1, menu.get_value(casino))
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2, menu.get_value(casino))
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3, menu.get_value(casino))
+        SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4, menu.get_value(casino))
+    end)
+    menu.action(dividends, "casino all ai 0", { "latiaocasinoal0" },
+    "latiaocasinoal0.", function()
+        SET_INT_GLOBAL(262145 + 29023 + 1, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 2, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 3, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 4, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 5, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 6, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 7, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 8, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 9, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 10, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 11, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 12, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 13, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 14, 0)
+        SET_INT_GLOBAL(262145 + 29023 + 15, 0)
+end)
+
+local Doomsday = menu.slider(dividends, "Doomsday", { "Doomsday" }, "Doomsday", -100000, 100000, 100, 5, function() end)
+
+menu.action(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" },
+    "latiaoDoomsdayallyouhost.", function()
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 1, menu.get_value(Doomsday))
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 2, menu.get_value(Doomsday))
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 3, menu.get_value(Doomsday))
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 4, menu.get_value(Doomsday))
+    end)
+
+    local Perico = menu.slider(dividends, "Perico", { "Perico" }, "Perico", -100000, 100000, 100, 5, function() end)
+
+menu.action(dividends, "Perico all (you host)", { "latiaoPericoallyouhost" },
+    "latiaoPericoallyouhost.", function()
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 1, menu.get_value(Perico))
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 2, menu.get_value(Perico))
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 3, menu.get_value(Perico))
+        SET_INT_GLOBAL(1978495 + 825 + 56 + 4, menu.get_value(Perico))
+    end)
+    local Apartment = menu.slider(dividends, "Apartment", { "Apartment" }, "Apartment", -100000, 100000, 100, 5, function() end)
+
+menu.action(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost" },
+    "latiaoApartmentallyouhost.", function()
+        SET_INT_GLOBAL(1938365 + 3008 + 1, menu.get_value(Apartment))
+        SET_INT_GLOBAL(1938365 + 3008 + 2, menu.get_value(Apartment))
+        SET_INT_GLOBAL(1938365 + 3008 + 3, menu.get_value(Apartment))
+        SET_INT_GLOBAL(1938365 + 3008 + 4, menu.get_value(Apartment))
+
     end)
 -- player root
 local function testMenuSetup(pid)
@@ -989,8 +1037,25 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
         -- end
     end)
-end
+    menu.action(testMenu, "bad TASK crash", { "latiaobadTASKcrash" }, "", function()
+        STREAMING.REQUEST_MODEL(-1011537562)
+        while not STREAMING.HAS_MODEL_LOADED(-1011537562) do util.yield() end
+        local TargetPPos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
+        local PED1 = entities.create_ped(28, -1011537562, TargetPPos, 0)
 
+        WEAPON.GIVE_WEAPON_TO_PED(PED1, -1813897027, 1, true, true)
+
+        util.yield(1000)
+
+        TASK.TASK_THROW_PROJECTILE(PED1, TargetPPos.x, TargetPPos.y, TargetPPos.z, 0, 0)
+    end)
+
+    menu.action(testMenu, "bad BREAK_OBJECT crash", { "latiaobadBREAK_OBJECTcrash" }, "", function()
+        OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(
+            entities.create_object(util.joaat("prop_fragtest_cnst_04"),
+                ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))), 1, false)
+    end)
+end
 
 for _, pid in ipairs(players.list(true, true, true)) do
     testMenuSetup(pid)
