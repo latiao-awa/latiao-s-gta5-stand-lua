@@ -284,9 +284,11 @@ end)
 
 menu.toggle_loop(world, "kick ped vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
+        if PED.GET_PED_TYPE(ped) >= 4 and PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
+        -- if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
         end
+        -- ::out::
     end
 end)
 
@@ -816,13 +818,6 @@ menu.action(test, "badobjectcrashall", { "latiaobadobjectcrashall" },
 
 
 
-menu.toggle_loop(test, "SET_NO_LOADING_SCREEN", { "latiaoSET_NO_LOADING_SCREEN" },
-    "SET_NO_LOADING_SCREEN.", function()
-        SCRIPT.SET_NO_LOADING_SCREEN(true)
-    end, function()
-        SCRIPT.SET_NO_LOADING_SCREEN(false)
-    end)
-
 menu.action(test, "NETWORK_SESSION_END", { "latiaoNETWORK_SESSION_END" },
     "NETWORK_SESSION_END.", function()
         NETWORK.NETWORK_SESSION_END(0, 0);
@@ -895,7 +890,7 @@ local dividends = menu.list(menu.my_root(), "dividends", {}, "")
 
 
 
-local casino = menu.slider(dividends, "casino", { "casino" }, "casino", -100000, 100000, 100, 5, function() end)
+local casino = menu.slider(dividends, "casino", { "casino" }, "max 3600000", -100000, 100000, 100, 5, function() end)
 
 
 menu.action(dividends, "casino all (you host)", { "latiaocasinoallhost" },
@@ -905,8 +900,16 @@ menu.action(dividends, "casino all (you host)", { "latiaocasinoallhost" },
         SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 3, menu.get_value(casino))
         SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 4, menu.get_value(casino))
     end)
-    menu.action(dividends, "casino all ai 0", { "latiaocasinoal0" },
+    menu.action(dividends, "casino all 3500000", { "latiaocasinoall3500000" },
+    "latiaocasinoall3500000.", function()
+        SET_INT_GLOBAL(262145 + 29011 + 1, 3500000)
+        SET_INT_GLOBAL(262145 + 29011 + 2, 3500000)
+        SET_INT_GLOBAL(262145 + 29011 + 3, 3500000)
+        SET_INT_GLOBAL(262145 + 29011 + 4, 3500000)
+    end)
+menu.action(dividends, "casino all ai 0", { "latiaocasinoal0" },
     "latiaocasinoal0.", function()
+        SET_INT_GLOBAL(262145 + 28998, 0)
         SET_INT_GLOBAL(262145 + 29023 + 1, 0)
         SET_INT_GLOBAL(262145 + 29023 + 2, 0)
         SET_INT_GLOBAL(262145 + 29023 + 3, 0)
@@ -922,9 +925,9 @@ menu.action(dividends, "casino all (you host)", { "latiaocasinoallhost" },
         SET_INT_GLOBAL(262145 + 29023 + 13, 0)
         SET_INT_GLOBAL(262145 + 29023 + 14, 0)
         SET_INT_GLOBAL(262145 + 29023 + 15, 0)
-end)
+    end)
 
-local Doomsday = menu.slider(dividends, "Doomsday", { "Doomsday" }, "Doomsday", -100000, 100000, 100, 5, function() end)
+local Doomsday = menu.slider(dividends, "Doomsday", { "Doomsday" }, "2400000", -100000, 100000, 100, 5, function() end)
 
 menu.action(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" },
     "latiaoDoomsdayallyouhost.", function()
@@ -934,7 +937,7 @@ menu.action(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" }
         SET_INT_GLOBAL(1967630 + 812 + 50 + 4, menu.get_value(Doomsday))
     end)
 
-    local Perico = menu.slider(dividends, "Perico", { "Perico" }, "Perico", -100000, 100000, 100, 5, function() end)
+local Perico = menu.slider(dividends, "Perico", { "Perico" }, "2550000", -100000, 100000, 100, 5, function() end)
 
 menu.action(dividends, "Perico all (you host)", { "latiaoPericoallyouhost" },
     "latiaoPericoallyouhost.", function()
@@ -943,7 +946,29 @@ menu.action(dividends, "Perico all (you host)", { "latiaoPericoallyouhost" },
         SET_INT_GLOBAL(1978495 + 825 + 56 + 3, menu.get_value(Perico))
         SET_INT_GLOBAL(1978495 + 825 + 56 + 4, menu.get_value(Perico))
     end)
-    local Apartment = menu.slider(dividends, "Apartment", { "Apartment" }, "Apartment", -100000, 100000, 100, 5, function() end)
+    menu.action(dividends, "Pericotarget_money 2550000", { "latiaoPericotarget_money2550000" },
+    "Pericotarget_money2550000.", function()
+        SET_INT_GLOBAL(262145 + 30189 + 0, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 1, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 2, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 3, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 4, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 5, 2550000)
+
+    end)
+    menu.action(dividends, "Pericoai0", { "latiaoPericoai0" },
+    "latiaoPericoai0.", function()
+        SET_INT_GLOBAL(262145 + 30189 + 9, 0)
+        SET_INT_GLOBAL(262145 + 30189 + 10, 0)
+
+    end)
+    menu.action(dividends, "Pericoinfinite bag_size", { "latiaoPericoinfinitebag_size" },
+    "latiaoPericoinfinitebag_size.", function()
+        SET_INT_GLOBAL(262145 + 29939, 100000000)
+
+    end)
+local Apartment = menu.slider(dividends, "Apartment", { "Apartment" }, "15000000", -100000, 100000, 100, 5,
+    function() end)
 
 menu.action(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost" },
     "latiaoApartmentallyouhost.", function()
@@ -951,7 +976,6 @@ menu.action(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost"
         SET_INT_GLOBAL(1938365 + 3008 + 2, menu.get_value(Apartment))
         SET_INT_GLOBAL(1938365 + 3008 + 3, menu.get_value(Apartment))
         SET_INT_GLOBAL(1938365 + 3008 + 4, menu.get_value(Apartment))
-
     end)
 -- player root
 local function testMenuSetup(pid)
@@ -992,10 +1016,20 @@ local function testMenuSetup(pid)
     end)
 
 
+    menu.toggle_loop(testMenu, "RandomPlayerEXPLOSION", { "latiaoRandomPlayerEXPLOSION" }, "", function()
+        local randomPid = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()[math.random(1, #players.list())])
+
+
+
+        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
+        FIRE.ADD_OWNED_EXPLOSION(randomPid, pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
     menu.toggle_loop(testMenu, "MEEXPLOSION", { "latiaobanmoder" }, "", function()
         local playerPed = PLAYER.GET_PLAYER_PED(pid)
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
-        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, true, false, 0.0)
+        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
         if not players.exists(pid) then util.stop_thread() end
         -- end
     end)
@@ -1015,18 +1049,9 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
     end)
 
-
-    menu.action(testMenu, "badobjectcrashall", { "latiaobadobjectcrashall" },
-        "latiaobadobjectcrashall.", function()
-            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            print(pos.x .. pos.y .. pos.z)
-            entities.create_object(2155335200, pos)
-            if not players.exists(pid) then util.stop_thread() end
-        end)
-
-
     menu.toggle_loop(testMenu, "CopLoop", { "latiaoFlameLoop" }, "", function()
+        STREAMING.REQUEST_MODEL(0x5E3DA4A4)
+        while not STREAMING.HAS_MODEL_LOADED(0x5E3DA4A4) do util.yield() end
         local playerPed = PLAYER.GET_PLAYER_PED(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(playerPed)
         pos.x = pos.x + math.random(-10, 10)
@@ -1037,6 +1062,18 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
         -- end
     end)
+
+    menu.action(testMenu, "badobjectcrash", { "latiaobadobjectcrash" },
+        "latiaobadobjectcrashall.", function()
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+            print(pos.x .. pos.y .. pos.z)
+            entities.create_object(2155335200, pos)
+            if not players.exists(pid) then util.stop_thread() end
+        end)
+
+
+
     menu.action(testMenu, "bad TASK crash", { "latiaobadTASKcrash" }, "", function()
         STREAMING.REQUEST_MODEL(-1011537562)
         while not STREAMING.HAS_MODEL_LOADED(-1011537562) do util.yield() end
@@ -1054,6 +1091,9 @@ local function testMenuSetup(pid)
         OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(
             entities.create_object(util.joaat("prop_fragtest_cnst_04"),
                 ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))), 1, false)
+    end)
+    menu.action(testMenu, "bad BREAK_OBJECT crash", { "latiaobadBREAK_OBJECTcrash" }, "", function()
+        print(players.user_ped())
     end)
 end
 
