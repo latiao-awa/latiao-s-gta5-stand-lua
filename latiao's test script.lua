@@ -889,7 +889,16 @@ menu.action(test, "bad crash lock 10000,10000,0", { "latiaobadTASKcrash" }, "", 
 end)
 
 
+menu.toggle_loop(test, "RandomPlayerEXPLOSION", { "latiaoRandomPlayerEXPLOSION" }, "", function()
+    for k, pid in pairs(players.list()) do
+    local randomPid = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()[math.random(1, #players.list())])
+    
 
+
+    local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
+    FIRE.ADD_OWNED_EXPLOSION(randomPid, pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
+    end
+end)
 
 
 local dividends = menu.list(menu.my_root(), "dividends", {}, "")
@@ -944,15 +953,15 @@ menu.action(dividends, "Perico all (you host)", { "" }, "latiaoPericoallyouhost.
     SET_INT_GLOBAL(1978495 + 825 + 56 + 3, menu.get_value(Perico))
     SET_INT_GLOBAL(1978495 + 825 + 56 + 4, menu.get_value(Perico))
 end)
-
-menu.action(dividends, "Pericotarget_money 2550000", { "latiaoPericotarget_money2550000" }, "Pericotarget_money2550000.",
+local Pericotarget = menu.slider(dividends, "Pericotarget", { "Pericotarget" }, "", -100000, 100000, 1000, 5, function() end)
+menu.action(dividends, "Pericotarget_money ", { "latiaoPericotarget_money" }, ".",
     function()
-        SET_INT_GLOBAL(262145 + 30189 + 0, 2550000)
-        SET_INT_GLOBAL(262145 + 30189 + 1, 2550000)
-        SET_INT_GLOBAL(262145 + 30189 + 2, 2550000)
-        SET_INT_GLOBAL(262145 + 30189 + 3, 2550000)
-        SET_INT_GLOBAL(262145 + 30189 + 4, 2550000)
-        SET_INT_GLOBAL(262145 + 30189 + 5, 2550000)
+        SET_INT_GLOBAL(262145 + 30189 + 0, Pericotarget)
+        SET_INT_GLOBAL(262145 + 30189 + 1, Pericotarget)
+        SET_INT_GLOBAL(262145 + 30189 + 2, Pericotarget)
+        SET_INT_GLOBAL(262145 + 30189 + 3, Pericotarget)
+        SET_INT_GLOBAL(262145 + 30189 + 4, Pericotarget)
+        SET_INT_GLOBAL(262145 + 30189 + 5, Pericotarget)
     end)
 menu.action(dividends, "Pericoai0", { "latiaoPericoai0" }, "latiaoPericoai0.", function()
     SET_INT_GLOBAL(262145 + 30189 + 9, 0)
@@ -990,7 +999,13 @@ menu.action(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost"
         SET_INT_LOCAL("fm_mission_controller", 28331 + 1, 100000000)
         SET_INT_LOCAL("fm_mission_controller", 31587 + 69, 100000000)
     end)
-    
+
+
+    menu.action(dividends, "refm_mission_controller", { "refm_mission_controller" }, "refm_mission_controller", function()
+        SET_INT_LOCAL("fm_mission_controller", 19710 + 2686, 0)
+        SET_INT_LOCAL("fm_mission_controller", 28331 + 1, 0)
+        SET_INT_LOCAL("fm_mission_controller", 31587 + 69, 0)
+    end)
 
 -- player root
 local function testMenuSetup(pid)
