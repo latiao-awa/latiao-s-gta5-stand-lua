@@ -208,23 +208,26 @@ end)
 menu.toggle(killaura, "kill_aura_F_Loop", {}, "", function(on)
     kill_aura_F_Loop = on
 end)
-menu.toggle(killaura, "exclude IS_ENTITY_DEAD", {}, "", function(on)
-    IS_ENTITY_DEAD = on
-end)
+local time = menu.slider(killaura, "time", { "time" }, "", 0,
+    2147483647, 0, 1,
+    function() end)
+
 menu.toggle_loop(killaura, "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), function()
     if kill_aura_peds or kill_aura_player or kill_aura_in_vehicle then
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
             local pedType = PED.GET_PED_TYPE(ped)
             local inVehicle = PED.IS_PED_IN_ANY_VEHICLE(ped, false)
             local hasClearLOS = ENTITY.HAS_ENTITY_CLEAR_LOS_TO_ENTITY(players.user_ped(), ped, 17)
-            local DEAD = ENTITY.IS_ENTITY_DEAD(ped)
 
-            if (inVehicle and not kill_aura_in_vehicle) or
+
+            if ENTITY.IS_ENTITY_DEAD(ped) or
+
+                (inVehicle and not kill_aura_in_vehicle) or
                 (pedType >= 3 and not kill_aura_peds) or
                 (pedType < 3 and not kill_aura_player) or
 
                 (not hasClearLOS and not kill_aura_through_walls) or
-                (not DEAD and not IS_ENTITY_DEAD)
+                (DEAD and IS_ENTITY_DEAD)
             then
                 goto continue
             end
@@ -248,6 +251,7 @@ menu.toggle_loop(killaura, "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), 
                             100,
                             true,
                             0x6E7DDDEC, players.user_ped(), false, true, 1)
+                        util.yield(menu.get_value(time))
                     end
                 end
             end
@@ -324,17 +328,7 @@ menu.action(world, "delall", { "latiaodelall" }, "delall.", function()
     end
 
     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
-        local isPedInVehicle = false
-
-        for k, pid in pairs(players.list()) do
-            if PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)) == vehicle then
-                isPedInVehicle = true
-                break
-            end
-        end
-        if not isPedInVehicle then
-            table.insert(targets, vehicle)
-        end
+        table.insert(targets, vehicle)
     end
 
     for _, object in ipairs(entities.get_all_objects_as_handles()) do
@@ -357,7 +351,7 @@ menu.toggle_loop(world, "TPALL 0 0 0", { "latiaodelallvehicles" }, "delallvehicl
     local targets = {}
 
     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
         table.insert(targets, ped)
         ::out::
     end
@@ -395,11 +389,14 @@ end)
 
 menu.toggle_loop(world, "kick ped vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if PED.GET_PED_TYPE(ped) >= 3 and PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
-            -- if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
+        print(PED.GET_PED_TYPE(ped))
+        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
         end
-        -- ::out::
+        -- end
+        ::out::
+        -- end
     end
 end)
 
@@ -417,7 +414,7 @@ end)
 menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" }, "REMOVE_ALL_PED_WEAPONS.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
 
 
             WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
@@ -428,14 +425,14 @@ menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPON
 menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" }, "FREEZE_ENTITY_POSITION.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, true)
             ::out::
         end
     end, function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, false)
             ::out::
@@ -445,7 +442,7 @@ menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITIO
 menu.toggle_loop(world, "tppedtome", { "latiaotppedtome" }, "latiaotppedtome.", function()
     local pos = players.get_position(players.user())
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z, false)
         ::out::
     end
@@ -454,7 +451,7 @@ end)
 menu.toggle_loop(world, "silencekillallped", { "latiaosilencekillallped" }, "latiaotsilencekillallped.", function()
     local pos = players.get_position(players.user())
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
         FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 2147483647, false, true, 0.0)
         ::out::
@@ -463,7 +460,7 @@ end)
 
 menu.toggle_loop(world, "tppedto 00", { "latiaotppedto00" }, "latiaotpped00.", function()
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, 0, 0, -200, false)
         ::out::
     end
@@ -497,7 +494,7 @@ end)
 menu.toggle_loop(world, "CLEAR_PED_TASKS_IMMEDIATELY", { "latiaoCLEAR_PED_TASKS_IMMEDIATELY" },
     "CLEAR_PED_TASKS_IMMEDIATELY.", function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
 
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
             ::out::
@@ -518,6 +515,7 @@ menu.toggle_loop(world, "maxpedgod", { "latiaomaxpedgod" }, "latiaomaxpedgod.", 
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         PED.SET_PED_RELATIONSHIP_GROUP_HASH(ped, PED.GET_PED_RELATIONSHIP_GROUP_HASH(players.user_ped()))
     end
+end, function()
 end)
 
 menu.toggle_loop(world, "no new cops", { "" }, "", function()
@@ -1110,7 +1108,7 @@ menu.action(dividends, "fin fm_mission_controller_2020", { "fin fm_mission_contr
     "finfm_mission_controller_2020",
     function()
         SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1, 51338752)
-        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1378 + 1, 50)
+        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1375 + 1, 50)
     end)
 
 local money = menu.slider(dividends, "fm_mission_controller money", { "fm_mission_controllermoney" }, "", -2147483647,
@@ -1129,7 +1127,7 @@ menu.action(dividends, "moneyfm_mission_controller", { "moneyfm_mission_controll
 menu.action(dividends, "finfm_mission_controller", { "finfmc" }, "finfm_mission_controller", function()
     -- util.request_script_host("fm_mission_controller")
     SET_INT_LOCAL("fm_mission_controller", 19710 + 2686, menu.get_value(money))
-    SET_INT_LOCAL("fm_mission_controller", 19710 + 1741, 100000000)
+    SET_INT_LOCAL("fm_mission_controller", 19710 + 1741, 100)
     SET_INT_LOCAL("fm_mission_controller", 28331 + 1, 100000000)
     SET_INT_LOCAL("fm_mission_controller", 31587 + 69, 100000000)
 end)
@@ -1271,7 +1269,6 @@ local function testMenuSetup(pid)
     menu.action(testMenu, "badobjectcrash", { "latiaobadobjectcrash" }, "latiaobadobjectcrashall.", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-        -- print(pos.x .. pos.y .. pos.z)
         entities.create_object(2155335200, pos)
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -1307,15 +1304,50 @@ local function testMenuSetup(pid)
     menu.action(testMenu, "NETWORK_SESSION_KICK_PLAYER", { "latiaoNETWORK_SESSION_KICK_PLAYER" }, "", function()
         NETWORK.NETWORK_SESSION_KICK_PLAYER(pid)
     end)
+
+
+    menu.toggle_loop(testMenu, "tun spamm crash", { "latiaotunspammcrash" }, "", function()
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        entities.create_vehicle(util.joaat("tug"), pos, 0)
+        local goldModels = { util.joaat("tug"), }
+        for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
+            local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+            for _, goldModel in ipairs(goldModels) do
+                if entModel == goldModel then
+                    ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
+
+                    if not players.exists(pid) then util.stop_thread() end
+                end
+            end
+        end
+    end)
+
+
+
+    menu.action(testMenu, "del tun", { "latiaoNETWORK_SESSION_KICK_PLAYER" }, "", function()
+        local tunModels = { util.joaat("tug"), }
+        for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
+            local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+            for _, tunModels in ipairs(tunModels) do
+                if entModel == tunModels then
+                    entities.delete_by_handle(ent)
+                end
+            end
+        end
+    end)
 end
 
-for _, pid in ipairs(players.list(true, true, true)) do
+
+
+for _, pid in ipairs(players.list()) do
     testMenuSetup(pid)
 end
 
-players.on_join(function(pid)
-    testMenuSetup(pid)
-end)
+players.on_join(testMenuSetup)
+
 
 
 menu.toggle_loop(server, "fake stand script kick check for all no host",
