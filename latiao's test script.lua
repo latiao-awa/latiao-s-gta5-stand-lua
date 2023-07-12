@@ -857,14 +857,14 @@ menu.toggle_loop(server, "REQUES_ENTITY vehicles no player", { "latiaoREQUES_ENT
     end)
 
 
-menu.action(server, "badobjectcrashall", { "latiaobadobjectcrashall" }, "latiaobadobjectcrashall.", function()
-    for k, pid in pairs(players.list()) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-        print(pos.x .. pos.y .. pos.z)
-        entities.create_object(2155335200, pos)
-    end
-end)
+-- menu.action(server, "badobjectcrashall", { "latiaobadobjectcrashall" }, "latiaobadobjectcrashall.", function()
+--     for k, pid in pairs(players.list()) do
+--         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+--         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+--         print(pos.x .. pos.y .. pos.z)
+--         entities.create_object(2155335200, pos)
+--     end
+-- end)
 
 
 
@@ -900,8 +900,9 @@ menu.action(world, "stopautoDRIVE", { "latiaostopautoDRIVE" }, "stopautoDRIVE.",
 end)
 
 menu.action(server, "Bad PARACHUTE_MODEL Crash All", { "latiaocrashall" }, "crashall.", function()
-    PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(players.user(), 2186304526)
-    util.yield(1000)
+    STREAMING.REQUEST_MODEL(util.joaat("prop_beach_parasol_05"))
+    while not STREAMING.HAS_MODEL_LOADED(util.joaat("prop_beach_parasol_05")) do util.yield() end
+    PLAYER.SET_PLAYER_PARACHUTE_MODEL_OVERRIDE(players.user(), util.joaat("prop_beach_parasol_05"))
     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 0, 0, 500, 0, 0, 0)
     util.yield(1000)
     PED.FORCE_PED_TO_OPEN_PARACHUTE(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()))
@@ -943,11 +944,11 @@ end)
 
 menu.action(world, "bad crash lock 10000,10000,0", { "latiaobadTASKcrash" }, "", function()
     local TargetPPos = v3(10000.0, 10000.0, -100.0)
-    OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(
-        entities.create_object(util.joaat("prop_fragtest_cnst_04"), TargetPPos, 1, false))
-    STREAMING.REQUEST_MODEL(2155335200)
-    while not STREAMING.HAS_MODEL_LOADED(2155335200) do util.yield() end
-    entities.create_object(2155335200, TargetPPos)
+    -- OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(
+    --     entities.create_object(util.joaat("prop_fragtest_cnst_04"), TargetPPos, 1, false))
+    -- STREAMING.REQUEST_MODEL(2155335200)
+    -- while not STREAMING.HAS_MODEL_LOADED(2155335200) do util.yield() end
+    -- entities.create_object(2155335200, TargetPPos)
     STREAMING.REQUEST_MODEL(-1011537562)
     while not STREAMING.HAS_MODEL_LOADED(-1011537562) do util.yield() end
 
@@ -1213,14 +1214,14 @@ local function testMenuSetup(pid)
     end)
 
     menu.toggle_loop(testMenu, "CopLoop", { "latiaoFlameLoop" }, "", function()
-        STREAMING.REQUEST_MODEL(0x5E3DA4A4)
-        while not STREAMING.HAS_MODEL_LOADED(0x5E3DA4A4) do util.yield() end
+        STREAMING.REQUEST_MODEL(util.joaat("s_m_y_cop_01"))
+        while not STREAMING.HAS_MODEL_LOADED(util.joaat("s_m_y_cop_01")) do util.yield() end
         local playerPed = PLAYER.GET_PLAYER_PED(pid)
         local pos = ENTITY.GET_ENTITY_COORDS(playerPed)
         pos.x = pos.x + math.random(-10, 10)
         pos.y = pos.y + math.random(-10, 10)
         -- pos.z = pos.z
-        PED.CREATE_PED(0, 0x5E3DA4A4, pos.x, pos.y, pos.z, 0, true, true)
+        PED.CREATE_PED(0, util.joaat("s_m_y_cop_01"), pos.x, pos.y, pos.z, 0, true, true)
         -- print(pos.x, pos.y, pos.z)
         if not players.exists(pid) then util.stop_thread() end
         -- end
@@ -1266,19 +1267,13 @@ local function testMenuSetup(pid)
     end)
 
 
-    menu.action(testMenu, "badobjectcrash", { "latiaobadobjectcrash" }, "latiaobadobjectcrashall.", function()
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-        entities.create_object(2155335200, pos)
-        if not players.exists(pid) then util.stop_thread() end
-    end)
 
 
     menu.action(testMenu, "bad TASK crash", { "latiaobadTASKcrash" }, "", function()
-        STREAMING.REQUEST_MODEL(-1011537562)
-        while not STREAMING.HAS_MODEL_LOADED(-1011537562) do util.yield() end
+        STREAMING.REQUEST_MODEL(util.joaat("a_c_rat"))
+        while not STREAMING.HAS_MODEL_LOADED(util.joaat("a_c_rat")) do util.yield() end
         local TargetPPos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-        local PED1 = entities.create_ped(28, -1011537562, TargetPPos, 0)
+        local PED1 = entities.create_ped(28, util.joaat("a_c_rat"), TargetPPos, 0)
 
         WEAPON.GIVE_WEAPON_TO_PED(PED1, -1813897027, 1, true, true)
 
@@ -1288,6 +1283,8 @@ local function testMenuSetup(pid)
     end)
 
     menu.action(testMenu, "bad BREAK_OBJECT crash", { "latiaobadBREAK_OBJECTcrash" }, "", function()
+        STREAMING.REQUEST_MODEL(util.joaat("prop_fragtest_cnst_04"))
+        while not STREAMING.HAS_MODEL_LOADED(util.joaat("prop_fragtest_cnst_04")) do util.yield() end
         entities.create_object(util.joaat("prop_fragtest_cnst_04"),
             ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
@@ -1309,6 +1306,8 @@ local function testMenuSetup(pid)
     menu.toggle_loop(testMenu, "tun spamm crash", { "latiaotunspammcrash" }, "", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
+        STREAMING.REQUEST_MODEL(util.joaat("tug"))
+        while not STREAMING.HAS_MODEL_LOADED(util.joaat("tug")) do util.yield() end
         entities.create_vehicle(util.joaat("tug"), pos, 0)
         local goldModels = { util.joaat("tug"), }
         for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
