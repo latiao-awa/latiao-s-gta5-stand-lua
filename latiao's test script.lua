@@ -171,7 +171,7 @@ local world = menu.list(menu.my_root(), "world", {}, "")
 local server = menu.list(menu.my_root(), "server", {}, "")
 local test = menu.list(menu.my_root(), "test", {}, "")
 local dividends = menu.list(menu.my_root(), "dividends", {}, "")
-
+local Multipliers = menu.list(menu.my_root(), "Multipliers", {}, "")
 
 
 
@@ -215,18 +215,13 @@ local time = menu.slider(killaura, "time", { "time" }, "", 0,
 menu.toggle_loop(killaura, "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), function()
     if kill_aura_peds or kill_aura_player or kill_aura_in_vehicle then
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            local pedType = PED.GET_PED_TYPE(ped)
-            local inVehicle = PED.IS_PED_IN_ANY_VEHICLE(ped, false)
-            local hasClearLOS = ENTITY.HAS_ENTITY_CLEAR_LOS_TO_ENTITY(players.user_ped(), ped, 17)
-
-
             if ENTITY.IS_ENTITY_DEAD(ped) or
 
-                (inVehicle and not kill_aura_in_vehicle) or
-                (pedType >= 3 and not kill_aura_peds) or
-                (pedType < 3 and not kill_aura_player) or
+                (PED.IS_PED_IN_ANY_VEHICLE(ped, false) and not kill_aura_in_vehicle) or
+                (PED.GET_PED_TYPE(ped) >= 3 and not kill_aura_peds) or
+                (PED.GET_PED_TYPE(ped) < 3 and not kill_aura_player) or
 
-                (not hasClearLOS and not kill_aura_through_walls) or
+                (not ENTITY.HAS_ENTITY_CLEAR_LOS_TO_ENTITY(players.user_ped(), ped, 17) and not kill_aura_through_walls) or
                 (DEAD and IS_ENTITY_DEAD)
             then
                 goto continue
@@ -317,11 +312,7 @@ menu.action(world, "delall", { "latiaodelall" }, "delall.", function()
     end
 
     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
-        for k, pid in pairs(players.list()) do
-            if PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)) == vehicle then goto out end
-            table.insert(targets, vehicle)
-            ::out::
-        end
+        table.insert(targets, vehicle)
     end
 
     for _, object in ipairs(entities.get_all_objects_as_handles()) do
@@ -344,19 +335,14 @@ menu.toggle_loop(world, "TPALL 0 0 0", { "latiaodelallvehicles" }, "delallvehicl
     local targets = {}
 
     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         table.insert(targets, ped)
         ::out::
     end
 
     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
-        for k, pid in pairs(players.list()) do
-            if PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)) == vehicle then goto out end
-            table.insert(targets, vehicle)
-            ::out::
-        end
+        table.insert(targets, vehicle)
     end
-
     for _, object in ipairs(entities.get_all_objects_as_handles()) do
         table.insert(targets, object)
     end
@@ -377,13 +363,11 @@ end)
 menu.toggle_loop(world, "kick ped vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         print(PED.GET_PED_TYPE(ped))
-        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
         end
-        -- end
         ::out::
-        -- end
     end
 end)
 
@@ -401,7 +385,7 @@ end)
 menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" }, "REMOVE_ALL_PED_WEAPONS.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
 
 
             WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
@@ -412,14 +396,14 @@ menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPON
 menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" }, "FREEZE_ENTITY_POSITION.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, true)
             ::out::
         end
     end, function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, false)
             ::out::
@@ -428,8 +412,9 @@ menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITIO
 
 menu.toggle_loop(world, "tppedtome", { "latiaotppedtome" }, "latiaotppedtome.", function()
     local pos = players.get_position(players.user())
+    pos:add(v3.new(0, 0, 2.5))
     for _, ped in entities.get_all_peds_as_handles() do
-        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z, false)
         ::out::
     end
@@ -438,7 +423,7 @@ end)
 menu.toggle_loop(world, "silencekillallped", { "latiaosilencekillallped" }, "latiaotsilencekillallped.", function()
     local pos = players.get_position(players.user())
     for _, ped in entities.get_all_peds_as_handles() do
-        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
         FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 2147483647, false, true, 0.0)
         ::out::
@@ -447,7 +432,7 @@ end)
 
 menu.toggle_loop(world, "tppedto 00", { "latiaotppedto00" }, "latiaotpped00.", function()
     for _, ped in entities.get_all_peds_as_handles() do
-        if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         ENTITY.SET_ENTITY_COORDS(ped, 0, 0, -200, false)
         ::out::
     end
@@ -481,7 +466,7 @@ end)
 menu.toggle_loop(world, "CLEAR_PED_TASKS_IMMEDIATELY", { "latiaoCLEAR_PED_TASKS_IMMEDIATELY" },
     "CLEAR_PED_TASKS_IMMEDIATELY.", function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if ped == PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()) then goto out end
+            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
 
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
             ::out::
@@ -513,6 +498,7 @@ end)
 
 menu.toggle_loop(world, "tp Picked", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
     local pos = players.get_position(players.user())
+    pos:add(v3.new(0, 0, 1))
     for _, pickup in entities.get_all_pickups_as_handles() do
         ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z, false)
     end
@@ -657,7 +643,18 @@ menu.toggle_loop(server, "NETWORK_SESSION_KICK_PLAYER attack mod", { "latiaobank
         end
     end)
 
-
+menu.toggle_loop(server, "loveletterkick attack mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
+    function()
+        for k, pid in pairs(players.list()) do
+            if pid == players.user() then goto out end
+            if players.is_marked_as_attacker(pid) then
+                local attack = PLAYER.GET_PLAYER_NAME(pid)
+                util.toast(attack .. "kick ing")
+                menu.trigger_commands("loveletterkick" .. attack)
+            end
+            ::out::
+        end
+    end)
 
 menu.toggle_loop(server, "if you host ban all moder", { "latiaobankallmoder" }, "latiaobankallmoder.",
     function()
@@ -730,12 +727,12 @@ menu.action(server, "kick me", { "latiaokickme" }, "latiaokickme.", function()
     NETWORK.NETWORK_SESSION_KICK_PLAYER(players.user())
 end)
 
--- menu.toggle_loop(server, "if you host reportall", { "latiaoreportall" }, "reportall.", function()
---     util.yield(1000)
---     if NETWORK.NETWORK_IS_HOST() then
---         menu.trigger_commands("reportexploitsall")
---     end
--- end)
+menu.toggle_loop(server, "if you host reportall", { "latiaoreportall" }, "reportall.", function()
+    util.yield(1000)
+    if NETWORK.NETWORK_IS_HOST() then
+        menu.trigger_commands("reportexploitsall")
+    end
+end)
 
 menu.toggle_loop(server, "kick all for vehicle script_event", { "latiaoreportall" }, "reportall.", function()
     -- util.yield(500)
@@ -757,19 +754,24 @@ menu.toggle_loop(server, "fake hack attack all no host", { "latiaofackhackattack
         util.trigger_script_event(1 << pid, { -901348601 })
         util.trigger_script_event(1 << pid, { -1638522928 })
         util.trigger_script_event(1 << pid, { -800157557 })
+        util.trigger_script_event(1 << pid, { -1496371358 })
+        util.trigger_script_event(1 << pid, { 259469385, pid, -1 })
 
         ::out::
     end
 end)
 
-menu.toggle_loop(server, "if you fake hack attack all ", { "latiaofackhackattackall" }, "reportall.", function()
-    -- util.yield(500)
+menu.toggle_loop(server, "if you HOST fake hack attack all ", { "latiaofackhackattackall" }, "reportall.", function()
+    util.yield(500)
     if NETWORK.NETWORK_IS_HOST() then
         for k, pid in pairs(players.list()) do
             if pid == players.user() then goto out end
+            -- menu.trigger_commands("reportexploitsall")
             util.trigger_script_event(1 << pid, { -901348601 })
             util.trigger_script_event(1 << pid, { -1638522928 })
             util.trigger_script_event(1 << pid, { -800157557 })
+            util.trigger_script_event(1 << pid, { -1496371358 })
+            util.trigger_script_event(1 << pid, { 259469385, pid, -1 })
 
             ::out::
         end
@@ -924,7 +926,8 @@ end)
 
 
 menu.action(test, "tp test", { "latiaotptest" }, "latiaotptest.", function()
-    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 10000, 10000, -100, 0,
+    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 2147483647, 2147483647, -100,
+        0,
         0, 0)
 end)
 
@@ -962,9 +965,34 @@ end)
 
 
 
-
+menu.toggle_loop(dividends, "jump hack", { "jump_hack" }, "jump_hack.", function()
+    SET_INT_LOCAL("fm_mission_controller_2020", 23669, 5)
+    SET_INT_LOCAL("fm_mission_controller_2020", 28446, 6)
+    SET_FLOAT_LOCAL("fm_mission_controller_2020", 29685 + 3, 100)
+    local Value = GET_INT_LOCAL("fm_mission_controller_2020", 1719)
+    SET_INT_LOCAL("fm_mission_controller_2020", 1718, Value)
+    SET_INT_LOCAL("fm_mission_controller", 52964, 5)
+    SET_INT_LOCAL("fm_mission_controller", 54026, 5)
+    -- SET_INT_LOCAL("fm_mission_controller", 10098 + 7, GET_INT_LOCAL("fm_mission_controller", 10098 + 37))
+    SET_INT_LOCAL("fm_mission_controller", 1509, 3)
+    SET_INT_LOCAL("fm_mission_controller", 1540, 2)
+    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3)
+    SET_INT_LOCAL("fm_mission_controller", 11760 + 24, 7)
+    SET_FLOAT_LOCAL("fm_mission_controller", 10061 + 11, 100)
+    SET_LOCAL_BIT("fm_mission_controller", 9767, 9)
+    SET_INT_LOCAL("fm_mission_controller_2020", 975 + 135, 3)
+end)
 menu.action(dividends, "MPPLY_H3_COOLDOWN", { "" }, "MPPLY_H3_COOLDOWN.", function()
-    STATS.STAT_SET_INT("MPPLY_H3_COOLDOWN", -1)
+    STAT_SET_INT("MPPLY_H3_COOLDOWN", -1)
+end)
+
+menu.action(dividends, "H3_COMPLETEDPOSIX", { "" }, "H3_COMPLETEDPOSIX.", function()
+    STAT_SET_INT("H3_COMPLETEDPOSIX", -1)
+end)
+
+menu.action(dividends, "load casino Boards H3OPT_BITSET", { "" }, "H3OPT_BITSET1.", function()
+    STAT_SET_INT("H3OPT_BITSET1", -1)
+    STAT_SET_INT("H3OPT_BITSET0", -1)
 end)
 
 local nohostalldividends = menu.slider(dividends, "nohostalldividends", { "nohostcasino" }, "", -100000, 100000, 100, 5,
@@ -976,6 +1004,12 @@ menu.toggle_loop(dividends, "casino and Perico and Doomsday for you(you not host
     SET_INT_GLOBAL(2684820 + 6606, menu.get_value(nohostalldividends))
 end)
 
+menu.action(dividends, "casino Forced Launch", { "" }, "latiaonohost.", function()
+    SET_INT_GLOBAL(1971696 + 1497 + 736 + 87 + 0, -1)
+    SET_INT_GLOBAL(1971696 + 1497 + 736 + 87 + 1, -1)
+    SET_INT_GLOBAL(1971696 + 1497 + 736 + 87 + 2, -1)
+    SET_INT_GLOBAL(1971696 + 1497 + 736 + 87 + 3, -1)
+end)
 
 
 
@@ -1018,23 +1052,7 @@ menu.action(dividends, "casino all ai 0", { "latiaocasinoal0" },
         SET_INT_GLOBAL(262145 + 29023 + 14, 0)
         SET_INT_GLOBAL(262145 + 29023 + 15, 0)
     end)
-menu.toggle_loop(dividends, "jump hack", { "jump_hack" }, "jump_hack.", function()
-    SET_INT_LOCAL("fm_mission_controller_2020", 23669, 5)
-    SET_INT_LOCAL("fm_mission_controller_2020", 28446, 6)
-    SET_FLOAT_LOCAL("fm_mission_controller_2020", 29685 + 3, 100)
-    local Value = GET_INT_LOCAL("fm_mission_controller_2020", 1719)
-    SET_INT_LOCAL("fm_mission_controller_2020", 1718, Value)
-    SET_INT_LOCAL("fm_mission_controller", 52964, 5)
-    SET_INT_LOCAL("fm_mission_controller", 54026, 5)
-    -- SET_INT_LOCAL("fm_mission_controller", 10098 + 7, GET_INT_LOCAL("fm_mission_controller", 10098 + 37))
-    SET_INT_LOCAL("fm_mission_controller", 1509, 3)
-    SET_INT_LOCAL("fm_mission_controller", 1540, 2)
-    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3)
-    SET_INT_LOCAL("fm_mission_controller", 11760 + 24, 7)
-    SET_FLOAT_LOCAL("fm_mission_controller", 10061 + 11, 100)
-    SET_LOCAL_BIT("fm_mission_controller", 9767, 9)
-    SET_INT_LOCAL("fm_mission_controller_2020", 975 + 135, 3)
-end)
+
 local Doomsday = menu.slider(dividends, "Doomsday", { "Doomsday" }, "2400000", -100000, 100000, 100, 5, function() end)
 
 menu.action(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" }, "latiaoDoomsdayallyouhost.", function()
@@ -1102,7 +1120,7 @@ menu.action(dividends, "fin fm_mission_controller_2020", { "fin fm_mission_contr
     "finfm_mission_controller_2020",
     function()
         SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1, 51338752)
-        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1375 + 1, 50)
+        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1378 + 1, 50)
     end)
 
 local money = menu.slider(dividends, "fm_mission_controller money", { "fm_mission_controllermoney" }, "", -2147483647,
@@ -1145,6 +1163,15 @@ local function testMenuSetup(pid)
         print(pid)
         if not players.exists(pid) then util.stop_thread() end
     end)
+
+    menu.action(testMenu, "block join", { "laitaoblockjoin" }, "", function()
+        local player = PLAYER.GET_PLAYER_NAME(pid)
+        menu.trigger_command(menu.ref_by_path("Online>Player History>" .. pid .. ">Player Join Reactions>Notification"))
+        menu.trigger_commands("historyblock" .. player .. " on")
+        menu.trigger_commands("loveletterkick" .. player)
+        menu.trigger_commands("historynote" .. player .. " latiaoblockjoin")
+    end)
+
 
 
     menu.toggle_loop(testMenu, "SHOOT", {}, "", function()
@@ -1222,7 +1249,7 @@ local function testMenuSetup(pid)
 
 
 
-    menu.action(testMenu, "summon gold", { "latiaosummongold" }, "latiaosummongold.", function()
+    menu.toggle_loop(testMenu, "summon gold", { "latiaosummongold" }, "latiaosummongold.", function()
         local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
         entities.create_object(
             util.joaat("ch_prop_gold_trolly_01a", "ch_prop_gold_trolly_01b", "ch_prop_gold_trolly_01c"),
@@ -1230,34 +1257,7 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
     end)
 
-    menu.action(testMenu, "tp gold", { "=" }, "=.", function()
-        local pos = players.get_position(players.user())
-        local goldModels = {
-            util.joaat("ch_prop_gold_trolly_01a"),
-            util.joaat("ch_prop_gold_trolly_01b"),
-            util.joaat("ch_prop_gold_trolly_01c"),
-            util.joaat("ch_prop_cash_low_trolly_01a"),
-            util.joaat("ch_prop_cash_low_trolly_01b"),
-            util.joaat("ch_prop_cash_low_trolly_01c"),
-            util.joaat("ch_prop_ch_cash_trolly_01a"),
-            util.joaat("ch_prop_ch_cash_trolly_01b"),
-            util.joaat("ch_prop_ch_cash_trolly_01c"),
-            util.joaat("ch_prop_diamond_trolly_01a"),
-            util.joaat("ch_prop_diamond_trolly_01b"),
-            util.joaat("ch_prop_diamond_trolly_01c"),
-        }
 
-        for _, ent in pairs(entities.get_all_objects_as_handles()) do
-            local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-            for _, goldModel in ipairs(goldModels) do
-                if entModel == goldModel then
-                    ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
-                    break
-                end
-            end
-        end
-    end)
 
 
 
@@ -1287,6 +1287,7 @@ local function testMenuSetup(pid)
 
     menu.toggle_loop(testMenu, "freemode script crash kick", { "latiaoscriptkick" }, "", function()
         util.trigger_script_event(1 << pid, { -1544003568 })
+        if not players.exists(pid) then util.stop_thread() end
     end)
     menu.action(testMenu, "NETWORK_SESSION_KICK_PLAYER", { "latiaoNETWORK_SESSION_KICK_PLAYER" }, "", function()
         NETWORK.NETWORK_SESSION_KICK_PLAYER(pid)
@@ -1298,16 +1299,12 @@ local function testMenuSetup(pid)
         STREAMING.REQUEST_MODEL(util.joaat("tug"))
         while not STREAMING.HAS_MODEL_LOADED(util.joaat("tug")) do util.yield() end
         entities.create_vehicle(util.joaat("tug"), pos, 0)
-        -- local goldModels = { util.joaat("tug"), }
         for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
-            -- for _, goldModel in ipairs(util.joaat("tug")) do
             if ENTITY.GET_ENTITY_MODEL(ent) == ipairs(util.joaat("tug")) then
                 ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
-
-                if not players.exists(pid) then util.stop_thread() end
             end
         end
-        -- end
+        if not players.exists(pid) then util.stop_thread() end
     end)
 
 
@@ -1324,15 +1321,54 @@ local function testMenuSetup(pid)
             -- end
         end
     end)
-    menu.toggle_loop(testMenu, "fake hack attack", { "latiaofackhackattack" }, "latiaofackhackattack.", function()
+    menu.toggle_loop(testMenu, "kick vehicles", { "latiaokickvehicles" }, "latiaokickvehicles.", function()
         -- util.yield(500)
 
+        util.trigger_script_event(1 << pid, { -503325966 })
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+    menu.toggle_loop(testMenu, "fake hack attack", { "latiaofackhackattack" }, "latiaofackhackattack.", function()
+        -- util.yield(500)
         util.trigger_script_event(1 << pid, { -901348601 })
         util.trigger_script_event(1 << pid, { -1638522928 })
         util.trigger_script_event(1 << pid, { -1321657966 })
+        util.trigger_script_event(1 << pid, { -1496371358 })
+        util.trigger_script_event(1 << pid, { 259469385, pid, -1 })
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
+    menu.toggle_loop(testMenu, "host freeze", { "" }, ".", function()
+        util.trigger_script_event(1 << pid, { -1321657966, 0, pid, 0, 0, 115 })
+
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+    menu.toggle_loop(testMenu, "kick host", { "" }, ".", function()
+        util.trigger_script_event(1 << pid, { -1496371358, pid, -1 })
+
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+    menu.toggle_loop(testMenu, "wok freeze", { "" }, ".", function()
+        util.yield(1000)
+        util.trigger_script_event(1 << pid, { 259469385 })
+
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+    menu.toggle_loop(testMenu, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+        AUDIO.PLAY_SOUND_FROM_ENTITY(-1, "MP_Flash", PLAYER.GET_PLAYER_PED(pid), "WastedSounds", true, true)
+        if not players.exists(pid) then util.stop_thread() end
+        -- end
     end)
 end
 
+
+
+-- menu.toggle_loop(test, "test script_event", { "latiaoreportall" }, "reportall.", function()
+--     -- util.yield(500)
+--     for k, pid in pairs(players.list()) do
+--         util.trigger_script_event(1 << pid, { 0 })
+--         -- ::out::
+--     end
+-- end)
 
 
 for _, pid in ipairs(players.list()) do
@@ -1340,31 +1376,6 @@ for _, pid in ipairs(players.list()) do
 end
 
 players.on_join(testMenuSetup)
-
-
-
--- menu.toggle_loop(server, "fake stand script kick check for all no host",
---     { "fake stand script kick check for all no host" }, "fake stand script kick check for all no host",
---     function()
---         for k, pid in pairs(players.list()) do
---             if pid == players.get_host() or pid == players.user() then goto out end
---             -- print(pid)
---             util.trigger_script_event(1 << pid, { -901348601 })
---             ::out::
---         end
---     end)
-
--- menu.toggle_loop(server, "if you host fake stand script kick check for all",
---     { "if you host fake stand script kick check for all" }, "if you host fake stand script kick check for all",
---     function()
---         if NETWORK.NETWORK_IS_HOST() then
---             for k, pid in pairs(players.list()) do
---                 if pid == players.user() then goto out end
---                 util.trigger_script_event(1 << pid, { -901348601, })
---                 ::out::
---             end
---         end
---     end)
 
 
 
@@ -1406,17 +1417,190 @@ end)
 
 
 
+menu.toggle_loop(server, "tun spamm crash fake Location", { "latiaotunspammcrash" }, "", function()
+    STREAMING.REQUEST_MODEL(util.joaat("tug"))
+    while not STREAMING.HAS_MODEL_LOADED(util.joaat("tug")) do util.yield() end
+    entities.create_vehicle(util.joaat("tug"), v3(10000.0, 10000.0, -100.0), 0)
+end)
 
 
--- menu.toggle_loop(test, "test", { "raidallplayer" }, "", function()
---     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
---         for k, pid in pairs(players.list()) do
---             if PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)) == vehicle then goto out end
---             ENTITY.SET_ENTITY_COORDS(vehicle, 0, 0, 100, false)
---             ::out::
---         end
---     end
+
+MUT_INPUT = menu.slider_float(Multipliers, ("Multipliers"), { "" }, "", 0, 500000, 100, 100, function() ; end)
+
+menu.divider(Multipliers, "XP & AP")
+
+menu.toggle_loop(Multipliers, "XP", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 1, menu.get_value(MUT_INPUT) / 100) -- XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "AP", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 26114, menu.get_value(MUT_INPUT) / 100) -- AP_MULTIPLIER
+end)
+
+---
+
+menu.divider(Multipliers, ("LS Car Meet"))
+
+menu.toggle_loop(Multipliers, "Street Race", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31855, menu.get_value(MUT_INPUT) / 100) -- TUNER_STREET_RACE_PLACE_XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "Pursuit Race", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31856, menu.get_value(MUT_INPUT) / 100) -- TUNER_PURSUIT_RACE_PLACE_XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "Scramble", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31857, menu.get_value(MUT_INPUT) / 100) -- TUNER_CHECKPOINT_RACE_PLACE_XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "Head 2 Head", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31858, menu.get_value(MUT_INPUT) / 100) -- TUNER_HEADTOHEAD_RACE_PLACE_XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "LS Car Meet", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31859, menu.get_value(MUT_INPUT) / 100) -- TUNER_CARCLUB_VISITS_STREAK_XP_MULTIPLIER
+end)
+menu.toggle_loop(Multipliers, "LS Car Meet's Track", {}, "", function()
+    SET_FLOAT_GLOBAL(262145 + 31860, menu.get_value(MUT_INPUT) / 100) -- TUNER_CARCLUB_TIME_XP_MULTIPLIER
+end)
+menu.toggle_loop(server, "bad post", { "latiaobadpost" }, ("latiaobadpost"), function()
+    menu.trigger_commands("spoofpos")
+end)
 
 
--- -- end
--- end)
+
+menu.toggle_loop(test, "debugshot", { "latiaodebugshot" }, ("latiaobadpost"), function()
+    local outptr = memory.alloc(4)
+    local aim_info = { handle = 0 }
+    if PLAYER.GET_ENTITY_PLAYER_IS_FREE_AIMING_AT(players.user(), outptr) then
+        local handle = memory.read_int(outptr)
+        aim_info.hash = ENTITY.GET_ENTITY_MODEL(handle)
+        aim_info.model = util.reverse_joaat(aim_info.hash)
+        aim_info.health = ENTITY.GET_ENTITY_HEALTH(handle)
+        aim_info.OWNER = PLAYER.GET_PLAYER_NAME(entities.get_owner(handle))
+        local text = "hash=" ..
+            aim_info.hash ..
+            "," .. "model=" .. aim_info.model .. "," .. "health=" .. aim_info.health .. "," .. "owner=" ..
+            aim_info.OWNER .. ","
+        directx.draw_text(0.5, 0.5, text, 5, 0.5, { r = 255, g = 0, b = 0, a = 255 }, true)
+        print(text)
+    end
+end)
+
+
+menu.toggle_loop(world, "del cam", { "" }, "", function()
+    local goldModels = {
+        util.joaat("prop_cctv_cam_01a"),
+        util.joaat("prop_cctv_cam_01b"),
+        util.joaat("prop_cctv_cam_02a"),
+        util.joaat("prop_cctv_cam_03a"),
+        util.joaat("prop_cctv_cam_04a"),
+        util.joaat("prop_cctv_cam_04c"),
+        util.joaat("prop_cctv_cam_05a"),
+        util.joaat("prop_cctv_cam_06a"),
+        util.joaat("prop_cctv_cam_07a"),
+        util.joaat("ch_prop_ch_cctv_cam_02a"),
+    }
+
+    for _, ent in pairs(entities.get_all_objects_as_handles()) do
+        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+        for _, goldModel in ipairs(goldModels) do
+            if entModel == goldModel then
+                entities.delete_by_handle(ent)
+                break
+            end
+        end
+    end
+end)
+menu.action(world, "tp gold", { "" }, "", function()
+    local pos = players.get_position(players.user())
+    local goldModels = {
+        util.joaat("ch_prop_gold_trolly_01a"),
+        util.joaat("ch_prop_gold_trolly_01b"),
+        util.joaat("ch_prop_gold_trolly_01c"),
+        util.joaat("ch_prop_cash_low_trolly_01a"),
+        util.joaat("ch_prop_cash_low_trolly_01b"),
+        util.joaat("ch_prop_cash_low_trolly_01c"),
+        util.joaat("ch_prop_ch_cash_trolly_01a"),
+        util.joaat("ch_prop_ch_cash_trolly_01b"),
+        util.joaat("ch_prop_ch_cash_trolly_01c"),
+        util.joaat("ch_prop_diamond_trolly_01a"),
+        util.joaat("ch_prop_diamond_trolly_01b"),
+        util.joaat("ch_prop_diamond_trolly_01c"),
+    }
+
+    for _, ent in pairs(entities.get_all_objects_as_handles()) do
+        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+        for _, goldModel in ipairs(goldModels) do
+            if entModel == goldModel then
+                ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
+                break
+            end
+        end
+    end
+end)
+
+menu.action(world, "tp fingerprint_scanner", { "" }, "", function()
+    local pos = players.get_position(players.user())
+    pos:add(v3.new(0, 0, 0.5))
+    local goldModels = {
+        util.joaat("ch_prop_fingerprint_scanner_01a"),
+        util.joaat("ch_prop_fingerprint_scanner_01b"),
+        util.joaat("ch_prop_fingerprint_scanner_01c"),
+        util.joaat("ch_prop_fingerprint_scanner_01d"),
+        util.joaat("ch_prop_fingerprint_scanner_01e"),
+    }
+
+    for _, ent in pairs(entities.get_all_objects_as_handles()) do
+        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+        for _, goldModel in ipairs(goldModels) do
+            if entModel == goldModel then
+                ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
+                break
+            end
+        end
+    end
+end)
+
+
+menu.action(world, "tp fingerprint_scanner", { "" }, "", function()
+    local pos = players.get_position(players.user())
+    pos:add(v3.new(0, 0, 0.5))
+    local goldModels = {
+        util.joaat("ch_prop_fingerprint_scanner_01a"),
+        util.joaat("ch_prop_fingerprint_scanner_01b"),
+        util.joaat("ch_prop_fingerprint_scanner_01c"),
+        util.joaat("ch_prop_fingerprint_scanner_01d"),
+        util.joaat("ch_prop_fingerprint_scanner_01e"),
+    }
+
+    for _, ent in pairs(entities.get_all_objects_as_handles()) do
+        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+        for _, goldModel in ipairs(goldModels) do
+            if entModel == goldModel then
+                ENTITY.SET_ENTITY_HEALTH(ent, 10000)
+                break
+            end
+        end
+    end
+end)
+
+
+menu.action(world, "set cctv_cam z = 1000", { "" }, "", function()
+    local pos = players.get_position(players.user())
+
+    local goldModels = {
+        util.joaat("xm_prop_x17_server_farm_cctv_01"),
+        util.joaat("ch_prop_ch_cctv_cam_02a"),
+    }
+
+    for _, ent in pairs(entities.get_all_objects_as_handles()) do
+        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
+
+        for _, goldModel in ipairs(goldModels) do
+            if entModel == goldModel then
+                ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, 1000, false)
+                break
+            end
+        end
+    end
+end)
