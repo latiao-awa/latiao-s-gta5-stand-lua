@@ -1,3 +1,5 @@
+--- copy hc ty you
+
 function ADD_MP_INDEX(stat)
     local Exceptions = {
         "MP_CHAR_STAT_RALLY_ANIM",
@@ -21,10 +23,6 @@ end
 
 function STAT_SET_INT(stat, value)
     STATS.STAT_SET_INT(util.joaat(ADD_MP_INDEX(stat)), value, true)
-end
-
-function STAT_SET_FLOAT(stat, value)
-    STATS.STAT_SET_FLOAT(util.joaat(ADD_MP_INDEX(stat)), value, true)
 end
 
 function STAT_SET_BOOL(stat, value)
@@ -157,12 +155,14 @@ function SET_LOCAL_BIT(script, script_local, bit)
     end
 end
 
+---
+
 menu.action(menu.my_root(), "restart lua", { "latiaorestartlua" }, "restartlua", function()
     util.restart_script()
 end)
 util.keep_running()
 
-util.require_natives("1681379138")
+util.require_natives("2944a")
 
 
 local killaura = menu.list(menu.my_root(), "killaura", {}, "")
@@ -872,62 +872,6 @@ menu.action(test, "test", { "test" }, "test.", function()
 
 end)
 
-menu.toggle_loop(server, "fm_mission_controller host test", { "latiaofm_mission_controllertest" },
-    "latiaofm_mission_controllertest.", function()
-        util.draw_debug_text("fm_mission_controller host is " ..
-            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller") ..
-            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller")))
-    end)
-menu.toggle_loop(server, "fm_mission_controller_2020 host test", { "latiaofm_mission_controller_2020test" },
-    "latiaofm_mission_controller_2020test.", function()
-        util.draw_debug_text("fm_mission_controller_2020 host is " ..
-            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020") ..
-            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020")))
-    end)
-menu.toggle_loop(server, "freemode host test", { "latiaofreemodetest" }, "latiaofreemodetest.", function()
-    util.draw_debug_text("freemode host is " ..
-        NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0) ..
-        "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0)))
-end)
-
-
-
-menu.toggle_loop(server, "fm_mission_controller GET_INT_LOCAL", { "latiaofm_mission_controllertest" },
-    "latiaofm_mission_controllertest.", function()
-        local function safe_get_int_local(variable, value)
-            local result = GET_INT_LOCAL(variable, value)
-            if result ~= nil then
-                return result
-            else
-                return "error"
-            end
-        end
-
-        local value1 = safe_get_int_local("fm_mission_controller", 28331 + 1)
-        util.draw_debug_text("fm_mission_controller 28331 + 1 = " .. value1)
-
-        local value2 = safe_get_int_local("fm_mission_controller", 31587 + 69)
-        util.draw_debug_text("fm_mission_controller 31587 + 69 = " .. value2)
-    end)
-
-menu.toggle_loop(server, "fm_mission_controller_2020 GET_INT_LOCAL", { "latiaofm_mission_controllertest" },
-    "latiaofm_mission_controllertest.", function()
-        local function safe_get_int_local(variable, value)
-            local result = GET_INT_LOCAL(variable, value)
-            if result ~= nil then
-                return result
-            else
-                return "error"
-            end
-        end
-
-        local value1 = safe_get_int_local("fm_mission_controller_2020", 45450 + 1)
-        util.draw_debug_text("fm_mission_controller_2020 45450 + 1 = " .. value1)
-
-        local value2 = safe_get_int_local("fm_mission_controller_2020", 45450 + 1378 + 1)
-        util.draw_debug_text("fm_mission_controller_2020 31587 + 45450 + 1378 + 1 = " .. value2)
-    end)
-
 
 menu.toggle_loop(server, "REQUES_ENTITY ped", { "latiaoREQUES_ENTITYped" }, "latiaoREQUES_ENTITYped.", function()
     for _, target in ipairs(entities.get_all_peds_as_handles()) do
@@ -997,11 +941,11 @@ menu.action(server, "Bad PARACHUTE_MODEL Crash All", { "latiaocrashall" }, "cras
 end)
 
 
-menu.action(test, "tp test", { "latiaotptest" }, "latiaotptest.", function()
-    ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 2147483647, 2147483647, -100,
-        0,
-        0, 0)
-end)
+-- menu.action(test, "tp test", { "latiaotptest" }, "latiaotptest.", function()
+--     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 2147483647, 2147483647, -100,
+--         0,
+--         0, 0)
+-- end)
 
 
 
@@ -1037,15 +981,15 @@ end)
 
 menu.toggle_loop(dividends, "jump hack", { "latiaojumphack" }, "latiaojumphack.", function()
     SET_INT_LOCAL("fm_mission_controller_2020", 23669, 5)
-    SET_INT_LOCAL("fm_mission_controller_2020", 28446, 6)
+    -- SET_INT_LOCAL("fm_mission_controller_2020", 28446, 6)
     SET_FLOAT_LOCAL("fm_mission_controller_2020", 29685 + 3, 100)
     SET_INT_LOCAL("fm_mission_controller_2020", 1718, GET_INT_LOCAL("fm_mission_controller_2020", 1719))
     SET_INT_LOCAL("fm_mission_controller", 52964, 5)
     SET_INT_LOCAL("fm_mission_controller", 54026, 5)
     SET_INT_LOCAL("fm_mission_controller", 10101 + 7, GET_INT_LOCAL("fm_mission_controller", 10101 + 37))
-    SET_INT_LOCAL("fm_mission_controller", 1509, 3)
+    SET_INT_LOCAL("fm_mission_controller", 1509, 3)       -- For ACT I, Setup: Server Farm (Lester), https://www.unknowncheats.me/forum/3687245-post112.html
     SET_INT_LOCAL("fm_mission_controller", 1540, 2)
-    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3)
+    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3) -- For ACT III, https://www.unknowncheats.me/forum/3455828-post8.html
     SET_INT_LOCAL("fm_mission_controller", 11760 + 24, 7)
     SET_FLOAT_LOCAL("fm_mission_controller", 10061 + 11, 100)
     SET_LOCAL_BIT("fm_mission_controller", 9767, 9)
@@ -1076,7 +1020,7 @@ end)
 
 
 local casino = menu.slider(dividends, "casino", { "casino" }, "max 3600000", -100000, 100000, 100, 5, function() end)
-menu.action(dividends, "casino all (you host)", { "latiaocasinoallhost" }, "latiaocasinoallhost.", function()
+menu.toggle_loop(dividends, "casino all (you host)", { "latiaocasinoallhost" }, "latiaocasinoallhost.", function()
     SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 1, menu.get_value(casino))
 
     SET_INT_GLOBAL(1971696 + 1497 + 736 + 92 + 2, menu.get_value(casino))
@@ -1114,15 +1058,16 @@ menu.action(dividends, "RefreshBoards", { "latiaoRefreshBoards" }, "",
 
 local Doomsday = menu.slider(dividends, "Doomsday", { "Doomsday" }, "2400000", -100000, 100000, 100, 5, function() end)
 
-menu.action(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" }, "latiaoDoomsdayallyouhost.", function()
-    SET_INT_GLOBAL(1967630 + 812 + 50 + 1, menu.get_value(Doomsday))
+menu.toggle_loop(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouhost" }, "latiaoDoomsdayallyouhost.",
+    function()
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 1, menu.get_value(Doomsday))
 
-    SET_INT_GLOBAL(1967630 + 812 + 50 + 2, menu.get_value(Doomsday))
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 2, menu.get_value(Doomsday))
 
-    SET_INT_GLOBAL(1967630 + 812 + 50 + 3, menu.get_value(Doomsday))
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 3, menu.get_value(Doomsday))
 
-    SET_INT_GLOBAL(1967630 + 812 + 50 + 4, menu.get_value(Doomsday))
-end)
+        SET_INT_GLOBAL(1967630 + 812 + 50 + 4, menu.get_value(Doomsday))
+    end)
 
 
 
@@ -1142,7 +1087,7 @@ end)
 
 local Perico = menu.slider(dividends, "Perico", { "Perico" }, "2550000", -2147483647, 2147483647, 100, 5, function() end)
 
-menu.action(dividends, "Perico all (you host)", { "" }, "latiaoPericoallyouhost.", function()
+menu.toggle_loop(dividends, "Perico all (you host)", { "" }, "latiaoPericoallyouhost.", function()
     SET_INT_GLOBAL(1978495 + 825 + 56 + 1, menu.get_value(Perico))
     SET_INT_GLOBAL(1978495 + 825 + 56 + 2, menu.get_value(Perico))
     SET_INT_GLOBAL(1978495 + 825 + 56 + 3, menu.get_value(Perico))
@@ -1167,13 +1112,73 @@ menu.action(dividends, "Pericoinfinite bag_size", { "latiaoPericoinfinitebag_siz
 local Apartment = menu.slider(dividends, "Apartment", { "Apartment" }, "15000000", -2147483647, 2147483647, 100, 100,
     function() end)
 
-menu.action(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost" }, "latiaoApartmentallyouhost.",
+menu.toggle_loop(dividends, "Apartment all (you host)", { "latiaoApartmentallyouhost" }, "latiaoApartmentallyouhost.",
     function()
         SET_INT_GLOBAL(1938365 + 3008 + 1, menu.get_value(Apartment))
         SET_INT_GLOBAL(1938365 + 3008 + 2, menu.get_value(Apartment))
         SET_INT_GLOBAL(1938365 + 3008 + 3, menu.get_value(Apartment))
         SET_INT_GLOBAL(1938365 + 3008 + 4, menu.get_value(Apartment))
     end)
+
+
+
+menu.toggle_loop(server, "fm_mission_controller host test", { "latiaofm_mission_controllertest" },
+    "latiaofm_mission_controllertest.", function()
+        util.draw_debug_text("fm_mission_controller host is " ..
+            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller") ..
+            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller")))
+    end)
+menu.toggle_loop(server, "fm_mission_controller_2020 host test", { "latiaofm_mission_controller_2020test" },
+    "latiaofm_mission_controller_2020test.", function()
+        util.draw_debug_text("fm_mission_controller_2020 host is " ..
+            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020") ..
+            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020")))
+    end)
+menu.toggle_loop(server, "freemode host test", { "latiaofreemodetest" }, "latiaofreemodetest.", function()
+    util.draw_debug_text("freemode host is " ..
+        NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0) ..
+        "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0)))
+end)
+
+
+
+menu.toggle_loop(server, "fm_mission_controller GET_INT_LOCAL", { "latiaofm_mission_controllertest" },
+    "latiaofm_mission_controllertest.", function()
+        local function safe_get_int_local(variable, value)
+            local result = GET_INT_LOCAL(variable, value)
+            if result ~= nil then
+                return result
+            else
+                return "error"
+            end
+        end
+
+        local value2 = safe_get_int_local("fm_mission_controller", 27473 + 859)
+        util.draw_debug_text("fm_mission_controller 27473 + 859 = " .. value2)
+
+        local value3 = safe_get_int_local("fm_mission_controller", 31587 + 69)
+        util.draw_debug_text("fm_mission_controller 31587 + 69 = " .. value3)
+    end)
+
+menu.toggle_loop(server, "fm_mission_controller_2020 GET_INT_LOCAL", { "latiaofm_mission_controllertest" },
+    "latiaofm_mission_controllertest.", function()
+        local function safe_get_int_local(variable, value)
+            local result = GET_INT_LOCAL(variable, value)
+            if result ~= nil then
+                return result
+            else
+                return "error"
+            end
+        end
+
+        local value1 = safe_get_int_local("fm_mission_controller_2020", 45450 + 1)
+        util.draw_debug_text("fm_mission_controller_2020 45450 + 1 = " .. value1)
+
+        local value2 = safe_get_int_local("fm_mission_controller_2020", 45450 + 1378 + 1)
+        util.draw_debug_text("fm_mission_controller_2020 31587 + 45450 + 1378 + 1 = " .. value2)
+    end)
+
+
 menu.action(dividends, "request_script_host", { "latiaoNrequest_script_host" }, "latiaoNrequest_script_host.", function()
     util.request_script_host("freemode")
     util.request_script_host("fm_mission_controller_2020")
@@ -1186,6 +1191,12 @@ menu.action(dividends, "fin fm_mission_controller_2020", { "fin fm_mission_contr
         SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1, 51338752)
         SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1378 + 1, 50)
     end)
+
+menu.action(dividends, "finfm_mission_controller", { "finfmc" }, "finfm_mission_controller", function()
+    SET_INT_LOCAL("fm_mission_controller", 28331 + 1, 100000000)
+    SET_INT_LOCAL("fm_mission_controller", 31587 + 69, 100000000)
+    -- SET_INT_LOCAL("fm_mission_controller", 19710 + 1741, 100)
+end)
 
 local money = menu.slider(dividends, "fm_mission_controller money", { "fm_mission_controllermoney" },
     "fm_mission_controllermoney", -2147483647,
@@ -1201,11 +1212,21 @@ menu.action(dividends, "moneyfm_mission_controller", { "moneyfm_mission_controll
 
 
 
-menu.action(dividends, "finfm_mission_controller", { "finfmc" }, "finfm_mission_controller", function()
-    SET_INT_LOCAL("fm_mission_controller", 28331 + 1, 100000000)
-    SET_INT_LOCAL("fm_mission_controller", 31587 + 69, 100000000)
-end)
 
+
+local test1 = menu.slider(dividends, "27473 + 859 fm_mission_controller", { "fm_mission_controllertest1" },
+    "fm_mission_controllermoney", 0,
+    2147483647, 0, 1,
+    function() end)
+local test2 = menu.slider(dividends, "31587 + 69 fm_mission_controlle", { "fm_mission_controllertest2" },
+    "fm_mission_controllermoney", 0,
+    2147483647, 0, 1,
+    function() end)
+
+menu.action(dividends, "debugfm_mission_controller", { "finfmc" }, "finfm_mission_controller", function()
+    SET_INT_LOCAL("fm_mission_controller", 27473 + 859, menu.get_value(test1))
+    SET_INT_LOCAL("fm_mission_controller", 31587 + 69, menu.get_value(test2))
+end)
 
 -- player root
 local function testMenuSetup(pid)
@@ -1573,7 +1594,7 @@ menu.action(world, "tp fingerprint_scanner", { "" }, "", function()
 end)
 
 
-menu.toggle_loop(world, "set cctv_cam tp 0,0,1000", { "" }, "", function()
+menu.action(world, "set cctv_cam tp 0,0,1000", { "" }, "", function()
     local Models = {
         util.joaat("xm_prop_x17_server_farm_cctv_01"),
         util.joaat("ch_prop_ch_cctv_cam_02a"),
@@ -1627,6 +1648,34 @@ end, function()
 end)
 
 
+menu.action(server, "latiaoSET_GHOST_ALPHA", { "latiaoSET_GHOST_ALPHA" }, "", function()
+    NETWORK.SET_GHOST_ALPHA(100)
+end)
+
+-- menu.action(server, "IS_ENTITY_A_GHOST", { "IS_ENTITY_A_GHOST" }, "", function()
+--     local targets = {}
+
+--     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
+--         table.insert(targets, ped)
+--     end
+
+--     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
+--         table.insert(targets, vehicle)
+--     end
+
+--     for _, object in ipairs(entities.get_all_objects_as_handles()) do
+--         table.insert(targets, object)
+--     end
+
+--     for _, pickups in ipairs(entities.get_all_pickups_as_handles()) do
+--         table.insert(targets, pickups)
+--     end
+
+--     for _, target in ipairs(targets) do
+--     NETWORK.SET_ENTITY_GHOSTED_FOR_GHOST_PLAYERS(target,true)
+--     end
+-- end)
+
 menu.toggle_loop(server, "TALKING TEST", { "LATIAOTALKINGTEST" }, "", function()
     for k, pid in pairs(players.list()) do
         if NETWORK.NETWORK_IS_PLAYER_TALKING(pid) then
@@ -1637,20 +1686,20 @@ end)
 
 menu.toggle_loop(server, "block am_hunt_the_Beast", { "latiaoblockam_hunt_the_Beast" }, "latiaoblockam_hunt_the_Beast",
     function()
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")) > 0 then
-            util.toast("am_hunt_the_Beast Start ID:" ..
-                SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")))
+        -- if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")) > 0 then
+            -- util.toast("am_hunt_the_Beast Start ID:" ..
+                -- SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")))
             MISC.TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("am_hunt_the_Beast")
-        end
+        -- end
     end)
 
 menu.toggle_loop(server, "block am_gang_call", { "latiaoblockam_gang_call" }, "latiaoblockam_gang_call",
     function()
-        if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")) > 0 then
-            util.toast("am_gang_call Start ID:" ..
-            SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")))
+        -- if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")) > 0 then
+        --     util.toast("am_gang_call Start ID:" ..
+                -- SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")))
             MISC.TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("am_gang_call")
-        end
+        -- end
     end)
 
 
@@ -1720,4 +1769,62 @@ menu.toggle_loop(world, "SET_ENTITY_HEALTH for get_all_pickups_as_handles", { ""
     for k, ent in pairs(entities.get_all_pickups_as_handles()) do
         ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH))
     end
+end)
+
+
+
+function START_SCRIPT(name)
+    SCRIPT.REQUEST_SCRIPT(name)
+    repeat util.yield_once() until SCRIPT.HAS_SCRIPT_LOADED(name)
+    SYSTEM.START_NEW_SCRIPT(name, 5000)
+    -- SCRIPT.SET_SCRIPT_AS_NO_LONGER_NEEDED(name)
+end
+
+menu.action(admin, "Bunker", { "" }, "", function()
+    START_SCRIPT("appbunkerbusiness")
+end)
+menu.action(admin, ("Air Cargo"), { "" }, "", function()
+    START_SCRIPT("appsmuggler")
+end)
+menu.action(admin, ("Nightclub"), { "" }, "", function()
+    START_SCRIPT("appbusinesshub")
+end)
+menu.action(admin, ("The Open Road"), { "" }, "(" .. ("") .. ")",
+    function()
+        START_SCRIPT("appbikerbusiness")
+    end)
+menu.action(admin, ("Master Control Terminal"), { "" }, "", function()
+    START_SCRIPT("apparcadebusinesshub")
+end)
+menu.action(admin, ("Touchscreen Terminal"), { "" }, "(" .. ("") .. ")", function()
+    START_SCRIPT("apphackertruck")
+end)
+
+menu.action(admin, ("Touchscreen Terminal"), { "" }, "(" .. ("") .. ")", function()
+    START_SCRIPT("apphackertruck")
+end)
+
+
+
+menu.action(menu.my_root(), "restart lua", { "latiaorestartlua" }, "restartlua", function()
+    util.restart_script()
+end)
+
+
+menu.action(dividends,"Contract All Missions", {}, "", function()
+    STAT_SET_INT("FIXER_GENERAL_BS", -1)
+    STAT_SET_INT("FIXER_COMPLETED_BS", -1)
+    STAT_SET_INT("FIXER_STORY_BS", -1)
+    STAT_SET_INT("FIXER_STORY_COOLDOWN", -1)
+end)
+
+local ContractPayout = menu.slider(dividends, "ContractPayout", { "ContractPayout" },"", 0,2147483647, 0, 1,function() 
+
+end)
+
+
+
+
+menu.toggle_loop(dividends, "ContractPayout", {""}, "", function()
+    SET_INT_GLOBAL(262145 + 31955, menu.get_value(ContractPayout))
 end)
