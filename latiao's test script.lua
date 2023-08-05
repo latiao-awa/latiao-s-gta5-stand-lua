@@ -868,14 +868,36 @@ menu.toggle_loop(server, "if you host kick ad bot", { "latiaoifyouhostkickadbot"
     end
 end)
 
-menu.action(server, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-    -- for i = 1, 1 do
-        for k, pid in pairs(players.list()) do
-            AUDIO.PLAY_SOUND_FROM_ENTITY(-1, "MP_Flash", PLAYER.GET_PLAYER_PED(pid), "WastedSounds", true, true)
-            -- AUDIO.PLAY_SOUND_FROM_COORD(-1,"MP_Flash")
-        -- end
+menu.toggle_loop(server, "bad TIMER_STOP SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+    for i = 1, 10 do
+        AUDIO.PLAY_SOUND_FROM_COORD(-1, "TIMER_STOP", 0, 0, 0, "HUD_MINI_GAME_SOUNDSET", true, 2147483647, true)
     end
+    util.yield(1000)
 end)
+
+menu.toggle_loop(server, "bad WastedSounds SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+    for i = 1, 10 do
+        AUDIO.PLAY_SOUND_FROM_COORD(-1, "MP_Flash", 0, 0, 0, "WastedSounds", true, 2147483647, true)
+    end
+    util.yield(1000)
+end)
+
+menu.toggle_loop(server, "bad Camera_Shoot SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+    for i = 1, 10 do
+        AUDIO.PLAY_SOUND_FROM_COORD(-1, "Camera_Shoot", 0, 0, 0, "Phone_Soundset_Franklin", true, 2147483647, true)
+    end
+    util.yield(1000)
+end)
+
+
+-- menu.toggle_loop(server, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+--     -- for i = 1, 1 do
+--     for k, pid in pairs(players.list()) do
+--         AUDIO.PLAY_SOUND_FROM_COORD(-1, "MP_Flash", 0, 0, 0, "WastedSounds", true, 1, true)
+--         -- AUDIO.PLAY_SOUND_FROM_COORD(-1,"MP_Flash")
+--         -- end
+--     end
+-- end)
 
 menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall", function()
     for k, pid in pairs(players.list()) do
@@ -1141,7 +1163,7 @@ menu.action(dividends, "Pericoinfinite bag_size", { "latiaoPericoinfinitebag_siz
         SET_INT_GLOBAL(262145 + 29939, 100000000)
     end)
 
-    menu.action(dividends, "del prop_chem_grill_bit", { "latiaodelprop_chem_grill_bit" }, "latiaodelprop_chem_grill_bit.",
+menu.action(dividends, "del prop_chem_grill_bit", { "latiaodelprop_chem_grill_bit" }, "latiaodelprop_chem_grill_bit.",
     function()
         local Object = util.joaat("prop_chem_grill_bit") -- Thanks for letting me know the object, Sapphire#6031
         DELETE_OBJECT_BY_HASH(Object)
@@ -1460,7 +1482,7 @@ local function testMenuSetup(pid)
     end)
 
     menu.toggle_loop(testMenu, "host freeze", { "" }, ".", function()
-        util.trigger_script_event(1 << pid, { -1321657966, 0, pid, 0, 0, 115 })
+        util.trigger_script_event(1 << pid, { -1321657966, pid, pid, 0, 0, 115 })
 
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -1475,14 +1497,14 @@ local function testMenuSetup(pid)
 
         if not players.exists(pid) then util.stop_thread() end
     end)
-    menu.toggle_loop(testMenu, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+    menu.toggle_loop(testMenu, "bad SOUND", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
         AUDIO.PLAY_SOUND_FROM_ENTITY(-1, "MP_Flash", PLAYER.GET_PLAYER_PED(pid), "WastedSounds", true, true)
         if not players.exists(pid) then util.stop_thread() end
         -- end
     end)
 
-    menu.toggle_loop(testMenu, "bad SOUND", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-        util.trigger_script_event(1 << pid, { -642704387,pid,782258655,0,0,0,0,0,0,0,pid,0,0,0 })
+    menu.toggle_loop(testMenu, "bad SOUND script_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
         if not players.exists(pid) then util.stop_thread() end
     end)
 
@@ -1505,15 +1527,11 @@ local function testMenuSetup(pid)
     menu.action(testMenu, "latiaoGHOSTModefalse", { "latiaoGHOSTMode" }, "", function()
         NETWORK.SET_REMOTE_PLAYER_AS_GHOST(pid, false)
     end)
-    menu.action(testMenu, "latiaoloadtest", { "latiaoGHOSTMode" }, "", function()
-        local load = memory.read_int(memory.script_global(((2657704 + 1) + (pid * 463)) + 232)) -- Global_2657704[PLAYER::PLAYER_ID() /*463*/].f_232
-        print(load)
-    end)
-    menu.toggle_loop(testMenu, "ceo error", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-        util.trigger_script_event(1 << pid, { -337848027,pid,10000,-1292453789,1,1428165792,1386820890,-1863270763})
-        if not players.exists(pid) then util.stop_thread() end
-    end)
 
+
+    menu.action(testMenu, "casino TP", { "" }, ".", function()
+        util.trigger_script_event(1 << pid, { -1638522928, pid, 123, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2147483647, 0, 0 })
+    end)
 end
 
 
@@ -1643,24 +1661,7 @@ menu.action(world, "tp fingerprint_scanner", { "" }, "", function()
 end)
 
 
-menu.action(world, "set cctv_cam tp 0,0,1000", { "" }, "", function()
-    local Models = {
-        util.joaat("xm_prop_x17_server_farm_cctv_01"),
-        util.joaat("ch_prop_ch_cctv_cam_02a"),
-        util.joaat("prop_cctv_cam_05a"),
-    }
 
-    for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-        for _, Model in ipairs(Models) do
-            if entModel == Model then
-                ENTITY.SET_ENTITY_COORDS(ent, 0, 0, 1000, false)
-                break
-            end
-        end
-    end
-end)
 
 menu.toggle_loop(world, "del cctv_cam(pls use in solo if bug)", { "" }, "", function()
     local Models = {
@@ -1963,9 +1964,48 @@ menu.action(test, "tp and back", { "latiaotpback" }, "",
         -- )
     end)
 
-    menu.toggle_loop(server, "bad SOUNDscript_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-        for k, pid in pairs(players.list()) do
-        util.trigger_script_event(1 << pid, { -642704387,pid,782258655,0,0,0,0,0,0,0,pid,0,0,0 })
+menu.toggle_loop(server, "bad SOUNDscript_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+    for k, pid in pairs(players.list()) do
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
         -- if not players.exists(pid) then util.stop_thread() end
-        end
-    end)
+    end
+end)
+menu.action(server, "host TP", { "" }, ".", function()
+    for k, pid in pairs(players.list()) do
+        util.trigger_script_event(1 << pid, { -1321657966, pid, pid, 0, 0, 1 })
+    end
+end)
+
+
+
+menu.action(server, "casino TP", { "" }, ".", function()
+    for k, pid in pairs(players.list()) do
+        util.trigger_script_event(1 << pid, { -1638522928, pid, 123, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2147483647, 0, 0 })
+    end
+end)
+
+
+
+
+
+menu.action(admin, "MOC", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 930, 1)
+end)
+menu.action(admin, "Avenger", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 938, 1)
+end)
+menu.action(admin, "Terrorbyte", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 943, 1)
+end)
+menu.action(admin, "Kosatka", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 960, 1)
+end)
+menu.action(admin, "Acid Lab", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 944, 1)
+end)
+menu.action(admin, "Dingy", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 972, 1)
+end)
+menu.action(admin, "Ballistic Armor", { "" }, ".", function()
+    SET_INT_GLOBAL(2794162 + 901, 1)
+end)
