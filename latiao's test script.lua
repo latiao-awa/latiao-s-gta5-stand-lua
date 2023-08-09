@@ -357,7 +357,6 @@ menu.toggle_loop(world, "TPALL 0 0 0", { "latiaodelallvehicles" }, "delallvehicl
     end
 
     for _, target in ipairs(targets) do
-        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(target)
         ENTITY.SET_ENTITY_COORDS(target, 0, 0, 2600, false)
     end
 end)
@@ -365,7 +364,7 @@ end)
 
 
 
-menu.toggle_loop(world, "kick ped vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
+menu.toggle_loop(world, "kick ped to vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if PED.GET_PED_TYPE(ped) <= 3 then goto out end
         if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
@@ -386,25 +385,22 @@ menu.toggle_loop(world, "remove DEAD(ped)", { "latiaoremoveDEADped" }, ("latiaor
     end
 end)
 
-menu.toggle_loop(world, "tp DEAD(ped) to me", { "latiaoremoveDEADped" }, ("latiaoremoveDEADped"), function()
+
+
+menu.toggle_loop(world, "tp DEAD(ped) to me down", { "latiaoremoveDEADped" }, ("latiaoremoveDEADped"), function()
     local pos = players.get_position(players.user())
-    -- Pos:add(v3.new(0, 0, 1))
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         if ENTITY.IS_ENTITY_DEAD(ped) then
-            ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z + 1, false)
+            ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z - 10, false)
         end
     end
 end)
-
 
 menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" }, "REMOVE_ALL_PED_WEAPONS.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
             if PED.GET_PED_TYPE(ped) <= 3 then goto out end
-
-
             WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
-
             ::out::
         end
     end)
@@ -498,7 +494,7 @@ menu.toggle_loop(world, "maxpedVEHICLE", { "latiaomaxpedVEHICLE" }, "latiaomaxpe
     PED.INSTANTLY_FILL_PED_POPULATION()
     VEHICLE.INSTANTLY_FILL_VEHICLE_POPULATION()
 end)
-menu.toggle_loop(world, "maxpedgod", { "latiaomaxpedgod" }, "latiaomaxpedgod.", function()
+menu.toggle_loop(world, "maxpedforyouteam", { "latiaomaxpedforyouteam" }, "latiaomaxpedforyouteam.", function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         PED.SET_PED_RELATIONSHIP_GROUP_HASH(ped, PED.GET_PED_RELATIONSHIP_GROUP_HASH(players.user_ped()))
     end
@@ -513,18 +509,28 @@ end)
 
 menu.toggle_loop(world, "tp Pickedup", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
     local pos = players.get_position(players.user())
-    pos:add(v3.new(0, 0, 1))
     for _, pickup in entities.get_all_pickups_as_handles() do
-        ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z, false)
+        ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z + 1.5, false)
     end
 end)
-menu.toggle_loop(world, "tp Picked", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
-    local pos = players.get_position(players.user())
-    -- pos:add(v3.new(0, 0, 1))
-    for _, pickup in entities.get_all_pickups_as_handles() do
-        ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z, false)
-    end
-end)
+
+
+-- menu.toggle_loop(world, "tp and kill ped to me", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
+--     local pos = players.get_position(players.user())
+--     local PedPos = players.get_position(players.user())
+--     local AddPos = players.get_position(players.user())
+--     AddPos:add(v3.new(0, 0, 1.5))
+--     pos:add(v3.new(0, 0, 0.5))
+--     for _, ped in entities.get_all_peds_as_handles() do
+--         if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+--         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z, false)
+
+
+--         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100, true,
+--             0x6E7DDDEC, players.user_ped(), false, true, 1)
+--         ::out::
+--     end
+-- end)
 
 -- menu.toggle_loop(world, "SET_VEHICLE_DOORS_LOCKED", { "latiaoSET_VEHICLE_DOORS_LOCKED" }, ("SET_VEHICLE_DOORS_LOCKED"),
 --     function()
@@ -584,6 +590,14 @@ menu.toggle_loop(server, "kickall exclude hosts", { "latiaokickallexcludehost" }
     end
 end)
 
+menu.toggle_loop(server, "kickall exclude hosts and cheat", { "latiaokickallexcludehost" }, "latiaokickallexcludehost",
+    function()
+        for k, pid in pairs(players.list()) do
+            if pid == players.get_host() or pid == players.user() or players.is_marked_as_modder(pid) then goto out end
+            util.trigger_script_event(1 << pid, { -1544003568, pid })
+            ::out::
+        end
+    end)
 
 
 menu.toggle_loop(server, "LOVEkick all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
@@ -592,25 +606,15 @@ menu.toggle_loop(server, "LOVEkick all moder", { "latiaocrashkickmod" }, "crash 
         if players.is_marked_as_modder(pid) then
             local attack = PLAYER.GET_PLAYER_NAME(pid)
             if pid == players.user() then goto out end
-            -- util.toast(attack .. "moder kick ing")
-            -- menu.trigger_commands("crash" .. attack)
-            -- util.yield(1000)
+            menu.trigger_commands("reportgriefing" .. attack)
+            menu.trigger_commands("reportexploits" .. attack)
+            menu.trigger_commands("reportbugabuse" .. attack)
+            util.yield(500)
             menu.trigger_commands("loveletterkick" .. attack)
         end
         ::out::
     end
 end)
-
--- menu.action(server, "crash all", { "latiaocrashall" }, "latiaocrashall", function()
---     for k, pid in pairs(players.list()) do
---         local attack = PLAYER.GET_PLAYER_NAME(pid)
---         if pid == players.user() then goto out end
---         util.toast(attack .. "crash ing")
---         menu.trigger_commands("crash" .. attack)
---         util.yield(1000)
---     end
---     ::out::
--- end)
 
 
 
@@ -622,7 +626,6 @@ menu.toggle_loop(server, "if you host kick chinese", { "latiaocrashall" }, "", f
                 local attack = PLAYER.GET_PLAYER_NAME(pid)
                 if pid == players.user() then goto out end
                 menu.trigger_commands("loveletterkick" .. attack)
-                -- util.yield(100)
             end
             ::out::
         end
@@ -636,9 +639,11 @@ menu.toggle_loop(server, "if you host loveletterkick all mod", { "latiaobankallm
                 if pid == players.user() then goto out end
                 if players.is_marked_as_modder(pid) then
                     local attack = PLAYER.GET_PLAYER_NAME(pid)
-                    util.trigger_script_event(1 << pid, { -1321657966, 0, pid, 0, 0, 115 })
                     util.toast(attack .. "kick ing")
-                    util.yield(1000)
+                    menu.trigger_commands("reportgriefing" .. attack)
+                    menu.trigger_commands("reportexploits" .. attack)
+                    menu.trigger_commands("reportbugabuse" .. attack)
+                    util.yield(100)
                     menu.trigger_commands("loveletterkick" .. attack)
                 end
                 ::out::
@@ -650,8 +655,9 @@ menu.toggle_loop(server, "if you host loveletterkick all mod", { "latiaobankallm
 
 
 
-menu.toggle_loop(server, "if you host NETWORK_SESSION_KICK_PLAYER attack mod", { "latiaobankallmoder" },
-    "latiaobankallmoder.",
+
+
+menu.toggle_loop(server, "if you host loveletterkick attack you mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
     function()
         if NETWORK.NETWORK_IS_HOST() then
             for k, pid in pairs(players.list()) do
@@ -659,38 +665,10 @@ menu.toggle_loop(server, "if you host NETWORK_SESSION_KICK_PLAYER attack mod", {
                 if players.is_marked_as_attacker(pid) then
                     local attack = PLAYER.GET_PLAYER_NAME(pid)
                     util.toast(attack .. "kick ing")
-                    NETWORK.NETWORK_SESSION_KICK_PLAYER(pid)
-                end
-                ::out::
-            end
-        end
-    end)
-
-menu.toggle_loop(server, "if you host hostkick attack mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
-    function()
-        if NETWORK.NETWORK_IS_HOST() then
-            for k, pid in pairs(players.list()) do
-                if pid == players.user() then goto out end
-                if players.is_marked_as_attacker(pid) then
-                    local attack = PLAYER.GET_PLAYER_NAME(pid)
-                    util.toast(attack .. "kick ing")
-                    menu.trigger_commands("hostkick" .. attack)
-                end
-                ::out::
-            end
-        end
-    end)
-
-
-
-menu.toggle_loop(server, "if you host loveletterkick attack mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
-    function()
-        if NETWORK.NETWORK_IS_HOST() then
-            for k, pid in pairs(players.list()) do
-                if pid == players.user() then goto out end
-                if players.is_marked_as_attacker(pid) then
-                    local attack = PLAYER.GET_PLAYER_NAME(pid)
-                    util.toast(attack .. "kick ing")
+                    menu.trigger_commands("reportgriefing" .. attack)
+                    menu.trigger_commands("reportexploits" .. attack)
+                    menu.trigger_commands("reportbugabuse" .. attack)
+                    util.yield(100)
                     menu.trigger_commands("loveletterkick" .. attack)
                 end
                 ::out::
@@ -698,22 +676,6 @@ menu.toggle_loop(server, "if you host loveletterkick attack mod", { "latiaobanka
         end
     end)
 
-
-menu.toggle_loop(server, "if you host attack + loveletterkick attack mod", { "latiaobankallmoder" },
-    "latiaobankallmoder.",
-    function()
-        if NETWORK.NETWORK_IS_HOST() then
-            for k, pid in pairs(players.list()) do
-                if pid == players.user() then goto out end
-                if players.is_marked_as_attacker(pid) then
-                    local attack = PLAYER.GET_PLAYER_NAME(pid)
-                    util.toast(attack .. "kick ing")
-                    menu.trigger_commands("loveletterkick" .. attack)
-                end
-                ::out::
-            end
-        end
-    end)
 
 
 menu.toggle_loop(server, "if you host ban all moder", { "latiaobankallmoder" }, "latiaobankallmoder.",
@@ -724,6 +686,10 @@ menu.toggle_loop(server, "if you host ban all moder", { "latiaobankallmoder" }, 
                 if players.is_marked_as_modder(pid) then
                     local attack = PLAYER.GET_PLAYER_NAME(pid)
                     util.toast(attack .. "kick ing")
+                    menu.trigger_commands("reportgriefing" .. attack)
+                    menu.trigger_commands("reportexploits" .. attack)
+                    menu.trigger_commands("reportbugabuse" .. attack)
+                    util.yield(100)
                     menu.trigger_commands("ban" .. attack)
                 end
                 ::out::
@@ -731,50 +697,14 @@ menu.toggle_loop(server, "if you host ban all moder", { "latiaobankallmoder" }, 
         end
     end)
 
-menu.toggle_loop(server, "loveletterkick attack mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
-    function()
-        for k, pid in pairs(players.list()) do
-            if pid == players.user() then goto out end
-            if players.is_marked_as_attacker(pid) then
-                local attack = PLAYER.GET_PLAYER_NAME(pid)
-                util.toast(attack .. "kick ing")
-                menu.trigger_commands("loveletterkick" .. attack)
-            end
-            ::out::
-        end
-    end)
 
-
-
-menu.toggle_loop(server, "if you no host kick for attack you cheat", { "raidallplayer" }, "", function()
-    if NETWORK.NETWORK_IS_HOST() then goto out end
-    for k, pid in pairs(players.list()) do
-        if pid == players.get_host() or pid == players.user() then goto out end
-        if players.is_marked_as_attacker(pid) then
-            util.toast(PLAYER.GET_PLAYER_NAME(pid) .. "kick ing")
-            menu.trigger_commands("loveletterkick" .. PLAYER.GET_PLAYER_NAME(pid))
-        end
-        ::out::
+menu.toggle_loop(server, "if you no host kick for kick you cheat", { "raidallplayer" }, "", function()
+    if NETWORK.NETWORK_IS_HOST() then
+        menu.trigger_command(menu.ref_by_path("Online>Protections>Events>Kick Event>Love Letter Kick>Disabled"))
+    else
+        menu.trigger_command(menu.ref_by_path("Online>Protections>Events>Kick Event>Love Letter Kick>Strangers"))
     end
-    ::out::
 end)
-
-
-menu.toggle_loop(server, "attack + loveletterkick attack mod", { "latiaobankallmoder" }, "latiaobankallmoder.",
-    function()
-        for k, pid in pairs(players.list()) do
-            if pid == players.user() then goto out end
-            if players.is_marked_as_attacker(pid) then
-                local attack = PLAYER.GET_PLAYER_NAME(pid)
-                util.trigger_script_event(1 << pid, { -1321657966, 0, pid, 0, 0, 115 })
-                util.toast(attack .. "kick ing")
-                menu.trigger_commands("loveletterkick" .. attack)
-            end
-            ::out::
-        end
-        -- end
-    end)
-
 
 
 
@@ -784,7 +714,6 @@ menu.action(server, "love letter kick all", { "latiaoloveletterkickall" }, "love
         if pid == players.user() then goto out end
         local player = PLAYER.GET_PLAYER_NAME(pid)
 
-        util.toast(player .. "love kick")
         menu.trigger_commands("loveletterkick" .. player)
         ::out::
     end
@@ -820,44 +749,36 @@ end)
 menu.toggle_loop(server, "if you host reportall", { "latiaoreportall" }, "reportall.", function()
     util.yield(1000)
     if NETWORK.NETWORK_IS_HOST() then
-        menu.trigger_commands("reportexploitsall")
+        menu.trigger_command(menu.ref_by_path("Players>All Players>Increment Commend/Report Stats>Cheating or Modding"))
     end
 end)
 
 menu.toggle_loop(server, "kick all for vehicle script_event", { "latiaoreportall" }, "reportall.", function()
-    -- util.yield(500)
     for k, pid in pairs(players.list()) do
         util.trigger_script_event(1 << pid, { -503325966 })
     end
 end)
-menu.toggle_loop(test, "keep script_event", { "latiaoreportall" }, "reportall.", function()
-    -- util.yield(500)
+
+menu.toggle_loop(server, "fake hack kick attack all no host", { "latiaofackhackattackall" }, "reportall.", function()
     for k, pid in pairs(players.list()) do
-        util.trigger_script_event(1 << pid, { 0 })
-        -- ::out::
-    end
-end)
-menu.toggle_loop(server, "fake hack kick attack all", { "latiaofackhackattackall" }, "reportall.", function()
-    -- util.yield(500)
-    for k, pid in pairs(players.list()) do
-        if pid == players.user() then goto out end
+        if pid == players.get_host() or pid == players.user() then goto out end
         util.trigger_script_event(1 << pid, { -901348601 })
-
-
         ::out::
     end
 end)
 
-menu.toggle_loop(server, "fake hack(s3) attack all", { "latiaofackhackattackall" }, "reportall.", function()
-    -- util.yield(500)
+menu.toggle_loop(server, "report all no host", { "latiaofackhackattackall" }, "reportall.", function()
+    util.yield(500)
     for k, pid in pairs(players.list()) do
-        if pid == players.user() then goto out end
-        util.trigger_script_event(1 << pid, { 800157557 })
-
-
+        if pid == players.get_host() or pid == players.user() then goto out end
+        local player = PLAYER.GET_PLAYER_NAME(pid)
+        menu.trigger_commands("reportgriefing" .. player)
+        menu.trigger_commands("reportexploits" .. player)
+        menu.trigger_commands("reportbugabuse" .. player)
         ::out::
     end
 end)
+
 
 
 menu.toggle_loop(server, "if you host kick ad bot", { "latiaoifyouhostkickadbot" }, "reportall.", function()
@@ -890,14 +811,6 @@ menu.toggle_loop(server, "bad Camera_Shoot SOUND for all", { "latiaobedsoundfora
 end)
 
 
--- menu.toggle_loop(server, "bad SOUND for all", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
---     -- for i = 1, 1 do
---     for k, pid in pairs(players.list()) do
---         AUDIO.PLAY_SOUND_FROM_COORD(-1, "MP_Flash", 0, 0, 0, "WastedSounds", true, 1, true)
---         -- AUDIO.PLAY_SOUND_FROM_COORD(-1,"MP_Flash")
---         -- end
---     end
--- end)
 
 menu.action(server, "print all", { "latiaoprintall" }, "latiaocprintall", function()
     for k, pid in pairs(players.list()) do
@@ -911,9 +824,6 @@ end)
 menu.toggle_loop(server, "RandomPlayerEXPLOSION", { "latiaoRandomPlayerEXPLOSION" }, "", function()
     for k, pid in pairs(players.list()) do
         local randomPid = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()[math.random(1, #players.list())])
-
-
-
         local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
         FIRE.ADD_OWNED_EXPLOSION(randomPid, pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
     end
@@ -947,6 +857,18 @@ menu.toggle_loop(server, "REQUES_ENTITY vehicles", { "latiaoREQUES_ENTITYvehicle
         end
     end)
 
+menu.toggle_loop(server, "REQUES_ENTITY vehicles no player", { "" }, ".", function()
+    for _, target in ipairs(entities.get_all_vehicles_as_handles()) do
+        for k, pid in pairs(players.list()) do
+            local v1 = PED.GET_VEHICLE_PED_IS_IN(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid), true)
+            if target == v1 then
+                goto out
+            end
+        end
+        NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(target)
+    end
+    ::out::
+end)
 menu.toggle_loop(server, "REQUES_ENTITY pickups", { "" }, "", function()
     for k, target in pairs(entities.get_all_pickups_as_handles()) do
         NETWORK.NETWORK_REQUEST_CONTROL_OF_ENTITY(target)
@@ -995,13 +917,6 @@ menu.action(server, "Bad PARACHUTE_MODEL Crash All", { "latiaocrashall" }, "cras
 end)
 
 
--- menu.action(test, "tp test", { "latiaotptest" }, "latiaotptest.", function()
---     ENTITY.SET_ENTITY_COORDS_NO_OFFSET(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.user()), 2147483647, 2147483647, -100,
---         0,
---         0, 0)
--- end)
-
-
 
 menu.action(test, "getallplayerpedid", { "latiaogetallplayerpedid" }, "latiaogetallplayerpedid.", function()
     for k, pid in pairs(players.list()) do
@@ -1035,15 +950,14 @@ end)
 
 menu.toggle_loop(dividends, "jump hack", { "latiaojumphack" }, "latiaojumphack.", function()
     SET_INT_LOCAL("fm_mission_controller_2020", 23669, 5)
-    -- SET_INT_LOCAL("fm_mission_controller_2020", 28446, 6)
     SET_FLOAT_LOCAL("fm_mission_controller_2020", 29685 + 3, 100)
     SET_INT_LOCAL("fm_mission_controller_2020", 1718, GET_INT_LOCAL("fm_mission_controller_2020", 1719))
     SET_INT_LOCAL("fm_mission_controller", 52964, 5)
     SET_INT_LOCAL("fm_mission_controller", 54026, 5)
     SET_INT_LOCAL("fm_mission_controller", 10101 + 7, GET_INT_LOCAL("fm_mission_controller", 10101 + 37))
-    SET_INT_LOCAL("fm_mission_controller", 1509, 3)       -- For ACT I, Setup: Server Farm (Lester), https://www.unknowncheats.me/forum/3687245-post112.html
+    SET_INT_LOCAL("fm_mission_controller", 1509, 3)
     SET_INT_LOCAL("fm_mission_controller", 1540, 2)
-    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3) -- For ACT III, https://www.unknowncheats.me/forum/3455828-post8.html
+    SET_INT_LOCAL("fm_mission_controller", 1266 + 135, 3)
     SET_INT_LOCAL("fm_mission_controller", 11760 + 24, 7)
     SET_FLOAT_LOCAL("fm_mission_controller", 10061 + 11, 100)
     SET_LOCAL_BIT("fm_mission_controller", 9767, 9)
@@ -1094,8 +1008,6 @@ end)
 menu.action(dividends, "casino Board3", { "latiaoBoard3" }, "latiaoBoard3.", function()
     SET_INT_GLOBAL(1971696 + 1497 + 1017, 11)
     SET_INT_GLOBAL(1971696 + 1497 + 1018, 11)
-    -- SET_INT_GLOBAL(1971696 + 1497 + 1017, 2, -1)
-    -- SET_INT_GLOBAL(1971696 + 1497 + 1017, 3, -1)
     menu.trigger_commands("latiaoRefreshBoards")
 end)
 menu.action(dividends, "RefreshBoards", { "latiaoRefreshBoards" }, "",
@@ -1165,8 +1077,11 @@ menu.action(dividends, "Pericoinfinite bag_size", { "latiaoPericoinfinitebag_siz
 
 menu.action(dividends, "del prop_chem_grill_bit", { "latiaodelprop_chem_grill_bit" }, "latiaodelprop_chem_grill_bit.",
     function()
-        local Object = util.joaat("prop_chem_grill_bit") -- Thanks for letting me know the object, Sapphire#6031
-        DELETE_OBJECT_BY_HASH(Object)
+        for k, ent in pairs(entities.get_all_objects_as_handles()) do
+            if ENTITY.GET_ENTITY_MODEL(ent) == util.joaat("prop_chem_grill_bit") then
+                entities.delete_by_handle(ent)
+            end
+        end
     end)
 
 local Apartment = menu.slider(dividends, "Apartment", { "Apartment" }, "15000000", -2147483647, 2147483647, 100, 100,
@@ -1244,10 +1159,8 @@ menu.toggle_loop(dividends, "fm_mission_controller_2020 GET_INT_LOCAL", { "latia
 
 menu.action(dividends, "request_script_host fm_mission_controller", { "latiaoNrequest_script_host" },
     "latiaoNrequest_script_host.", function()
-        -- util.request_script_host("freemode")
         util.request_script_host("fm_mission_controller_2020")
         util.request_script_host("fm_mission_controller")
-        -- util.request_script_host("gb_biker_contraband_sell")
     end)
 
 menu.action(dividends, "fin fm_mission_controller_2020", { "fin fm_mission_controller_2020" },
@@ -1305,21 +1218,19 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
     end)
 
+    menu.toggle_loop(testMenu, "disabler godmode", {}, "", function()
+        util.trigger_script_event(1 << pid, { 800157557, pid, 225624744, pid })
+        if not players.exists(pid) then util.stop_thread() end
+    end)
 
     menu.action(testMenu, "block join", { "laitaoblockjoin" }, "", function()
         local player = PLAYER.GET_PLAYER_NAME(pid)
-        menu.trigger_command(menu.ref_by_path("Online>Player History>" .. pid .. ">Player Join Reactions>Notification"))
+        menu.trigger_command(menu.ref_by_path("Online>Player History>" .. player .. ">Player Join Reactions>Notification"))
         menu.trigger_commands("historyblock" .. player .. " on")
         menu.trigger_commands("loveletterkick" .. player)
         menu.trigger_commands("historynote" .. player .. " latiaoblockjoin")
     end)
 
-    menu.action(testMenu, "crash + kick", { "laitaoblockjoin" }, "", function()
-        local player = PLAYER.GET_PLAYER_NAME(pid)
-        menu.trigger_commands("crash" .. player)
-        util.yield(1000)
-        menu.trigger_commands("loveletterkick" .. player)
-    end)
 
 
     menu.toggle_loop(testMenu, "SHOOT", {}, "", function()
@@ -1381,29 +1292,7 @@ local function testMenuSetup(pid)
         if not players.exists(pid) then util.stop_thread() end
     end)
 
-    menu.toggle_loop(testMenu, "CopLoop", { "latiaoFlameLoop" }, "", function()
-        STREAMING.REQUEST_MODEL(util.joaat("s_m_y_cop_01"))
-        while not STREAMING.HAS_MODEL_LOADED(util.joaat("s_m_y_cop_01")) do util.yield() end
-        local playerPed = PLAYER.GET_PLAYER_PED(pid)
-        local pos = ENTITY.GET_ENTITY_COORDS(playerPed)
-        pos.x = pos.x + math.random(-10, 10)
-        pos.y = pos.y + math.random(-10, 10)
-        -- pos.z = pos.z
-        PED.CREATE_PED(0, util.joaat("s_m_y_cop_01"), pos.x, pos.y, pos.z, 0, true, true)
-        -- print(pos.x, pos.y, pos.z)
-        if not players.exists(pid) then util.stop_thread() end
-        -- end
-    end)
 
-
-
-    menu.toggle_loop(testMenu, "summon gold", { "latiaosummongold" }, "latiaosummongold.", function()
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        entities.create_object(
-            util.joaat("ch_prop_gold_trolly_01a", "ch_prop_gold_trolly_01b", "ch_prop_gold_trolly_01c"),
-            ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        if not players.exists(pid) then util.stop_thread() end
-    end)
 
 
 
@@ -1458,25 +1347,17 @@ local function testMenuSetup(pid)
 
 
     menu.action(testMenu, "del tun", { "" }, "", function()
-        -- local tunModels = { util.joaat("tug"), }
         for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
-            -- local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-            -- for _, tunModels in ipairs(util.joaat("tug")) do
             if ENTITY.GET_ENTITY_MODEL(ent) == util.joaat("tug") then
                 entities.delete_by_handle(ent)
             end
-            -- end
         end
     end)
     menu.toggle_loop(testMenu, "kick vehicles", { "latiaokickvehicles" }, "latiaokickvehicles.", function()
-        -- util.yield(500)
-
         util.trigger_script_event(1 << pid, { -503325966 })
         if not players.exists(pid) then util.stop_thread() end
     end)
     menu.toggle_loop(testMenu, "fake kick attack", { "latiaofackhackattack" }, "latiaofackhackattack.", function()
-        -- util.yield(500)
         util.trigger_script_event(1 << pid, { -901348601 })
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -1486,24 +1367,15 @@ local function testMenuSetup(pid)
 
         if not players.exists(pid) then util.stop_thread() end
     end)
-    menu.toggle_loop(testMenu, "kick host", { "" }, ".", function()
-        util.trigger_script_event(1 << pid, { -1496371358, pid, -1 })
-
-        if not players.exists(pid) then util.stop_thread() end
-    end)
     menu.toggle_loop(testMenu, "wok freeze", { "" }, ".", function()
         util.yield(1000)
         util.trigger_script_event(1 << pid, { 259469385 })
 
         if not players.exists(pid) then util.stop_thread() end
     end)
-    menu.toggle_loop(testMenu, "bad SOUND", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-        AUDIO.PLAY_SOUND_FROM_ENTITY(-1, "MP_Flash", PLAYER.GET_PLAYER_PED(pid), "WastedSounds", true, true)
-        if not players.exists(pid) then util.stop_thread() end
-        -- end
-    end)
 
     menu.toggle_loop(testMenu, "bad SOUND script_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
+        util.yield(50)
         util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -1531,6 +1403,14 @@ local function testMenuSetup(pid)
 
     menu.action(testMenu, "casino TP", { "" }, ".", function()
         util.trigger_script_event(1 << pid, { -1638522928, pid, 123, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2147483647, 0, 0 })
+    end)
+
+
+    menu.toggle_loop(testMenu, "loop report", { "" }, ".", function()
+        local player = PLAYER.GET_PLAYER_NAME(pid)
+        menu.trigger_commands("reportgriefing" .. player)
+        menu.trigger_commands("reportexploits" .. player)
+        menu.trigger_commands("reportbugabuse" .. player)
     end)
 end
 
@@ -1566,7 +1446,6 @@ menu.toggle_loop(world, "NICKFlameLoopALLPlayer", { "NICKFlameLoopALLPlayer" }, 
 end)
 menu.toggle_loop(test, "raidallplayer", { "raidallplayer" }, "", function()
     for k, pid in pairs(players.list()) do
-        -- if pid == players.get_host() or pid == players.user() then goto out end
         util.trigger_script_event(1 << pid, { -1906536929, pid })
         ::out::
     end
@@ -1605,6 +1484,8 @@ menu.toggle_loop(test, "debugshot", { "latiaodebugshot" }, ("latiaobadpost"), fu
         print(text)
     end
 end)
+
+
 
 
 
@@ -1702,29 +1583,6 @@ menu.action(server, "latiaoSET_GHOST_ALPHA", { "latiaoSET_GHOST_ALPHA" }, "", fu
     NETWORK.SET_GHOST_ALPHA(100)
 end)
 
--- menu.action(server, "IS_ENTITY_A_GHOST", { "IS_ENTITY_A_GHOST" }, "", function()
---     local targets = {}
-
---     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
---         table.insert(targets, ped)
---     end
-
---     for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
---         table.insert(targets, vehicle)
---     end
-
---     for _, object in ipairs(entities.get_all_objects_as_handles()) do
---         table.insert(targets, object)
---     end
-
---     for _, pickups in ipairs(entities.get_all_pickups_as_handles()) do
---         table.insert(targets, pickups)
---     end
-
---     for _, target in ipairs(targets) do
---     NETWORK.SET_ENTITY_GHOSTED_FOR_GHOST_PLAYERS(target,true)
---     end
--- end)
 
 menu.toggle_loop(server, "TALKING TEST", { "LATIAOTALKINGTEST" }, "", function()
     for k, pid in pairs(players.list()) do
@@ -1736,31 +1594,12 @@ end)
 
 menu.toggle_loop(server, "block am_hunt_the_Beast", { "latiaoblockam_hunt_the_Beast" }, "latiaoblockam_hunt_the_Beast",
     function()
-        -- if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")) > 0 then
-        -- util.toast("am_hunt_the_Beast Start ID:" ..
-        -- SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_hunt_the_Beast")))
         MISC.TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("am_hunt_the_Beast")
-        -- end
     end)
 
 menu.toggle_loop(server, "block am_gang_call", { "latiaoblockam_gang_call" }, "latiaoblockam_gang_call",
     function()
-        -- if SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")) > 0 then
-        --     util.toast("am_gang_call Start ID:" ..
-        -- SCRIPT.GET_NUMBER_OF_THREADS_RUNNING_THE_SCRIPT_WITH_THIS_HASH(util.joaat("am_gang_call")))
         MISC.TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("am_gang_call")
-        -- end
-    end)
-
-
-
-menu.toggle(server, "NETWORK_START_SOLO_TUTORIAL_SESSION", { "latiaoNETWORK_START_SOLO_TUTORIAL_SESSION" },
-    "NETWORK_START_SOLO_TUTORIAL_SESSION", function(on)
-        if on then
-            NETWORK.NETWORK_START_SOLO_TUTORIAL_SESSION()
-        else
-            NETWORK.NETWORK_END_TUTORIAL_SESSION()
-        end
     end)
 
 menu.toggle_loop(server, "block bounty", { "latiaoblockbounty" }, "latiaoblockbounty",
@@ -1771,6 +1610,16 @@ menu.toggle_loop(server, "block bounty", { "latiaoblockbounty" }, "latiaoblockbo
             util.yield(1000)
         end
     end)
+
+menu.toggle(server, "NETWORK_START_SOLO_TUTORIAL_SESSION", { "latiaoNETWORK_START_SOLO_TUTORIAL_SESSION" },
+    "NETWORK_START_SOLO_TUTORIAL_SESSION", function(on)
+        if on then
+            NETWORK.NETWORK_START_SOLO_TUTORIAL_SESSION()
+        else
+            NETWORK.NETWORK_END_TUTORIAL_SESSION()
+        end
+    end)
+
 
 
 
@@ -1827,7 +1676,6 @@ function START_SCRIPT(name)
     SCRIPT.REQUEST_SCRIPT(name)
     repeat util.yield_once() until SCRIPT.HAS_SCRIPT_LOADED(name)
     SYSTEM.START_NEW_SCRIPT(name, 5000)
-    -- SCRIPT.SET_SCRIPT_AS_NO_LONGER_NEEDED(name)
 end
 
 menu.action(admin, "Bunker", { "" }, "", function()
@@ -1856,26 +1704,12 @@ end)
 
 
 menu.toggle_loop(admin, ("ez MC Club"), { "" }, "(" .. ("") .. ")", function()
-    -- local value = GET_INT_LOCAL("gb_biker_contraband_sell", 699 + 122)
-    -- print(value)
-    -- if value and value ~= 0 then
     SET_INT_LOCAL("gb_biker_contraband_sell", 699 + 17, 0)
-    -- end
-end)
-
-menu.action(admin, ("auto shell MC Club"), { "" }, "(" .. ("") .. ")", function()
-    -- local value = GET_INT_LOCAL("gb_biker_contraband_sell", 699 + 122)
-    -- print(value)
-    -- if value and value ~= 0 then
-    SET_INT_LOCAL("gb_biker_contraband_sell", 699 + 122, 1)
-    -- end
 end)
 
 
 
-menu.action(menu.my_root(), "restart lua", { "latiaorestartlua" }, "restartlua", function()
-    util.restart_script()
-end)
+
 
 
 menu.action(dividends, "Contract All Missions", {}, "", function()
@@ -1944,7 +1778,6 @@ menu.action(test, "kill freemode", { "latiaoblockfreemode" }, "",
 menu.action(test, "test", { "latiaoblockfreemode" }, "",
     function()
         util.spoof_script("freemode", function()
-            -- print(SCRIPT.GET_THIS_SCRIPT_NAME())
             print(SCRIPT.IS_THREAD_ACTIVE())
         end
         )
@@ -1967,24 +1800,9 @@ menu.action(test, "tp and back", { "latiaotpback" }, "",
 menu.toggle_loop(server, "bad SOUNDscript_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
     for k, pid in pairs(players.list()) do
         util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
-        -- if not players.exists(pid) then util.stop_thread() end
+        util.yield(100)
     end
 end)
-menu.action(server, "host TP", { "" }, ".", function()
-    for k, pid in pairs(players.list()) do
-        util.trigger_script_event(1 << pid, { -1321657966, pid, pid, 0, 0, 1 })
-    end
-end)
-
-
-
-menu.action(server, "casino TP", { "" }, ".", function()
-    for k, pid in pairs(players.list()) do
-        util.trigger_script_event(1 << pid, { -1638522928, pid, 123, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2147483647, 0, 0 })
-    end
-end)
-
-
 
 
 
@@ -2008,4 +1826,10 @@ menu.action(admin, "Dingy", { "" }, ".", function()
 end)
 menu.action(admin, "Ballistic Armor", { "" }, ".", function()
     SET_INT_GLOBAL(2794162 + 901, 1)
+end)
+
+
+
+menu.toggle_loop(world, "STOP_FIRE_IN_RANGE", { "" }, ".", function()
+    FIRE.STOP_FIRE_IN_RANGE(0, 0, 0, 2147483647)
 end)
