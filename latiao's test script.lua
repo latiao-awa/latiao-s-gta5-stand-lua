@@ -1,4 +1,1049 @@
---- copy hc ty you
+local ALL_script_hosts = {
+    "abigail1",
+    "abigail2",
+    "achievement_controller",
+    "act_cinema",
+    "activity_creator_prototype_launcher",
+    "af_intro_t_sandy",
+    "agency_heist1",
+    "agency_heist2",
+    "agency_heist3a",
+    "agency_heist3b",
+    "agency_prep1",
+    "agency_prep2amb",
+    "aicover_test",
+    "ainewengland_test",
+    "altruist_cult",
+    "am_agency_suv",
+    "am_airstrike",
+    "am_ammo_drop",
+    "am_arena_shp",
+    "am_armwrestling_apartment",
+    "am_armwrestling",
+    "am_armybase",
+    "am_backup_heli",
+    "am_beach_washup_cinematic",
+    "am_boat_taxi",
+    "am_bru_box",
+    "am_car_mod_tut",
+    "am_casino_limo",
+    "am_casino_luxury_car",
+    "am_casino_peds",
+    "am_challenges",
+    "am_contact_requests",
+    "am_cp_collection",
+    "am_crate_drop",
+    "am_criminal_damage",
+    "am_darts_apartment",
+    "am_darts",
+    "am_dead_drop",
+    "am_destroy_veh",
+    "am_distract_cops",
+    "am_doors",
+    "am_ferriswheel",
+    "am_ga_pickups",
+    "am_gang_call",
+    "am_heist_int",
+    "am_heli_taxi",
+    "am_hi_plane_land_cinematic",
+    "am_hi_plane_take_off_cinematic",
+    "am_hold_up",
+    "am_hot_property",
+    "am_hot_target",
+    "am_hs4_isd_take_vel",
+    "am_hs4_lsa_land_nimb_arrive",
+    "am_hs4_lsa_land_vel",
+    "am_hs4_lsa_take_vel",
+    "am_hs4_nimb_isd_lsa_leave",
+    "am_hs4_nimb_lsa_isd_arrive",
+    "am_hs4_nimb_lsa_isd_leave",
+    "am_hs4_vel_lsa_isd",
+    "am_hunt_the_beast",
+    "am_imp_exp",
+    "am_island_backup_heli",
+    "am_joyrider",
+    "am_kill_list",
+    "am_king_of_the_castle",
+    "am_launcher",
+    "am_lester_cut",
+    "am_lowrider_int",
+    "am_lsia_take_off_cinematic",
+    "am_luxury_showroom",
+    "am_mission_launch",
+    "am_mp_acid_lab",
+    "am_mp_arc_cab_manager",
+    "am_mp_arcade_claw_crane",
+    "am_mp_arcade_fortune_teller",
+    "am_mp_arcade_love_meter",
+    "am_mp_arcade_peds",
+    "am_mp_arcade_strength_test",
+    "am_mp_arcade",
+    "am_mp_arena_box",
+    "am_mp_arena_garage",
+    "am_mp_armory_aircraft",
+    "am_mp_armory_truck",
+    "am_mp_auto_shop",
+    "am_mp_biker_warehouse",
+    "am_mp_boardroom_seating",
+    "am_mp_bunker",
+    "am_mp_business_hub",
+    "am_mp_car_meet_property",
+    "am_mp_car_meet_sandbox",
+    "am_mp_carwash_launch",
+    "am_mp_casino_apartment",
+    "am_mp_casino_nightclub",
+    "am_mp_casino_valet_garage",
+    "am_mp_casino",
+    "am_mp_creator_aircraft",
+    "am_mp_creator_trailer",
+    "am_mp_defunct_base",
+    "am_mp_drone",
+    "am_mp_fixer_hq",
+    "am_mp_garage_control",
+    "am_mp_hacker_truck",
+    "am_mp_hangar",
+    "am_mp_ie_warehouse",
+    "am_mp_island",
+    "am_mp_juggalo_hideout",
+    "am_mp_multistorey_garage",
+    "am_mp_music_studio",
+    "am_mp_nightclub",
+    "am_mp_orbital_cannon",
+    "am_mp_peds",
+    "am_mp_property_ext",
+    "am_mp_property_int",
+    "am_mp_rc_vehicle",
+    "am_mp_shooting_range",
+    "am_mp_simeon_showroom",
+    "am_mp_smoking_activity",
+    "am_mp_smpl_interior_ext",
+    "am_mp_smpl_interior_int",
+    "am_mp_social_club_garage",
+    "am_mp_solomon_office",
+    "am_mp_submarine",
+    "am_mp_vehicle_reward",
+    "am_mp_vehicle_weapon",
+    "am_mp_warehouse",
+    "am_mp_yacht",
+    "am_npc_invites",
+    "am_pass_the_parcel",
+    "am_penned_in",
+    "am_penthouse_peds",
+    "am_pi_menu",
+    "am_plane_takedown",
+    "am_prison",
+    "am_prostitute",
+    "am_rollercoaster",
+    "am_rontrevor_cut",
+    "am_taxi",
+    "am_vehicle_spawn",
+    "ambient_diving",
+    "ambient_mrsphilips",
+    "ambient_solomon",
+    "ambient_sonar",
+    "ambient_tonya",
+    "ambient_tonyacall2",
+    "ambient_tonyacall5",
+    "ambient_tonyacall",
+    "ambient_ufos",
+    "ambientblimp",
+    "animal_controller",
+    "apartment_minigame_launcher",
+    "apparcadebusiness",
+    "apparcadebusinesshub",
+    "appavengeroperations",
+    "appbikerbusiness",
+    "appbroadcast",
+    "appbunkerbusiness",
+    "appbusinesshub",
+    "appcamera",
+    "appchecklist",
+    "appcontacts",
+    "appcovertops",
+    "appemail",
+    "appextraction",
+    "appfixersecurity",
+    "apphackertruck",
+    "apphs_sleep",
+    "appimportexport",
+    "appinternet",
+    "appjipmp",
+    "appmedia",
+    "appmpbossagency",
+    "appmpemail",
+    "appmpjoblistnew",
+    "apporganiser",
+    "appprogresshub",
+    "apprepeatplay",
+    "appsecurohack",
+    "appsecuroserv",
+    "appsettings",
+    "appsidetask",
+    "appsmuggler",
+    "apptextmessage",
+    "apptrackify",
+    "appvlsi",
+    "appzit",
+    "arcade_seating",
+    "arena_box_bench_seats",
+    "arena_carmod",
+    "arena_workshop_seats",
+    "armenian1",
+    "armenian2",
+    "armenian3",
+    "armory_aircraft_carmod",
+    "assassin_bus",
+    "assassin_construction",
+    "assassin_hooker",
+    "assassin_multi",
+    "assassin_rankup",
+    "assassin_valet",
+    "atm_trigger",
+    "audiotest",
+    "auto_shop_seating",
+    "autosave_controller",
+    "bailbond1",
+    "bailbond2",
+    "bailbond3",
+    "bailbond4",
+    "bailbond_launcher",
+    "barry1",
+    "barry2",
+    "barry3",
+    "barry3a",
+    "barry3c",
+    "barry4",
+    "base_carmod",
+    "base_corridor_seats",
+    "base_entrance_seats",
+    "base_heist_seats",
+    "base_lounge_seats",
+    "base_quaters_seats",
+    "base_reception_seats",
+    "basic_creator",
+    "beach_exterior_seating",
+    "benchmark",
+    "bigwheel",
+    "bj",
+    "blackjack",
+    "blimptest",
+    "blip_controller",
+    "bootycall_debug_controller",
+    "bootycallhandler",
+    "buddydeathresponse",
+    "bugstar_mission_export",
+    "building_controller",
+    "buildingsiteambience",
+    "business_battles_defend",
+    "business_battles_sell",
+    "business_battles",
+    "business_hub_carmod",
+    "business_hub_garage_seats",
+    "cablecar",
+    "cam_coord_sender",
+    "camera_test",
+    "camhedz_arcade",
+    "candidate_controller",
+    "car_meet_carmod",
+    "car_meet_exterior_seating",
+    "car_meet_interior_seating",
+    "car_roof_test",
+    "carmod_shop",
+    "carsteal1",
+    "carsteal2",
+    "carsteal3",
+    "carsteal4",
+    "carwash1",
+    "carwash2",
+    "casino_bar_seating",
+    "casino_exterior_seating",
+    "casino_interior_seating",
+    "casino_lucky_wheel",
+    "casino_main_lounge_seating",
+    "casino_nightclub_seating",
+    "casino_penthouse_seating",
+    "casino_slots",
+    "casinoroulette",
+    "celebration_editor",
+    "celebrations",
+    "cellphone_controller",
+    "cellphone_flashhand",
+    "charactergoals",
+    "charanimtest",
+    "cheat_controller",
+    "chinese1",
+    "chinese2",
+    "chop",
+    "clothes_shop_mp",
+    "clothes_shop_sp",
+    "code_controller",
+    "combat_test",
+    "comms_controller",
+    "completionpercentage_controller",
+    "component_checker",
+    "context_controller",
+    "controller_ambientarea",
+    "controller_races",
+    "controller_taxi",
+    "controller_towing",
+    "controller_trafficking",
+    "coordinate_recorder",
+    "country_race_controller",
+    "country_race",
+    "creation_startup",
+    "creator",
+    "custom_config",
+    "cutscene_test",
+    "cutscenemetrics",
+    "cutscenesamples",
+    "darts",
+    "debug_app_select_screen",
+    "debug_clone_outfit_testing",
+    "debug_launcher",
+    "debug_ped_data",
+    "debug",
+    "degenatron_games",
+    "density_test",
+    "dialogue_handler",
+    "director_mode",
+    "docks2asubhandler",
+    "docks_heista",
+    "docks_heistb",
+    "docks_prep1",
+    "docks_prep2b",
+    "docks_setup",
+    "dont_cross_the_line",
+    "dreyfuss1",
+    "drf1",
+    "drf2",
+    "drf3",
+    "drf4",
+    "drf5",
+    "drunk_controller",
+    "drunk",
+    "dynamixtest",
+    "email_controller",
+    "emergencycall",
+    "emergencycalllauncher",
+    "epscars",
+    "epsdesert",
+    "epsilon1",
+    "epsilon2",
+    "epsilon3",
+    "epsilon4",
+    "epsilon5",
+    "epsilon6",
+    "epsilon7",
+    "epsilon8",
+    "epsilontract",
+    "epsrobes",
+    "error_listener",
+    "error_thrower",
+    "event_controller",
+    "exile1",
+    "exile2",
+    "exile3",
+    "exile_city_denial",
+    "extreme1",
+    "extreme2",
+    "extreme3",
+    "extreme4",
+    "fairgroundhub",
+    "fake_interiors",
+    "fame_or_shame_set",
+    "fameorshame_eps_1",
+    "fameorshame_eps",
+    "family1",
+    "family1taxi",
+    "family2",
+    "family3",
+    "family4",
+    "family5",
+    "family6",
+    "family_scene_f0",
+    "family_scene_f1",
+    "family_scene_m",
+    "family_scene_t0",
+    "family_scene_t1",
+    "fanatic1",
+    "fanatic2",
+    "fanatic3",
+    "fbi1",
+    "fbi2",
+    "fbi3",
+    "fbi4_intro",
+    "fbi4_prep1",
+    "fbi4_prep2",
+    "fbi4_prep3",
+    "fbi4_prep3amb",
+    "fbi4_prep4",
+    "fbi4_prep5",
+    "fbi4",
+    "fbi5a",
+    "finale_choice",
+    "finale_credits",
+    "finale_endgame",
+    "finale_heist1",
+    "finale_heist2_intro",
+    "finale_heist2a",
+    "finale_heist2b",
+    "finale_heist_prepa",
+    "finale_heist_prepb",
+    "finale_heist_prepc",
+    "finale_heist_prepd",
+    "finale_heist_prepeamb",
+    "finale_intro",
+    "finalea",
+    "finaleb",
+    "finalec1",
+    "finalec2",
+    "fixer_hq_carmod",
+    "fixer_hq_seating_op_floor",
+    "fixer_hq_seating_pq",
+    "fixer_hq_seating",
+    "floating_help_controller",
+    "flow_autoplay",
+    "flow_controller",
+    "flow_help",
+    "flowintrotitle",
+    "flowstartaccept",
+    "flyunderbridges",
+    "fm_bj_race_controler",
+    "fm_capture_creator",
+    "fm_content_acid_lab_sell",
+    "fm_content_acid_lab_setup",
+    "fm_content_acid_lab_source",
+    "fm_content_ammunation",
+    "fm_content_armoured_truck",
+    "fm_content_auto_shop_delivery",
+    "fm_content_bank_shootout",
+    "fm_content_bar_resupply",
+    "fm_content_bicycle_time_trial",
+    "fm_content_bike_shop_delivery",
+    "fm_content_business_battles",
+    "fm_content_cargo",
+    "fm_content_cerberus",
+    "fm_content_club_management",
+    "fm_content_club_odd_jobs",
+    "fm_content_club_source",
+    "fm_content_clubhouse_contracts",
+    "fm_content_convoy",
+    "fm_content_crime_scene",
+    "fm_content_drug_lab_work",
+    "fm_content_drug_vehicle",
+    "fm_content_export_cargo",
+    "fm_content_ghosthunt",
+    "fm_content_golden_gun",
+    "fm_content_gunrunning",
+    "fm_content_hsw_setup",
+    "fm_content_hsw_time_trial",
+    "fm_content_island_dj",
+    "fm_content_island_heist",
+    "fm_content_metal_detector",
+    "fm_content_movie_props",
+    "fm_content_mp_intro",
+    "fm_content_parachuter",
+    "fm_content_payphone_hit",
+    "fm_content_phantom_car",
+    "fm_content_possessed_animals",
+    "fm_content_robbery",
+    "fm_content_security_contract",
+    "fm_content_sightseeing",
+    "fm_content_skydive",
+    "fm_content_slasher",
+    "fm_content_smuggler_ops",
+    "fm_content_smuggler_plane",
+    "fm_content_smuggler_resupply",
+    "fm_content_smuggler_sell",
+    "fm_content_smuggler_trail",
+    "fm_content_source_research",
+    "fm_content_stash_house",
+    "fm_content_taxi_driver",
+    "fm_content_test",
+    "fm_content_tuner_robbery",
+    "fm_content_vehicle_list",
+    "fm_content_vip_contract_1",
+    "fm_content_xmas_mugger",
+    "fm_deathmatch_controler",
+    "fm_deathmatch_creator",
+    "fm_hideout_controler",
+    "fm_hold_up_tut",
+    "fm_horde_controler",
+    "fm_impromptu_dm_controler",
+    "fm_intro_cut_dev",
+    "fm_intro",
+    "fm_lts_creator",
+    "fm_main_menu",
+    "fm_maintain_cloud_header_data",
+    "fm_maintain_transition_players",
+    "fm_mission_controller_2020",
+    "fm_mission_controller",
+    "fm_mission_creator",
+    "fm_race_controler",
+    "fm_race_creator",
+    "fm_street_dealer",
+    "fm_survival_controller",
+    "fm_survival_creator",
+    "fmmc_contentquicklauncher",
+    "fmmc_launcher",
+    "fmmc_playlist_controller",
+    "forsalesigns",
+    "fps_test_mag",
+    "fps_test",
+    "franklin0",
+    "franklin1",
+    "franklin2",
+    "freemode_clearglobals",
+    "freemode_creator",
+    "freemode_init",
+    "freemode",
+    "friendactivity",
+    "friends_controller",
+    "friends_debug_controller",
+    "fullmap_test_flow",
+    "fullmap_test",
+    "game_server_test",
+    "gb_airfreight",
+    "gb_amphibious_assault",
+    "gb_assault",
+    "gb_bank_job",
+    "gb_bellybeast",
+    "gb_biker_bad_deal",
+    "gb_biker_burn_assets",
+    "gb_biker_contraband_defend",
+    "gb_biker_contraband_sell",
+    "gb_biker_contract_killing",
+    "gb_biker_criminal_mischief",
+    "gb_biker_destroy_vans",
+    "gb_biker_driveby_assassin",
+    "gb_biker_free_prisoner",
+    "gb_biker_joust",
+    "gb_biker_last_respects",
+    "gb_biker_race_p2p",
+    "gb_biker_rescue_contact",
+    "gb_biker_rippin_it_up",
+    "gb_biker_safecracker",
+    "gb_biker_search_and_destroy",
+    "gb_biker_shuttle",
+    "gb_biker_stand_your_ground",
+    "gb_biker_steal_bikes",
+    "gb_biker_target_rival",
+    "gb_biker_unload_weapons",
+    "gb_biker_wheelie_rider",
+    "gb_carjacking",
+    "gb_cashing_out",
+    "gb_casino_heist_planning",
+    "gb_casino_heist",
+    "gb_casino",
+    "gb_collect_money",
+    "gb_contraband_buy",
+    "gb_contraband_defend",
+    "gb_contraband_sell",
+    "gb_data_hack",
+    "gb_deathmatch",
+    "gb_delivery",
+    "gb_finderskeepers",
+    "gb_fivestar",
+    "gb_fortified",
+    "gb_fragile_goods",
+    "gb_fully_loaded",
+    "gb_gang_ops_planning",
+    "gb_gangops",
+    "gb_gunrunning_defend",
+    "gb_gunrunning_delivery",
+    "gb_gunrunning",
+    "gb_headhunter",
+    "gb_hunt_the_boss",
+    "gb_ie_delivery_cutscene",
+    "gb_illicit_goods_resupply",
+    "gb_infiltration",
+    "gb_jewel_store_grab",
+    "gb_ploughed",
+    "gb_point_to_point",
+    "gb_ramped_up",
+    "gb_rob_shop",
+    "gb_salvage",
+    "gb_security_van",
+    "gb_sightseer",
+    "gb_smuggler",
+    "gb_stockpiling",
+    "gb_target_pursuit",
+    "gb_terminate",
+    "gb_transporter",
+    "gb_vehicle_export",
+    "gb_velocity",
+    "gb_yacht_rob",
+    "general_test",
+    "ggsm_arcade",
+    "globals_fmmc_struct_registration",
+    "globals_fmmcstruct2_registration",
+    "golf_ai_foursome_putting",
+    "golf_ai_foursome",
+    "golf_mp",
+    "golf",
+    "gpb_andymoon",
+    "gpb_baygor",
+    "gpb_billbinder",
+    "gpb_clinton",
+    "gpb_griff",
+    "gpb_jane",
+    "gpb_jerome",
+    "gpb_jesse",
+    "gpb_mani",
+    "gpb_mime",
+    "gpb_pameladrake",
+    "gpb_superhero",
+    "gpb_tonya",
+    "gpb_zombie",
+    "grid_arcade_cabinet",
+    "gtest_airplane",
+    "gtest_avoidance",
+    "gtest_boat",
+    "gtest_divingfromcar",
+    "gtest_divingfromcarwhilefleeing",
+    "gtest_helicopter",
+    "gtest_nearlymissedbycar",
+    "gunclub_shop",
+    "gunfighttest",
+    "gunslinger_arcade",
+    "hacker_truck_carmod",
+    "hairdo_shop_mp",
+    "hairdo_shop_sp",
+    "hangar_carmod",
+    "hao1",
+    "headertest",
+    "heatmap_test_flow",
+    "heatmap_test",
+    "heist_ctrl_agency",
+    "heist_ctrl_docks",
+    "heist_ctrl_finale",
+    "heist_ctrl_jewel",
+    "heist_ctrl_rural",
+    "heist_island_planning",
+    "heli_gun",
+    "heli_streaming",
+    "hud_creator",
+    "hunting1",
+    "hunting2",
+    "hunting_ambient",
+    "idlewarper",
+    "ingamehud",
+    "initial",
+    "item_ownership_output",
+    "jewelry_heist",
+    "jewelry_prep1a",
+    "jewelry_prep1b",
+    "jewelry_prep2a",
+    "jewelry_setup1",
+    "josh1",
+    "josh2",
+    "josh3",
+    "josh4",
+    "juggalo_hideout_carmod",
+    "juggalo_hideout_seating",
+    "lamar1",
+    "landing_pre_startup",
+    "laptop_trigger",
+    "launcher_abigail",
+    "launcher_barry",
+    "launcher_basejumpheli",
+    "launcher_basejumppack",
+    "launcher_carwash",
+    "launcher_darts",
+    "launcher_dreyfuss",
+    "launcher_epsilon",
+    "launcher_extreme",
+    "launcher_fanatic",
+    "launcher_golf",
+    "launcher_hao",
+    "launcher_hunting_ambient",
+    "launcher_hunting",
+    "launcher_josh",
+    "launcher_maude",
+    "launcher_minute",
+    "launcher_mrsphilips",
+    "launcher_nigel",
+    "launcher_offroadracing",
+    "launcher_omega",
+    "launcher_paparazzo",
+    "launcher_pilotschool",
+    "launcher_racing",
+    "launcher_rampage",
+    "launcher_range",
+    "launcher_stunts",
+    "launcher_tennis",
+    "launcher_thelastone",
+    "launcher_tonya",
+    "launcher_triathlon",
+    "launcher_yoga",
+    "lester1",
+    "lesterhandler",
+    "letterscraps",
+    "line_activation_test",
+    "liverecorder",
+    "locates_tester",
+    "luxe_veh_activity",
+    "magdemo2",
+    "magdemo",
+    "main_install",
+    "main_persistent",
+    "main",
+    "maintransition",
+    "martin1",
+    "maude1",
+    "maude_postbailbond",
+    "me_amanda1",
+    "me_jimmy1",
+    "me_tracey1",
+    "mg_race_to_point",
+    "michael1",
+    "michael2",
+    "michael3",
+    "michael4",
+    "michael4leadout",
+    "minigame_ending_stinger",
+    "minigame_stats_tracker",
+    "minute1",
+    "minute2",
+    "minute3",
+    "mission_race",
+    "mission_repeat_controller",
+    "mission_stat_alerter",
+    "mission_stat_watcher",
+    "mission_triggerer_a",
+    "mission_triggerer_b",
+    "mission_triggerer_c",
+    "mission_triggerer_d",
+    "missioniaaturret",
+    "mp_awards",
+    "mp_bed_high",
+    "mp_fm_registration",
+    "mp_menuped",
+    "mp_prop_global_block",
+    "mp_prop_special_global_block",
+    "mp_registration",
+    "mp_save_game_global_block",
+    "mp_unlocks",
+    "mp_weapons",
+    "mpstatsinit",
+    "mptestbed",
+    "mrsphilips1",
+    "mrsphilips2",
+    "multistorey_garage_ext_seating",
+    "multistorey_garage_seating",
+    "murdermystery",
+    "music_studio_seating_external",
+    "music_studio_seating",
+    "music_studio_smoking",
+    "navmeshtest",
+    "net_activity_creator_ui",
+    "net_apartment_activity_light",
+    "net_apartment_activity",
+    "net_bot_brain",
+    "net_bot_simplebrain",
+    "net_cloud_mission_loader",
+    "net_combat_soaktest",
+    "net_jacking_soaktest",
+    "net_session_soaktest",
+    "net_test_drive",
+    "net_tunable_check",
+    "nigel1",
+    "nigel1a",
+    "nigel1b",
+    "nigel1c",
+    "nigel1d",
+    "nigel2",
+    "nigel3",
+    "nightclub_ground_floor_seats",
+    "nightclub_office_seats",
+    "nightclub_vip_seats",
+    "nightclubpeds",
+    "nodemenututorial",
+    "nodeviewer",
+    "ob_abatdoor",
+    "ob_abattoircut",
+    "ob_airdancer",
+    "ob_bong",
+    "ob_cashregister",
+    "ob_drinking_shots",
+    "ob_foundry_cauldron",
+    "ob_franklin_beer",
+    "ob_franklin_tv",
+    "ob_franklin_wine",
+    "ob_huffing_gas",
+    "ob_jukebox",
+    "ob_mp_bed_high",
+    "ob_mp_bed_low",
+    "ob_mp_bed_med",
+    "ob_mp_shower_med",
+    "ob_mp_stripper",
+    "ob_mr_raspberry_jam",
+    "ob_poledancer",
+    "ob_sofa_franklin",
+    "ob_sofa_michael",
+    "ob_telescope",
+    "ob_tv",
+    "ob_vend1",
+    "ob_vend2",
+    "ob_wheatgrass",
+    "offroad_races",
+    "omega1",
+    "omega2",
+    "paparazzo1",
+    "paparazzo2",
+    "paparazzo3",
+    "paparazzo3a",
+    "paparazzo3b",
+    "paparazzo4",
+    "paradise2",
+    "paradise",
+    "pausemenu_example",
+    "pausemenu_map",
+    "pausemenu_multiplayer",
+    "pausemenu_sp_repeat",
+    "pausemenu",
+    "pausemenucareerhublaunch",
+    "pb_busker",
+    "pb_homeless",
+    "pb_preacher",
+    "pb_prostitute",
+    "personal_carmod_shop",
+    "photographymonkey",
+    "photographywildlife",
+    "physics_perf_test_launcher",
+    "physics_perf_test",
+    "pi_menu",
+    "pickup_controller",
+    "pickuptest",
+    "pickupvehicles",
+    "pilot_school_mp",
+    "pilot_school",
+    "placeholdermission",
+    "placementtest",
+    "planewarptest",
+    "player_controller_b",
+    "player_controller",
+    "player_scene_f_lamgraff",
+    "player_scene_f_lamtaunt",
+    "player_scene_f_taxi",
+    "player_scene_ft_franklin1",
+    "player_scene_m_cinema",
+    "player_scene_m_fbi2",
+    "player_scene_m_kids",
+    "player_scene_m_shopping",
+    "player_scene_mf_traffic",
+    "player_scene_t_bbfight",
+    "player_scene_t_chasecar",
+    "player_scene_t_insult",
+    "player_scene_t_park",
+    "player_scene_t_tie",
+    "player_timetable_scene",
+    "playthrough_builder",
+    "pm_defend",
+    "pm_delivery",
+    "pm_gang_attack",
+    "pm_plane_promotion",
+    "pm_recover_stolen",
+    "postkilled_bailbond2",
+    "postrc_barry1and2",
+    "postrc_barry4",
+    "postrc_epsilon4",
+    "postrc_nigel3",
+    "profiler_registration",
+    "prologue1",
+    "prop_drop",
+    "puzzle",
+    "racetest",
+    "rampage1",
+    "rampage2",
+    "rampage3",
+    "rampage4",
+    "rampage5",
+    "rampage_controller",
+    "randomchar_controller",
+    "range_modern_mp",
+    "range_modern",
+    "re_abandonedcar",
+    "re_accident",
+    "re_armybase",
+    "re_arrests",
+    "re_atmrobbery",
+    "re_bikethief",
+    "re_border",
+    "re_burials",
+    "re_bus_tours",
+    "re_cartheft",
+    "re_chasethieves",
+    "re_crashrescue",
+    "re_cultshootout",
+    "re_dealgonewrong",
+    "re_domestic",
+    "re_drunkdriver",
+    "re_duel",
+    "re_gang_intimidation",
+    "re_gangfight",
+    "re_getaway_driver",
+    "re_hitch_lift",
+    "re_homeland_security",
+    "re_lossantosintl",
+    "re_lured",
+    "re_monkey",
+    "re_mountdance",
+    "re_muggings",
+    "re_paparazzi",
+    "re_prison",
+    "re_prisonerlift",
+    "re_prisonvanbreak",
+    "re_rescuehostage",
+    "re_seaplane",
+    "re_securityvan",
+    "re_shoprobbery",
+    "re_snatched",
+    "re_stag_do",
+    "re_yetarian",
+    "replay_controller",
+    "rerecord_recording",
+    "respawn_controller",
+    "restrictedareas",
+    "rng_output",
+    "road_arcade",
+    "rollercoaster",
+    "rural_bank_heist",
+    "rural_bank_prep1",
+    "rural_bank_setup",
+    "save_anywhere",
+    "savegame_bed",
+    "sc_lb_global_block",
+    "scaleformgraphictest",
+    "scaleformminigametest",
+    "scaleformprofiling",
+    "scaleformtest",
+    "scene_builder",
+    "sclub_front_bouncer",
+    "script_metrics",
+    "scripted_cam_editor",
+    "scriptplayground",
+    "scripttest1",
+    "scripttest2",
+    "scripttest3",
+    "scripttest4",
+    "scroll_arcade_cabinet",
+    "sctv",
+    "selector_example",
+    "selector",
+    "selling_short_1",
+    "selling_short_2",
+    "sh_intro_f_hills",
+    "sh_intro_m_home",
+    "shooting_camera",
+    "shop_controller",
+    "shoprobberies",
+    "shot_bikejump",
+    "shrinkletter",
+    "simeon_showroom_seating",
+    "smoketest",
+    "social_controller",
+    "solomon1",
+    "solomon2",
+    "solomon3",
+    "sp_dlc_registration",
+    "sp_editor_mission_instance",
+    "sp_menuped",
+    "sp_pilotschool_reg",
+    "spaceshipparts",
+    "spawn_activities",
+    "speech_reverb_tracker",
+    "spmc_instancer",
+    "spmc_preloader",
+    "standard_global_init",
+    "standard_global_reg",
+    "startup_install",
+    "startup_locationtest",
+    "startup_positioning",
+    "startup_smoketest",
+    "startup",
+    "stats_controller",
+    "stock_controller",
+    "streaming",
+    "stripclub_drinking",
+    "stripclub_mp",
+    "stripclub",
+    "stripperhome",
+    "stunt_plane_races",
+    "tasklist_1",
+    "tattoo_shop",
+    "taxi_clowncar",
+    "taxi_cutyouin",
+    "taxi_deadline",
+    "taxi_followcar",
+    "taxi_gotyounow",
+    "taxi_gotyourback",
+    "taxi_needexcitement",
+    "taxi_procedural",
+    "taxi_takeiteasy",
+    "taxi_taketobest",
+    "taxilauncher",
+    "taxiservice",
+    "taxitutorial",
+    "tempalpha",
+    "temptest",
+    "tennis_ambient",
+    "tennis_family",
+    "tennis_network_mp",
+    "tennis",
+    "test_startup",
+    "thelastone",
+    "three_card_poker",
+    "timershud",
+    "title_update_registration_2",
+    "title_update_registration",
+    "tonya1",
+    "tonya2",
+    "tonya3",
+    "tonya4",
+    "tonya5",
+    "towing",
+    "traffick_air",
+    "traffick_ground",
+    "traffickingsettings",
+    "traffickingteleport",
+    "train_create_widget",
+    "train_tester",
+    "trevor1",
+    "trevor2",
+    "trevor3",
+    "trevor4",
+    "triathlonsp",
+    "tunables_registration",
+    "tuneables_processing",
+    "tuner_planning",
+    "tuner_property_carmod",
+    "tuner_sandbox_activity",
+    "turret_cam_script",
+    "ufo",
+    "ugc_global_registration_2",
+    "ugc_global_registration",
+    "underwaterpickups",
+    "utvc",
+    "valentinerpreward2",
+    "veh_play_widget",
+    "vehicle_ai_test",
+    "vehicle_force_widget",
+    "vehicle_gen_controller",
+    "vehicle_plate",
+    "vehicle_stealth_mode",
+    "vehiclespawning",
+    "walking_ped",
+    "wardrobe_mp",
+    "wardrobe_sp",
+    "weapon_audio_widget",
+    "wizard_arcade",
+    "wp_partyboombox",
+    "xml_menus",
+    "yoga",
+
+}
+
 
 function ADD_MP_INDEX(stat)
     local Exceptions = {
@@ -22,7 +1067,9 @@ function ADD_MP_INDEX(stat)
 end
 
 function STAT_SET_INT(stat, value)
+    print(stat .. "," .. value)
     STATS.STAT_SET_INT(util.joaat(ADD_MP_INDEX(stat)), value, true)
+    print(util.joaat(ADD_MP_INDEX(stat)))
 end
 
 function STAT_SET_BOOL(stat, value)
@@ -162,7 +1209,7 @@ menu.action(menu.my_root(), "restart lua", { "latiaorestartlua" }, "restartlua",
 end)
 util.keep_running()
 
-util.require_natives("2944a")
+util.require_natives("2944b")
 
 
 local killaura = menu.list(menu.my_root(), "killaura", {}, "")
@@ -232,25 +1279,23 @@ menu.toggle_loop(killaura, "killaura all", { "latiaokillaura" }, ("SHOOT ALL"), 
                 goto continue
             end
 
-            local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-            AddPos:add(v3.new(0, 0, 1))
+            local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
             if kill_aura_F_Loop then
-                FIRE.ADD_EXPLOSION(PedPos.x, PedPos.y, PedPos.z, 12, 2147483647, false, true, 0.0)
+                FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 12, 2147483647, false, true, 0.0)
             else
                 if kill_aura_nick_explosion then
-                    FIRE.ADD_EXPLOSION(PedPos.x, PedPos.y, PedPos.z, 0, 2147483647, false, true, 0.0)
+                    FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
                 else
                     if kill_aura_explosion then
-                        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), PedPos.x, PedPos.y, PedPos.z, 0, 2147483647, false,
+                        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, false,
                             true,
                             0.0)
                     else
-                        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y,
-                            PedPos.z,
-                            100,
+                        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1.5, pos.x, pos.y,
+                            pos.z,
+                            2147483647,
                             true,
-                            0x6E7DDDEC, players.user_ped(), false, true, 1)
+                            util.joaat("weapon_pistol"), players.user_ped(), false, true, 1)
                         util.yield(menu.get_value(time))
                     end
                 end
@@ -271,15 +1316,11 @@ menu.toggle_loop(self, "heal/armour", {}, "", function()
         ENTITY.GET_ENTITY_HEALTH(players.user_ped()) .. "/" .. PED.GET_PED_MAX_HEALTH(players.user_ped()) ..
         "\narmour: " .. PED.GET_PED_ARMOUR(players.user_ped()) .. "/" .. PLAYER.GET_PLAYER_MAX_ARMOUR(players.user()))
 end)
-menu.toggle_loop(self, "EVERYONE IGNORE PLAYER", {}, "", function()
-    PLAYER.SET_EVERYONE_IGNORE_PLAYER(players.user(), true)
-end, function()
-    PLAYER.SET_EVERYONE_IGNORE_PLAYER(players.user(), false)
-end)
-menu.toggle_loop(self, "silence", {}, "", function()
-    PLAYER.SET_PLAYER_NOISE_MULTIPLIER(players.user(), 0.0)
-    PLAYER.SET_PLAYER_SNEAKING_NOISE_MULTIPLIER(players.user(), 0.0)
-end)
+
+-- menu.toggle_loop(self, "silence", {}, "", function()
+--     PLAYER.SET_PLAYER_NOISE_MULTIPLIER(players.user(), 0.0)
+--     PLAYER.SET_PLAYER_SNEAKING_NOISE_MULTIPLIER(players.user(), 0.0)
+-- end)
 
 
 
@@ -340,7 +1381,9 @@ menu.toggle_loop(world, "TPALL 0 0 0", { "latiaodelallvehicles" }, "delallvehicl
     local targets = {}
 
     for _, ped in ipairs(entities.get_all_peds_as_handles()) do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if entities.is_player_ped(ped) == true then
+            goto out
+        end
         table.insert(targets, ped)
         ::out::
     end
@@ -366,7 +1409,9 @@ end)
 
 menu.toggle_loop(world, "kick ped to vehicle", { "latiaokickpedvehicle" }, ("kickpedvehicle"), function()
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if entities.is_player_ped(ped) == true then
+            goto out
+        end
         if PED.IS_PED_IN_ANY_VEHICLE(ped, false) then
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
         end
@@ -399,7 +1444,11 @@ end)
 menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPONS" }, "REMOVE_ALL_PED_WEAPONS.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            for k, pid in pairs(players.list()) do
+                if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == ped then
+                    goto out
+                end
+            end
             WEAPON.REMOVE_ALL_PED_WEAPONS(ped)
             ::out::
         end
@@ -407,15 +1456,22 @@ menu.toggle_loop(world, "REMOVE_ALL_PED_WEAPONS", { "latiaoREMOVE_ALL_PED_WEAPON
 menu.toggle_loop(world, "FREEZE_ENTITY_POSITION", { "latiaoFREEZE_ENTITY_POSITION" }, "FREEZE_ENTITY_POSITION.",
     function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            for k, pid in pairs(players.list()) do
+                if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == ped then
+                    goto out
+                end
+            end
 
             ENTITY.FREEZE_ENTITY_POSITION(ped, true)
             ::out::
         end
     end, function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
-
+            for k, pid in pairs(players.list()) do
+                if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == ped then
+                    goto out
+                end
+            end
             ENTITY.FREEZE_ENTITY_POSITION(ped, false)
             ::out::
         end
@@ -425,25 +1481,31 @@ menu.toggle_loop(world, "tppedtome", { "latiaotppedtome" }, "latiaotppedtome.", 
     local pos = players.get_position(players.user())
     pos:add(v3.new(0, 0, 2.5))
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if entities.is_player_ped(ped) == true then
+            goto out
+        end
         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z, false)
         ::out::
     end
 end)
 
 menu.toggle_loop(world, "silencekillallped", { "latiaosilencekillallped" }, "latiaotsilencekillallped.", function()
-    local pos = players.get_position(players.user())
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
-        ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, 1000, false)
-        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, 1000, 0, 2147483647, false, true, 0.0)
+        if entities.is_player_ped(ped) == true then
+            goto out
+        end
+
+        ENTITY.SET_ENTITY_COORDS(ped, 0, 0, 2500, false)
+        FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), 0, 0, 2500, 0, 2147483647, false, true, 0.0)
         ::out::
     end
 end)
 
 menu.toggle_loop(world, "tppedto 00", { "latiaotppedto00" }, "latiaotpped00.", function()
     for _, ped in entities.get_all_peds_as_handles() do
-        if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+        if entities.is_player_ped(ped) == true then
+            goto out
+        end
         ENTITY.SET_ENTITY_COORDS(ped, 0, 0, -200, false)
         ::out::
     end
@@ -463,21 +1525,15 @@ menu.toggle_loop(world, "SET_PED_TO_RAGDOLL_WITH_FALL ped", { "latiaoSET_PED_TO_
 
 
 
-menu.toggle_loop(world, "NICKFlameLoopALL", { "latiaoFlameLoopALL" }, "", function()
-    for _, ped in pairs(entities.get_all_peds_as_handles()) do
-        if ENTITY.IS_ENTITY_DEAD(ped) then goto out end
-        if ped == players.user_ped() then goto out end
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(ped))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 12, 2147483647, false, true, 0.0)
-        ::out::
-    end
-end)
-
 
 menu.toggle_loop(world, "CLEAR_PED_TASKS_IMMEDIATELY", { "latiaoCLEAR_PED_TASKS_IMMEDIATELY" },
     "CLEAR_PED_TASKS_IMMEDIATELY.", function()
         for _, ped in pairs(entities.get_all_peds_as_handles()) do
-            if PED.GET_PED_TYPE(ped) <= 3 then goto out end
+            for k, pid in pairs(players.list()) do
+                if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == ped then
+                    goto out
+                end
+            end
 
             TASK.CLEAR_PED_TASKS_IMMEDIATELY(ped)
             ::out::
@@ -486,9 +1542,7 @@ menu.toggle_loop(world, "CLEAR_PED_TASKS_IMMEDIATELY", { "latiaoCLEAR_PED_TASKS_
 
 
 
-menu.toggle_loop(world, "all ped ROP MONEY", { "latiaoallpedROPMONEY" }, "latiaoallpedROPMONEY.", function()
-    PED.SET_AMBIENT_PEDS_DROP_MONEY(true)
-end)
+
 
 menu.toggle_loop(world, "maxpedVEHICLE", { "latiaomaxpedVEHICLE" }, "latiaomaxpedVEHICLE.", function()
     PED.INSTANTLY_FILL_PED_POPULATION()
@@ -498,47 +1552,28 @@ menu.toggle_loop(world, "maxpedforyouteam", { "latiaomaxpedforyouteam" }, "latia
     for _, ped in pairs(entities.get_all_peds_as_handles()) do
         PED.SET_PED_RELATIONSHIP_GROUP_HASH(ped, PED.GET_PED_RELATIONSHIP_GROUP_HASH(players.user_ped()))
     end
+end)
+
+
+menu.toggle_loop(world, "no new cops for all", { "" }, "", function()
+    for k, pid in pairs(players.list()) do
+        PLAYER.SET_DISPATCH_COPS_FOR_PLAYER(pid, false)
+    end
 end, function()
-end)
-
-menu.toggle_loop(world, "no new cops", { "" }, "", function()
-    PLAYER.SET_DISPATCH_COPS_FOR_PLAYER(players.user(), false)
-end)
-
-
-
-menu.toggle_loop(world, "tp Pickedup", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
-    local pos = players.get_position(players.user())
-    for _, pickup in entities.get_all_pickups_as_handles() do
-        ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z + 1.5, false)
+    for k, pid in pairs(players.list()) do
+        PLAYER.SET_DISPATCH_COPS_FOR_PLAYER(pid, true)
     end
 end)
 
 
--- menu.toggle_loop(world, "tp and kill ped to me", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
---     local pos = players.get_position(players.user())
---     local PedPos = players.get_position(players.user())
---     local AddPos = players.get_position(players.user())
---     AddPos:add(v3.new(0, 0, 1.5))
---     pos:add(v3.new(0, 0, 0.5))
---     for _, ped in entities.get_all_peds_as_handles() do
---         if PED.GET_PED_TYPE(ped) <= 3 then goto out end
---         ENTITY.SET_ENTITY_COORDS(ped, pos.x, pos.y, pos.z, false)
 
+menu.toggle_loop(world, "tp Picked", { "LatiaoTpPicked" }, ("TpPicked for you"), function()
+    local pos = players.get_position(players.user())
+    for _, pickup in entities.get_all_pickups_as_handles() do
+        ENTITY.SET_ENTITY_COORDS(pickup, pos.x, pos.y, pos.z, false)
+    end
+end)
 
---         MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100, true,
---             0x6E7DDDEC, players.user_ped(), false, true, 1)
---         ::out::
---     end
--- end)
-
--- menu.toggle_loop(world, "SET_VEHICLE_DOORS_LOCKED", { "latiaoSET_VEHICLE_DOORS_LOCKED" }, ("SET_VEHICLE_DOORS_LOCKED"),
---     function()
---         for k, v in pairs(entities.get_all_vehicles_as_handles()) do
---             VEHICLE.SET_VEHICLE_FIXED(v)
---             VEHICLE.SET_VEHICLE_ENGINE_HEALTH(v, 1000)
---         end
---     end)
 
 
 
@@ -585,6 +1620,7 @@ end)
 menu.toggle_loop(server, "kickall exclude hosts", { "latiaokickallexcludehost" }, "latiaokickallexcludehost", function()
     for k, pid in pairs(players.list()) do
         if pid == players.get_host() or pid == players.user() then goto out end
+
         util.trigger_script_event(1 << pid, { -1544003568, pid })
         ::out::
     end
@@ -594,13 +1630,14 @@ menu.toggle_loop(server, "kickall exclude hosts and cheat", { "latiaokickallexcl
     function()
         for k, pid in pairs(players.list()) do
             if pid == players.get_host() or pid == players.user() or players.is_marked_as_modder(pid) then goto out end
+            util.request_script_host("freemode")
             util.trigger_script_event(1 << pid, { -1544003568, pid })
             ::out::
         end
     end)
 
 
-menu.toggle_loop(server, "LOVEkick all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
+menu.toggle_loop(server, "LOVEkick + report all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
     for k, pid in pairs(players.list()) do
         if pid == players.get_host() or pid == players.user() then goto out end
         if players.is_marked_as_modder(pid) then
@@ -616,7 +1653,17 @@ menu.toggle_loop(server, "LOVEkick all moder", { "latiaocrashkickmod" }, "crash 
     end
 end)
 
-
+menu.toggle_loop(server, "LOVEkick all moder", { "latiaocrashkickmod" }, "crash and kickmod.", function()
+    for k, pid in pairs(players.list()) do
+        if pid == players.get_host() or pid == players.user() then goto out end
+        if players.is_marked_as_modder(pid) then
+            local attack = PLAYER.GET_PLAYER_NAME(pid)
+            if pid == players.user() then goto out end
+            menu.trigger_commands("loveletterkick" .. attack)
+        end
+        ::out::
+    end
+end)
 
 menu.toggle_loop(server, "if you host kick chinese", { "latiaocrashall" }, "", function()
     if NETWORK.NETWORK_IS_HOST() then
@@ -643,7 +1690,7 @@ menu.toggle_loop(server, "if you host loveletterkick all mod", { "latiaobankallm
                     menu.trigger_commands("reportgriefing" .. attack)
                     menu.trigger_commands("reportexploits" .. attack)
                     menu.trigger_commands("reportbugabuse" .. attack)
-                    util.yield(100)
+                    util.yield(1000)
                     menu.trigger_commands("loveletterkick" .. attack)
                 end
                 ::out::
@@ -676,6 +1723,25 @@ menu.toggle_loop(server, "if you host loveletterkick attack you mod", { "latiaob
         end
     end)
 
+menu.toggle_loop(server, "if you host NETWORK_SESSION_KICK_PLAYER attack you mod", { "latiaobankallmoder" },
+    "latiaobankallmoder.",
+    function()
+        if NETWORK.NETWORK_IS_HOST() then
+            for k, pid in pairs(players.list()) do
+                if pid == players.user() then goto out end
+                if players.is_marked_as_attacker(pid) then
+                    local attack = PLAYER.GET_PLAYER_NAME(pid)
+                    util.toast(attack .. "kick ing")
+                    menu.trigger_commands("reportgriefing" .. attack)
+                    menu.trigger_commands("reportexploits" .. attack)
+                    menu.trigger_commands("reportbugabuse" .. attack)
+                    util.yield(100)
+                    NETWORK.NETWORK_SESSION_KICK_PLAYER(pid)
+                end
+                ::out::
+            end
+        end
+    end)
 
 
 menu.toggle_loop(server, "if you host ban all moder", { "latiaobankallmoder" }, "latiaobankallmoder.",
@@ -759,9 +1825,18 @@ menu.toggle_loop(server, "kick all for vehicle script_event", { "latiaoreportall
     end
 end)
 
+menu.toggle_loop(server, "fake hack crash attack all no host", { "latiaofackhackattackall" }, "reportall.", function()
+    for k, pid in pairs(players.list()) do
+        if pid == players.get_host() or pid == players.user() then goto out end
+        util.trigger_script_event(1 << pid, { -375628860, pid, 2147483647 })
+        ::out::
+    end
+end)
+
 menu.toggle_loop(server, "fake hack kick attack all no host", { "latiaofackhackattackall" }, "reportall.", function()
     for k, pid in pairs(players.list()) do
         if pid == players.get_host() or pid == players.user() then goto out end
+
         util.trigger_script_event(1 << pid, { -901348601 })
         ::out::
     end
@@ -918,10 +1993,12 @@ end)
 
 
 
-menu.action(test, "getallplayerpedid", { "latiaogetallplayerpedid" }, "latiaogetallplayerpedid.", function()
+menu.action(test, "GetAllPlayerInfo", { "latiaoGetAllPlayerInfo" }, "latiaoGetAllPlayerInfo.", function()
     for k, pid in pairs(players.list()) do
-        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
-        print("Name " .. PLAYER.GET_PLAYER_NAME(pid) .. "PID " .. pid .. "PED " .. ped, true, true, true)
+        local playerPED = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        local playerNAME = PLAYER.GET_PLAYER_NAME(pid)
+        local gameLANGUAGE = players.get_language(pid)
+        print("player:" .. playerNAME .. " pid:" .. pid .. " PlayerPed:" .. playerPED .. " gameLANGUAGE" .. gameLANGUAGE)
     end
 end)
 menu.toggle_loop(test, "clean chat", { "latiaocleanchat" }, "latiaocleanchat.", function()
@@ -935,8 +2012,6 @@ end)
 menu.action(test, "CLEAR_ALL_HELP_MESSAGES", { "latiaoCLEAR_ALL_HELP_MESSAGES" }, "CLEAR_ALL_HELP_MESSAGES.", function()
     HUD.CLEAR_ALL_HELP_MESSAGES()
 end)
-
-
 
 
 
@@ -967,10 +2042,14 @@ menu.action(dividends, "MPPLY_H3_COOLDOWN", { "" }, "MPPLY_H3_COOLDOWN.", functi
     STAT_SET_INT("MPPLY_H3_COOLDOWN", -1)
 end)
 
-menu.action(dividends, "H3_COMPLETEDPOSIX", { "" }, "H3_COMPLETEDPOSIX.", function()
-    STAT_SET_INT("H3_COMPLETEDPOSIX", -1)
+menu.action(dividends, "unclock casino Points", {}, "", function()
+    STAT_SET_INT("MPx_H3OPT_ACCESSPOINTS", -1)
+    STAT_SET_INT("MPx_H3OPT_POI", -1)
 end)
-
+menu.action(dividends, "reset casino Boards H3OPT_BITSET", { "" }, "H3OPT_BITSET1.", function()
+    STAT_SET_INT("H3OPT_BITSET1", 0)
+    STAT_SET_INT("H3OPT_BITSET0", 0)
+end)
 menu.action(dividends, "load casino Boards H3OPT_BITSET", { "" }, "H3OPT_BITSET1.", function()
     STAT_SET_INT("H3OPT_BITSET1", -1)
     STAT_SET_INT("H3OPT_BITSET0", -1)
@@ -1038,17 +2117,16 @@ menu.toggle_loop(dividends, "Doomsday all (you host)", { "latiaoDoomsdayallyouho
 
 
 
+menu.action(dividends, "unclock Perico Points", {}, "", function()
+    STAT_SET_INT("H4CNF_BS_ENTR", -1)
+    STAT_SET_INT("H4CNF_BS_GEN", -1)
+end)
 
-
-
+menu.action(dividends, "reset Perico", {}, "", function()
+    STAT_SET_INT("H4_MISSIONS", 0)
+end)
 menu.action(dividends, "load Perico", {}, "", function()
     STAT_SET_INT("H4_MISSIONS", -1)
-    STAT_SET_INT("H4CNF_APPROACH", -1)
-    STAT_SET_INT("H4CNF_BS_ENTR", 63)
-    STAT_SET_INT("H4CNF_BS_GEN", 63)
-    STAT_SET_INT("H4CNF_WEP_DISRP", 3)
-    STAT_SET_INT("H4CNF_ARM_DISRP", 3)
-    STAT_SET_INT("H4CNF_HEL_DISRP", 3)
 end)
 
 local Perico = menu.slider(dividends, "Perico", { "Perico" }, "2550000", -2147483647, 2147483647, 100, 5, function() end)
@@ -1099,20 +2177,20 @@ menu.toggle_loop(dividends, "Apartment all (you host)", { "latiaoApartmentallyou
 
 menu.toggle_loop(server, "fm_mission_controller host test", { "latiaofm_mission_controllertest" },
     "latiaofm_mission_controllertest.", function()
-        util.draw_debug_text("fm_mission_controller host is " ..
-            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller") ..
-            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller")))
+        local host = NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller", 0, 0)
+        local name = PLAYER.GET_PLAYER_NAME(host)
+        util.draw_debug_text("fm_mission_controller host is:" .. name)
     end)
 menu.toggle_loop(server, "fm_mission_controller_2020 host test", { "latiaofm_mission_controller_2020test" },
-    "latiaofm_mission_controller_2020test.", function()
-        util.draw_debug_text("fm_mission_controller_2020 host is " ..
-            NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020") ..
-            "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020")))
+    "latiaofm_mission_controllertest_2020.", function()
+        local host = NETWORK.NETWORK_GET_HOST_OF_SCRIPT("fm_mission_controller_2020", 0, 0)
+        local name = PLAYER.GET_PLAYER_NAME(host)
+        util.draw_debug_text("fm_mission_controller_2020 host is: " .. name)
     end)
 menu.toggle_loop(server, "freemode host test", { "latiaofreemodetest" }, "latiaofreemodetest.", function()
-    util.draw_debug_text("freemode host is " ..
-        NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0) ..
-        "ID" .. PLAYER.GET_PLAYER_NAME(NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0)))
+    local host = NETWORK.NETWORK_GET_HOST_OF_SCRIPT("freemode", -1, 0)
+    local name = PLAYER.GET_PLAYER_NAME(host)
+    util.draw_debug_text("freemode host is: " .. name)
 end)
 
 
@@ -1163,11 +2241,12 @@ menu.action(dividends, "request_script_host fm_mission_controller", { "latiaoNre
         util.request_script_host("fm_mission_controller")
     end)
 
-menu.action(dividends, "fin fm_mission_controller_2020", { "fin fm_mission_controller_2020" },
+
+menu.action(dividends, "fin fm_mission_controller_2020 ", { "fin fm_mission_controller_2020" },
     "finfm_mission_controller_2020",
     function()
-        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1, 51338752)
-        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1378 + 1, 50)
+        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1, 17784544)
+        SET_INT_LOCAL("fm_mission_controller_2020", 45450 + 1378 + 1, 2000)
     end)
 local money = menu.slider(dividends, "fm_mission_controller money", { "fm_mission_controllermoney" },
     "fm_mission_controllermoney", -2147483647,
@@ -1233,13 +2312,31 @@ local function testMenuSetup(pid)
 
 
 
-    menu.toggle_loop(testMenu, "SHOOT", {}, "", function()
-        local playerPed = PLAYER.GET_PLAYER_PED(pid)
-        local PedPos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
-        local AddPos = v3.new(ENTITY.GET_ENTITY_COORDS(playerPed))
-        AddPos:add(v3.new(0, 0, 1))
-        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(AddPos.x, AddPos.y, AddPos.z, PedPos.x, PedPos.y, PedPos.z, 100, true,
-            0x6E7DDDEC, players.user_ped(), false, true, 1)
+    menu.toggle_loop(testMenu, "weapon_pistol SHOOT", {}, "", function()
+        local pos = players.get_position(pid)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 100, true,
+            util.joaat("weapon_pistol"), players.user_ped(), false, true, 2147483647.0)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
+
+    menu.toggle_loop(testMenu, "weapon_stungun SHOOT", {}, "", function()
+        local pos = players.get_position(pid)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 0, true,
+            util.joaat("weapon_stungun"), players.user_ped(), false, true, 2147483647)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
+    menu.toggle_loop(testMenu, "weapon_bzgas SHOOT", {}, "", function()
+        local pos = players.get_position(pid)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 2147483647, true,
+            util.joaat("weapon_bzgas"), players.user_ped(), false, true, 2147483647)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+    menu.toggle_loop(testMenu, "weapon_molotov SHOOT", {}, "", function()
+        local pos = players.get_position(pid)
+        MISC.SHOOT_SINGLE_BULLET_BETWEEN_COORDS(pos.x, pos.y, pos.z + 1, pos.x, pos.y, pos.z, 2147483647, true,
+            util.joaat("weapon_molotov"), players.user_ped(), false, true, 2147483647)
         if not players.exists(pid) then util.stop_thread() end
     end)
 
@@ -1248,6 +2345,17 @@ local function testMenuSetup(pid)
         menu.trigger_commands("kill" .. PLAYER.GET_PLAYER_NAME(pid))
         if not players.exists(pid) then util.stop_thread() end
     end)
+
+    menu.action(testMenu, "scr_as_trans_smoke", { "latiaobanmoder" }, "", function()
+        STREAMING.REQUEST_NAMED_PTFX_ASSET("scr_as_trans")
+        GRAPHICS.USE_PARTICLE_FX_ASSET("scr_as_trans")
+        local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        GRAPHICS.START_NETWORKED_PARTICLE_FX_LOOPED_ON_ENTITY("scr_as_trans_smoke", ped, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            5.0, false, false, false, 0, 0, 0, 255)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
+
 
 
     menu.toggle_loop(testMenu, "NickEXPLOSION", { "latiaobanmoder" }, "", function()
@@ -1258,13 +2366,12 @@ local function testMenuSetup(pid)
         -- end)
     end)
 
-
     menu.toggle_loop(testMenu, "RandomPlayerEXPLOSION", { "latiaoRandomPlayerEXPLOSION" }, "", function()
         local randomPid = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(players.list()[math.random(1, #players.list())])
 
 
 
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
+        local pos = players.get_position(pid)
         FIRE.ADD_OWNED_EXPLOSION(randomPid, pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -1297,35 +2404,40 @@ local function testMenuSetup(pid)
 
 
 
+    menu.action(testMenu, "bad TASK_VEHICLE_HELI_PROTECT crash", { "latiaobadSET_MODEL_AS_NO_LONGER_NEEDEDcrash" },
+        "", function()
+            util.request_model(util.joaat("oppressor"))
+            util.request_model(util.joaat("u_m_m_jesus_01"))
+            local ped = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+            local pos = players.get_position(pid)
+            local oppressor = entities.create_vehicle(util.joaat("oppressor"), pos, 0)
+            local jesus = entities.create_ped(0, util.joaat("u_m_m_jesus_01"), pos, 0)
+            PED.SET_PED_INTO_VEHICLE(jesus, oppressor, -1)
+            TASK.TASK_VEHICLE_HELI_PROTECT(jesus, oppressor, ped, 10.0, 0, 10, 0, 0)
+        end)
 
 
-    menu.action(testMenu, "bad TASK crash", { "latiaobadTASKcrash" }, "", function()
-        STREAMING.REQUEST_MODEL(util.joaat("a_c_rat"))
-        while not STREAMING.HAS_MODEL_LOADED(util.joaat("a_c_rat")) do util.yield() end
-        local TargetPPos = ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid))
-        local PED1 = entities.create_ped(28, util.joaat("a_c_rat"), TargetPPos, 0)
 
-        WEAPON.GIVE_WEAPON_TO_PED(PED1, -1813897027, 1, true, true)
 
-        util.yield(1000)
-
-        TASK.TASK_THROW_PROJECTILE(PED1, TargetPPos.x, TargetPPos.y, TargetPPos.z, 0, 0)
-    end)
-
-    menu.action(testMenu, "bad BREAK_OBJECT crash", { "latiaobadBREAK_OBJECTcrash" }, "", function()
-        STREAMING.REQUEST_MODEL(util.joaat("prop_fragtest_cnst_04"))
-        while not STREAMING.HAS_MODEL_LOADED(util.joaat("prop_fragtest_cnst_04")) do util.yield() end
-        entities.create_object(util.joaat("prop_fragtest_cnst_04"),
-            ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED(pid)))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
-    end)
+    menu.action(testMenu, "bad BREAK_OBJECT_FRAGMENT_CHILD crash", { "latiaobadBBREAK_OBJECT_FRAGMENT_CHILDcrash" }, "",
+        function()
+            STREAMING.REQUEST_MODEL(util.joaat("prop_fragtest_cnst_04"))
+            local object = entities.create_object(util.joaat("prop_fragtest_cnst_04"),
+                ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
+            OBJECT.BREAK_OBJECT_FRAGMENT_CHILD(object, 1, false)
+        end)
 
 
     menu.toggle_loop(testMenu, "freemode script crash kick", { "latiaoscriptkick" }, "", function()
         util.trigger_script_event(1 << pid, { -1544003568 })
         if not players.exists(pid) then util.stop_thread() end
     end)
+
+    menu.toggle_loop(testMenu, "freemode script test", { "latiaoscriptkick" }, "", function()
+        util.trigger_script_event(1 << pid, { -797526379 })
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
     menu.action(testMenu, "NETWORK_SESSION_KICK_PLAYER", { "latiaoNETWORK_SESSION_KICK_PLAYER" }, "", function()
         NETWORK.NETWORK_SESSION_KICK_PLAYER(pid)
     end)
@@ -1357,8 +2469,9 @@ local function testMenuSetup(pid)
         util.trigger_script_event(1 << pid, { -503325966 })
         if not players.exists(pid) then util.stop_thread() end
     end)
+
     menu.toggle_loop(testMenu, "fake kick attack", { "latiaofackhackattack" }, "latiaofackhackattack.", function()
-        util.trigger_script_event(1 << pid, { -901348601 })
+        util.trigger_script_event(1 << pid, { -901348601, pid })
         if not players.exists(pid) then util.stop_thread() end
     end)
 
@@ -1369,28 +2482,32 @@ local function testMenuSetup(pid)
     end)
     menu.toggle_loop(testMenu, "wok freeze", { "" }, ".", function()
         util.yield(1000)
+
         util.trigger_script_event(1 << pid, { 259469385 })
 
         if not players.exists(pid) then util.stop_thread() end
     end)
 
     menu.toggle_loop(testMenu, "bad SOUND script_event", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-        util.yield(50)
+        -- util.yield(50)
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
+        util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
         util.trigger_script_event(1 << pid, { -642704387, pid, 782258655, 0, 0, 0, 0, 0, 0, 0, pid, 0, 0, 0 })
         if not players.exists(pid) then util.stop_thread() end
     end)
 
 
 
-    menu.action(testMenu, "give_script_host", { "give_script_host" }, "give_script_host.", function()
-        util.request_script_host("freemode")
-        util.request_script_host("freemode")
-        util.request_script_host("fm_mission_controller")
-        util.yield(5000)
-        util.give_script_host("freemode", pid)
-        util.give_script_host("freemode", pid)
-        util.give_script_host("fm_mission_controller", pid)
-    end)
+    menu.action(testMenu, "give_script_host fm_mission_controller", { "give_script_host" }, "give_script_host.",
+        function()
+            util.request_script_host("fm_mission_controller_2020")
+            util.request_script_host("fm_mission_controller")
+            util.yield(5000)
+            util.give_script_host("fm_mission_controller_2020", pid)
+            util.give_script_host("fm_mission_controller", pid)
+        end)
 
     menu.action(testMenu, "latiaoGHOSTModetrue", { "latiaoGHOSTMode" }, "", function()
         NETWORK.SET_REMOTE_PLAYER_AS_GHOST(pid, true)
@@ -1407,10 +2524,44 @@ local function testMenuSetup(pid)
 
 
     menu.toggle_loop(testMenu, "loop report", { "" }, ".", function()
+        util.yield(1000)
         local player = PLAYER.GET_PLAYER_NAME(pid)
         menu.trigger_commands("reportgriefing" .. player)
         menu.trigger_commands("reportexploits" .. player)
         menu.trigger_commands("reportbugabuse" .. player)
+        if not players.exists(pid) then util.stop_thread() end
+    end)
+
+    menu.toggle_loop(testMenu, "TASK_COMBAT_PED", { "" }, ".", function()
+        local player = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+        for k, ent in pairs(entities.get_all_peds_as_handles()) do
+            for k, pid in pairs(players.list()) do
+                if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == ped then
+                    goto out
+                end
+            end
+            WEAPON.GIVE_WEAPON_TO_PED(ent, util.joaat("weapon_pistol"), 1000, false, true)
+            TASK.TASK_COMBAT_PED(ent, player, 0, 16)
+            ::out::
+        end
+    end)
+
+
+    menu.toggle_loop(testMenu, "GET IP", { "" }, ".", function()
+    end)
+
+    menu.action(testMenu, "Super Give All", { "" }, ".", function()
+        for a = 0, 100 do
+            -- for b = 0, 100 do
+            --     for c = 0, 100 do
+            --         for d = 0, 100 do
+            --             for e = 0, 100 do
+            util.trigger_script_event(1 << pid, { 968269233, pid, a })
+            -- end
+        end
+        --         end
+        --     end
+        -- end
     end)
 end
 
@@ -1435,15 +2586,7 @@ players.on_join(testMenuSetup)
 
 
 
-menu.toggle_loop(world, "NICKFlameLoopALLPlayer", { "NICKFlameLoopALLPlayer" }, "", function()
-    for k, pid in pairs(players.list()) do
-        if ENTITY.IS_ENTITY_DEAD(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)) then goto out end
-        if PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid) == players.user_ped() then goto out end
-        local pos = v3.new(ENTITY.GET_ENTITY_COORDS(PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)))
-        FIRE.ADD_EXPLOSION(pos.x, pos.y, pos.z, 12, 2147483647, false, true, 0.0)
-        ::out::
-    end
-end)
+
 menu.toggle_loop(test, "raidallplayer", { "raidallplayer" }, "", function()
     for k, pid in pairs(players.list()) do
         util.trigger_script_event(1 << pid, { -1906536929, pid })
@@ -1480,7 +2623,7 @@ menu.toggle_loop(test, "debugshot", { "latiaodebugshot" }, ("latiaobadpost"), fu
             aim_info.hash ..
             "," .. "model=" .. aim_info.model .. "," .. "health=" .. aim_info.health .. "," .. "owner=" ..
             aim_info.OWNER .. ","
-        directx.draw_text(0.5, 0.5, text, 5, 0.5, { r = 255, g = 0, b = 0, a = 255 }, true)
+        directx.draw_text(0.5, 0.25, text, 5, 0.5, { r = 255, g = 0, b = 0, a = 255 }, true)
         print(text)
     end
 end)
@@ -1489,73 +2632,19 @@ end)
 
 
 
-menu.action(world, "tp casino gold", { "" }, "", function()
-    local pos = players.get_position(players.user())
-    local Models = {
-        util.joaat("ch_prop_gold_trolly_01a"),
-        util.joaat("ch_prop_gold_trolly_01b"),
-        util.joaat("ch_prop_gold_trolly_01c"),
-        util.joaat("ch_prop_cash_low_trolly_01a"),
-        util.joaat("ch_prop_cash_low_trolly_01b"),
-        util.joaat("ch_prop_cash_low_trolly_01c"),
-        util.joaat("ch_prop_ch_cash_trolly_01a"),
-        util.joaat("ch_prop_ch_cash_trolly_01b"),
-        util.joaat("ch_prop_ch_cash_trolly_01c"),
-        util.joaat("ch_prop_diamond_trolly_01a"),
-        util.joaat("ch_prop_diamond_trolly_01b"),
-        util.joaat("ch_prop_diamond_trolly_01c"),
-    }
-
-    for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-        for _, Model in ipairs(Models) do
-            if entModel == Model then
-                ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
-                break
-            end
-        end
-    end
-end)
-
-menu.action(world, "tp fingerprint_scanner", { "" }, "", function()
-    local pos = players.get_position(players.user())
-    pos:add(v3.new(0, 0, 0.5))
-    local Models = {
-        util.joaat("ch_prop_fingerprint_scanner_01a"),
-        util.joaat("ch_prop_fingerprint_scanner_01b"),
-        util.joaat("ch_prop_fingerprint_scanner_01c"),
-        util.joaat("ch_prop_fingerprint_scanner_01d"),
-        util.joaat("ch_prop_fingerprint_scanner_01e"),
-    }
-
-    for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-        for _, Model in ipairs(Models) do
-            if entModel == Model then
-                ENTITY.SET_ENTITY_COORDS(ent, pos.x, pos.y, pos.z, false)
-                break
-            end
-        end
-    end
-end)
-
-
 
 
 menu.toggle_loop(world, "del cctv_cam(pls use in solo if bug)", { "" }, "", function()
     local Models = {
+        util.joaat("prop_cctv_pole_04"),
         util.joaat("xm_prop_x17_server_farm_cctv_01"),
         util.joaat("ch_prop_ch_cctv_cam_02a"),
         util.joaat("prop_cctv_cam_05a"),
     }
 
     for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-        for _, Model in ipairs(Models) do
-            if entModel == Model then
+        for _, targetModelHash in pairs(Models) do
+            if ENTITY.GET_ENTITY_MODEL(ent) == targetModelHash then
                 entities.delete_by_handle(ent)
                 break
             end
@@ -1611,32 +2700,25 @@ menu.toggle_loop(server, "block bounty", { "latiaoblockbounty" }, "latiaoblockbo
         end
     end)
 
-menu.toggle(server, "NETWORK_START_SOLO_TUTORIAL_SESSION", { "latiaoNETWORK_START_SOLO_TUTORIAL_SESSION" },
-    "NETWORK_START_SOLO_TUTORIAL_SESSION", function(on)
-        if on then
-            NETWORK.NETWORK_START_SOLO_TUTORIAL_SESSION()
-        else
-            NETWORK.NETWORK_END_TUTORIAL_SESSION()
-        end
+menu.action(server, "NETWORK_START_SOLO_TUTORIAL_SESSION", { "latiaoNETWORK_START_SOLO_TUTORIAL_SESSION" },
+    "NETWORK_START_SOLO_TUTORIAL_SESSION", function()
+        NETWORK.NETWORK_START_SOLO_TUTORIAL_SESSION()
+    end)
+
+menu.action(server, "NETWORK_END_TUTORIAL_SESSION", { "latiaoNETWORK_END_TUTORIAL_SESSION" },
+    "NETWORK_END_TUTORIAL_SESSION",
+    function()
+        NETWORK.NETWORK_END_TUTORIAL_SESSION()
     end)
 
 
 
 
-
 menu.toggle_loop(world, "auto SET_ENTITY_HEALTH 0 ch_prop_ch_mobile_jammer_01x", { "" }, "", function()
-    local Models = {
-        util.joaat("ch_prop_ch_mobile_jammer_01x"),
-    }
-
     for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        local entModel = ENTITY.GET_ENTITY_MODEL(ent)
-
-        for _, Model in ipairs(Models) do
-            if entModel == Model then
-                ENTITY.SET_ENTITY_HEALTH(ent, 0)
-                break
-            end
+        if ENTITY.GET_ENTITY_MODEL(ent) == util.joaat("ch_prop_ch_mobile_jammer_01x") then
+            ENTITY.SET_ENTITY_HEALTH(ent, 0, -1)
+            break
         end
     end
 end)
@@ -1649,24 +2731,26 @@ local HEALTH = menu.slider(world, "SET_ENTITY_HEALTH up", { "SET_ENTITY_HEALTH" 
 
 menu.toggle_loop(world, "SET_ENTITY_HEALTH for get_all_objects_as_handles", { "" }, "", function()
     for _, ent in pairs(entities.get_all_objects_as_handles()) do
-        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH))
+        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH), -1)
     end
 end)
 menu.toggle_loop(world, "SET_ENTITY_HEALTH for get_all_peds_as_handles", { "" }, "", function()
     for k, ent in pairs(entities.get_all_peds_as_handles()) do
-        if PED.GET_PED_TYPE(ent) <= 3 then goto out end
-        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH))
+        if entities.is_player_ped(ent) == true then
+            goto out
+        end
+        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH), -1)
         ::out::
     end
 end)
 menu.toggle_loop(world, "SET_ENTITY_HEALTH for get_all_vehicles_as_handles", { "" }, "", function()
     for k, ent in pairs(entities.get_all_vehicles_as_handles()) do
-        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH))
+        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH), -1)
     end
 end)
 menu.toggle_loop(world, "SET_ENTITY_HEALTH for get_all_pickups_as_handles", { "" }, "", function()
     for k, ent in pairs(entities.get_all_pickups_as_handles()) do
-        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH))
+        ENTITY.SET_ENTITY_HEALTH(ent, menu.get_value(HEALTH), -1)
     end
 end)
 
@@ -1716,7 +2800,6 @@ menu.action(dividends, "Contract All Missions", {}, "", function()
     STAT_SET_INT("FIXER_GENERAL_BS", -1)
     STAT_SET_INT("FIXER_COMPLETED_BS", -1)
     STAT_SET_INT("FIXER_STORY_BS", -1)
-    STAT_SET_INT("FIXER_STORY_COOLDOWN", -1)
 end)
 
 local ContractPayout = menu.slider(dividends, "ContractPayout", { "ContractPayout" }, "", 0, 2147483647, 0, 1,
@@ -1738,24 +2821,24 @@ menu.toggle_loop(test, "REFRESH_INTERIOR", { "" }, "", function()
     INTERIOR.REFRESH_INTERIOR(MyInterior)
 end)
 
-menu.toggle_loop(test, "REMOVE_BLACKSCREEN", { "" }, "", function()
-    CAM.DO_SCREEN_FADE_IN(0)
+
+
+menu.toggle_loop(test, "CLEAR_AREA", { "" }, "", function()
+    MISC.CLEAR_AREA(0, 0, 0, 2147483647)
 end)
 
 menu.toggle_loop(test, "CLEAR_AREA_OF_OBJECTS", { "" }, "", function()
-    local pos = players.get_position(players.user())
     MISC.CLEAR_AREA_OF_OBJECTS(0, 0, 0, 2147483647)
 end)
 
 menu.toggle_loop(test, "CLEAR_AREA_OF_PEDS", { "" }, "", function()
-    local pos = players.get_position(players.user())
-
     MISC.CLEAR_AREA_OF_PEDS(0, 0, 0, 2147483647, true)
 end)
 menu.toggle_loop(test, "CLEAR_AREA_OF_VEHICLES", { "" }, "", function()
-    local pos = players.get_position(players.user())
-
     MISC.CLEAR_AREA_OF_VEHICLES(0, 0, 0, 2147483647)
+end)
+menu.toggle_loop(test, "CLEAR_AREA_OF_COPS", { "" }, "", function()
+    MISC.CLEAR_AREA_OF_COPS(0, 0, 0, 2147483647)
 end)
 
 
@@ -1833,3 +2916,95 @@ end)
 menu.toggle_loop(world, "STOP_FIRE_IN_RANGE", { "" }, ".", function()
     FIRE.STOP_FIRE_IN_RANGE(0, 0, 0, 2147483647)
 end)
+
+
+
+menu.toggle_loop(world, "EVERYONE IGNORE ALL PLAYER", {}, "", function()
+    for k, pid in pairs(players.list()) do
+        PLAYER.SET_EVERYONE_IGNORE_PLAYER(pid, true)
+    end
+end, function()
+    for k, pid in pairs(players.list()) do
+        PLAYER.SET_EVERYONE_IGNORE_PLAYER(pid, false)
+    end
+end)
+
+menu.toggle_loop(world, "SET_CAN_ATTACK_FRIENDLY", { "" }, ".", function()
+    PED.SET_CAN_ATTACK_FRIENDLY(players.user_ped(), true, false)
+end, function()
+    PED.SET_CAN_ATTACK_FRIENDLY(players.user_ped(), false, false)
+end)
+
+menu.toggle_loop(world, "NOISE SET 0 FOR ALL PLAYER", {}, "", function()
+    for k, pid in pairs(players.list()) do
+        PLAYER.SET_PLAYER_NOISE_MULTIPLIER(pid, 0.0)
+        PLAYER.SET_PLAYER_SNEAKING_NOISE_MULTIPLIER(pid, 0.0)
+    end
+end)
+
+
+menu.toggle_loop(world, "SET_ENTITY_SHOULD_FREEZE_WAITING_ON_COLLISION", { "" }, "", function()
+    local targets = {}
+
+    for _, ped in ipairs(entities.get_all_peds_as_handles()) do
+        table.insert(targets, ped)
+    end
+
+    for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
+        table.insert(targets, vehicle)
+    end
+
+    for _, object in ipairs(entities.get_all_objects_as_handles()) do
+        table.insert(targets, object)
+    end
+
+    for _, pickups in ipairs(entities.get_all_pickups_as_handles()) do
+        table.insert(targets, pickups)
+    end
+
+    for _, target in ipairs(targets) do
+        ENTITY.SET_ENTITY_AS_MISSION_ENTITY(target)
+    end
+end)
+
+menu.toggle_loop(world, "NETWORK_REGISTER_ENTITY_AS_NETWORKED", { "" }, "", function()
+    local targets = {}
+
+    for _, ped in ipairs(entities.get_all_peds_as_handles()) do
+        table.insert(targets, ped)
+    end
+
+    for _, vehicle in ipairs(entities.get_all_vehicles_as_handles()) do
+        table.insert(targets, vehicle)
+    end
+
+    for _, object in ipairs(entities.get_all_objects_as_handles()) do
+        table.insert(targets, object)
+    end
+
+    for _, pickups in ipairs(entities.get_all_pickups_as_handles()) do
+        table.insert(targets, pickups)
+    end
+
+    for _, target in ipairs(targets) do
+        NETWORK.NETWORK_REGISTER_ENTITY_AS_NETWORKED(target)
+    end
+end)
+
+
+menu.toggle_loop(self, "SET_ENTITY_MAX_HEALTH 0", { "" }, ".", function()
+    ENTITY.SET_ENTITY_MAX_HEALTH(players.user_ped(), 0)
+end, function()
+    ENTITY.SET_ENTITY_MAX_HEALTH(players.user_ped(), 328)
+end)
+
+
+
+
+
+menu.action(server, "super request_script_host for all ", { "request_script_hostall" },
+    "latiaoNrequest_script_host.", function()
+        for _, script in ipairs(ALL_script_hosts) do
+            util.request_script_host(script)
+        end
+    end)
