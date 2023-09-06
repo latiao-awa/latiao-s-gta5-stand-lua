@@ -1677,10 +1677,11 @@ menu.toggle_loop(server, "if you host kick chinese", { "latiaocrashall" }, "", f
     if NETWORK.NETWORK_IS_HOST() then
         for k, pid in pairs(players.list()) do
             local language = players.get_language(pid)
-            if language and language == 12 then
+            if language == 12 then
                 local attack = PLAYER.GET_PLAYER_NAME(pid)
                 if pid == players.user() then goto out end
                 menu.trigger_commands("loveletterkick" .. attack)
+                -- print(attack)
             end
             ::out::
         end
@@ -2052,14 +2053,15 @@ menu.action(dividends, "load casino Boards H3OPT_BITSET", { "" }, "H3OPT_BITSET1
     STAT_SET_INT("H3OPT_BITSET0", -1)
 end)
 
-local lataiocasinoTARGET = menu.slider(dividends, "casino TARGET", { "lataiocasinoTARGET" }, "0=钱 1=金 2=画 3=钻", -100000, 100000, 0, 1,
+local lataiocasinoTARGET = menu.slider(dividends, "casino TARGET", { "lataiocasinoTARGET" }, "0=钱 1=金 2=画 3=钻",
+    -100000, 100000, 0, 1,
     function()
 
     end)
 
-    menu.action(dividends, "set casino TARGET", { "" }, "H3OPT_BITSET1.", function()
-        STAT_SET_INT("H3OPT_TARGET", menu.get_value(lataiocasinoTARGET))
-    end)
+menu.action(dividends, "set casino TARGET", { "" }, "H3OPT_BITSET1.", function()
+    STAT_SET_INT("H3OPT_TARGET", menu.get_value(lataiocasinoTARGET))
+end)
 
 
 local nohostalldividends = menu.slider(dividends, "nohostalldividends", { "nohostcasino" }, "", -100000, 100000, 100, 5,
@@ -2486,7 +2488,7 @@ local function testMenuSetup(pid)
             if not players.exists(pid) then util.stop_thread() end
         end)
 
-        menu.toggle_loop(testMenu, "bad object crash for my pos", { "latiaobedojectcrash" }, "",
+    menu.toggle_loop(testMenu, "bad object crash for my pos", { "latiaobedojectcrash" }, "",
         function()
             STREAMING.REQUEST_MODEL(util.joaat("prop_tall_grass_ba"))
             local pos = players.get_position(players.user())
@@ -2618,20 +2620,19 @@ local function testMenuSetup(pid)
     end)
 
     menu.toggle_loop(testMenu, "GtaBanner", {}, "", function()
-        util.trigger_script_event(1 << pid, { -330501227,pid})
+        util.trigger_script_event(1 << pid, { -330501227, pid })
         if not players.exists(pid) then util.stop_thread() end
     end)
 
     menu.toggle_loop(testMenu, "SoundSpam", {}, "", function()
-        util.trigger_script_event(1 << pid, { 996099702,pid})
+        util.trigger_script_event(1 << pid, { 996099702, pid })
         if not players.exists(pid) then util.stop_thread() end
     end)
 
     menu.toggle_loop(testMenu, "trigger_script_event", {}, "", function()
-        util.trigger_script_event(1 << pid, { -1496371358})
+        util.trigger_script_event(1 << pid, { -1496371358 })
         if not players.exists(pid) then util.stop_thread() end
     end)
-
 end
 
 
@@ -3140,13 +3141,13 @@ end)
 
 menu.toggle_loop(server, "GtaBannerforall", { "GtaBannerforall" }, "", function()
     for k, pid in pairs(players.list()) do
-        util.trigger_script_event(1 << pid, { -330501227,pid})
+        util.trigger_script_event(1 << pid, { -330501227, pid })
     end
 end)
 
 menu.toggle_loop(server, "nodamage EXPLOSION spamm", { "latiaobedsoundforall" }, "latiaobedsoundforall", function()
-    for k, pid in pairs(players.list()) do    
-    local pos = players.get_position(pid)
+    for k, pid in pairs(players.list()) do
+        local pos = players.get_position(pid)
         FIRE.ADD_EXPLOSION(pos, 0, 0, false, true, 0.0)
     end
 end)
