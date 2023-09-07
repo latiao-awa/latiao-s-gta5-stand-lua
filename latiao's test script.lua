@@ -2305,6 +2305,14 @@ end)
 
 -- player root
 local function testMenuSetup(pid)
+    local playerPED = PLAYER.GET_PLAYER_PED_SCRIPT_INDEX(pid)
+    local playername = players.get_name(pid)
+    local gameLANGUAGE = players.get_language(pid)
+    local connect_ip = players.get_connect_ip(pid)
+    local pos = players.get_position(pid)
+    print("player:" ..
+        playername ..
+        " pid:" .. pid .. " PlayerPed:" .. playerPED .. " gameLANGUAGE:" .. gameLANGUAGE .. " connect_ip:" .. connect_ip)
     menu.divider(menu.player_root(pid), "test")
 
     local testMenu = menu.list(menu.player_root(pid), "test", {}, "")
@@ -2320,7 +2328,7 @@ local function testMenuSetup(pid)
     menu.toggle_loop(testMenu, "super kill cheat", {}, "", function()
         local pos = v3.new(players.get_position(pid))
         util.trigger_script_event(1 << pid, { 800157557, pid, 225624744, pid })
-        menu.trigger_commands("kill" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("kill" .. players.get_name(pid))
         FIRE.ADD_OWNED_EXPLOSION(players.user_ped(), pos.x, pos.y, pos.z, 0, 2147483647, false, true, 0.0)
         if not players.exists(pid) then util.stop_thread() end
     end)
@@ -2392,7 +2400,7 @@ local function testMenuSetup(pid)
 
 
     menu.toggle_loop(testMenu, "menukill", { "latiaomenukill" }, "", function()
-        menu.trigger_commands("kill" .. PLAYER.GET_PLAYER_NAME(pid))
+        menu.trigger_commands("kill" .. players.get_name(pid))
         if not players.exists(pid) then util.stop_thread() end
     end)
 
@@ -2596,7 +2604,7 @@ local function testMenuSetup(pid)
 
     menu.toggle_loop(testMenu, "loop report", { "" }, ".", function()
         util.yield(1000)
-        local player = PLAYER.GET_PLAYER_NAME(pid)
+        local player = players.get_name(pid)
         menu.trigger_commands("reportgriefing" .. player)
         menu.trigger_commands("reportexploits" .. player)
         menu.trigger_commands("reportbugabuse" .. player)
